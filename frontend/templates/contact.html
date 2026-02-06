@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Contact{% endblock title %}
+{% block body %}
+
+
+{% load static %}
+<section class="contact-section">
+  <div class="contact-container">
+    <div class="contact-card">
+
+      <!-- Header -->
+      <div class="contact-header">
+        <div class="header-buttons">
+          <span class="btn close"></span>
+          <span class="btn maximize"></span>
+          <span class="btn minimize"></span>
+        </div>
+        <div class="header-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="contact-body">
+        <!-- Left -->
+        <div class="contact-left">
+          <h2 class="contact-title">
+            <span>CONTACT</span>
+            <span>US</span>
+          </h2>
+          <p class="contact-info">CONTACT INFO : +91 98765 43210</p>
+        </div>
+
+        <!-- Right -->
+        <div class="contact-right">
+          <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <input type="text" name="name" placeholder="NAME" required>
+            </div>
+
+            <div class="form-group">
+              <input type="email" name="email" placeholder="EMAIL" required>
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="phone" placeholder="CONTACT NO">
+            </div>
+
+            <div class="form-group">
+              <textarea name="message" placeholder="MESSAGE" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="reset">CANCEL</button>
+              <button type="submit">SEND</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+    
+{% endblock body %}
+    
+    
