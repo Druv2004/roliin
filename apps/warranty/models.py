@@ -34,7 +34,7 @@ class Warranty(models.Model):
     email = models.EmailField()
     car_number = models.CharField(max_length=20)
     chassis_number = models.CharField(max_length=50)
-    camio_roll_unique_code = models.CharField(max_length=100, unique=True)
+    roliin_roll_unique_code = models.CharField(max_length=100, unique=True)
 
     # PPF
     ppf_category = models.CharField(max_length=20, choices=PPF_CATEGORY_CHOICES)

@@ -170,3 +170,6 @@ EMAIL_HOST_USER = 'kushwahadruv@gmail.com'
 EMAIL_HOST_PASSWORD = 'aqtj gjir yscq zlnf'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
