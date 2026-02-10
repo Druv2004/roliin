@@ -54,3 +54,16 @@
     
 })(jQuery);
 
+document.getElementById('ppfForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            // Simulate API response
+            setTimeout(() => {
+                document.getElementById('ppfForm').classList.add('hidden');
+                document.getElementById('successMessage').classList.remove('hidden');
+            }, 1500);
+        });

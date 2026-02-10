@@ -1,244 +1,229 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-
-    <title>
-        Media Grade {% block title %}{% endblock title %}
-    </title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/url_logo.png' %}">
-
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-
-    <!-- Slick Carousel -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
+    <meta name="description" content="Roliin - Premium Paint Protection Film (PPF) solutions for vehicles. 10-year gloss, matte, and black PPF protection.">
+    <meta name="keywords" content="PPF, Paint Protection Film, Car Protection, Roliin, Vehicle Wrap">
+    
+    <title>Roliin - {% block title %}{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'assets/img/RoliinLOGO.png' %}">
+    
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap"
-        rel="stylesheet">
-
-    <!-- Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Local Libraries -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Critical CSS Inline -->
+    <style>
+        :root {
+            --primary-color: #ea1d6f;
+            --secondary-color: #3e3e3e;
+            --dark-bg: #000000;
+            --text-light: #ffffff;
+        }
+        html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
+        .navbar { background-color: var(--dark-bg) !important; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    </style>
+    
+    <!-- Async CSS Loading -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"></noscript>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Icons (Font Awesome 6) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Libraries -->
     <link rel="stylesheet" href="{% static 'lib/animate/animate.min.css' %}">
     <link rel="stylesheet" href="{% static 'lib/lightbox/css/lightbox.min.css' %}">
     <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
-
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/static.css' %}">
+    
+    {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<!-- Header Start -->
-<div class="container-fluid p-0">
-    <!-- Header Start -->
-    <div class="container-fluid p-0">
-        <nav class="navbar navbar-expand-lg navbar-dark px-lg-5 bg-black">
-            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                <img src="{% static 'assets/img/RoliinLOGO.png' %}"alt="Roliin logo"height="55"class="navbar-brand-img">
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
-                data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav mx-auto p-4 p-lg-0">
-                    <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
-                    <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                    <a href="{% url 'product' %}" class="nav-item nav-link">Product</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Warranty</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="{% url 'registration' %}" class="dropdown-item">Register E-Warranty</a>
-                            <a href="{% url 'status' %}" class="dropdown-item">Warranty Status</a>
-                            <!-- <a href="#" class="dropdown-item">404 Page</a> -->
-                        </div>
-                    </div>
-                    <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                </div>
-                <!-- <div class="d-none d-lg-flex">
-                    <a class="btn btn-outline-primary border-2" href="https://themewagon.com/themes/poseify">Download
-                        Now</a>
-                </div> -->
+    <!-- Header -->
+    <header class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark px-lg-5 py-3 bg-black" aria-label="Main navigation">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                    <img src="{% static 'assets/img/RoliinLOGO.png' %}" alt="Roliin Logo" height="55" width="auto" class="navbar-brand-img">
+                </a>
+                
+                <!-- Mobile Toggle -->
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                  <ul class="navbar-nav mx-auto p-lg-0">
+
+                      <li class="nav-item mx-lg-2">
+                          <a href="{% url 'home' %}"
+                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            Home
+                          </a>
+                      </li>
+
+                      <li class="nav-item mx-lg-2">
+                          <a href="{% url 'about' %}"
+                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            About
+                          </a>
+                      </li>
+
+                      <li class="nav-item mx-lg-2">
+                          <a href="{% url 'product' %}"
+                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'product' %}active{% endif %}">
+                            Products
+                          </a>
+                      </li>
+
+                      <li class="nav-item dropdown mx-lg-2">
+                          <a href="#"
+                            class="nav-link nav-highlight dropdown-toggle"
+                            id="warrantyDropdown"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Warranty
+                          </a>
+                          <ul class="dropdown-menu m-0 border-0 shadow" aria-labelledby="warrantyDropdown">
+                              <li>
+                                  <a href="{% url 'registration' %}"
+                                    class="dropdown-item nav-highlight {% if request.resolver_match.url_name == 'registration' %}active{% endif %}">
+                                    Register E-Warranty
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="{% url 'status' %}"
+                                    class="dropdown-item nav-highlight {% if request.resolver_match.url_name == 'status' %}active{% endif %}">
+                                    Warranty Status
+                                  </a>
+                              </li>
+                          </ul>
+                      </li>
+
+                      <li class="nav-item mx-lg-2">
+                          <a href="{% url 'contact' %}"
+                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            Contact
+                          </a>
+                      </li>
+
+                  </ul>
+              </div>
+
             </div>
         </nav>
-</div>
-<!-- Header End -->
+    </header>
 
-{% block body %}
-{% endblock body %}
+    <!-- Main Content -->
+    <main class="flex-grow-1">
+        {% block body %}{% endblock %}
+    </main>
 
-<!-- Footer -->
-<div class="container-fluid px-0">
+    <!-- Footer -->
+    <footer class="text-center text-lg-start text-dark mt-auto" style="background-color: #ECEFF1">
+        <!-- Social Media -->
+        <section class="d-flex justify-content-between align-items-center py-4 px-3 px-lg-5 text-white" style="background-color: #000000">
+            <div>
+                <span class="d-none d-md-inline">Get connected with us on social networks:</span>
+                <span class="d-md-none">Follow us:</span>
+            </div>
+            <div class="social-links">
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer
-          class="text-center text-lg-start text-dark"
-          style="background-color: #ECEFF1"
-          >
-    <!-- Section: Social media -->
-    <section
-             class="d-flex justify-content-between py-4 text-white"
-             style="background-color: #000000"
-             >
-      <!-- Left -->
-      <div class="">
-        <span>Get connected with us on social networks:</span>
-      </div>
-      <!-- Left -->
+        <!-- Links -->
+        <section class="py-5">
+            <div class="container text-center text-md-start">
+                <div class="row mt-3">
+                    <!-- Brand -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Roliin</h6>
+                        <p class="text-secondary">
+                            Premium Paint Protection Film solutions offering 10-year durability, self-healing technology, and superior gloss retention for vehicle protection.
+                        </p>
+                    </div>
 
-      <!-- Right -->
-      <div>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-      <!-- Right -->
-    </section>
-    <!-- Section: Social media -->
+                    <!-- Quick Links -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Quick Links</h6>
+                        <p><a href="{% url 'home' %}" class="text-dark text-decoration-none hover-primary">Home</a></p>
+                        <p><a href="{% url 'about' %}" class="text-dark text-decoration-none hover-primary">About</a></p>
+                        <p><a href="{% url 'product' %}" class="text-dark text-decoration-none hover-primary">Products</a></p>
+                        <p><a href="{% url 'registration' %}" class="text-dark text-decoration-none hover-primary">Register E-Warranty</a></p>
+                    </div>
 
-    <!-- Section: Links  -->
-    <section class="">
-      <div class="container text-center text-md-start py-5">
-        <!-- Grid row -->
-        <div class="row mt-3">
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-            <!-- Content -->
-            <h6 class="text-uppercase fw-bold">roliin</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              Here you can use rows and columns to organize your footer
-              content. Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit.
-            </p>
-          </div>
-          <!-- Grid column -->
+                    <!-- Products -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Our Products</h6>
+                        <p class="mb-2"><i class="fas fa-shield-alt me-2" id="orange-text"></i>Gloss PPF (10 Years)</p>
+                        <p class="mb-2"><i class="fas fa-shield-alt me-2" id="orange-text"></i>Gloss PPF (6 Years)</p>
+                        <p class="mb-2"><i class="fas fa-shield-alt me-2" id="orange-text"></i>Matte PPF (6 Years)</p>
+                        <p class="mb-2"><i class="fas fa-shield-alt me-2" id="orange-text"></i>Black PPF (6 Years)</p>
+                    </div>
 
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">USEFUL lINKS</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <a href="#!" class="text-dark">HOME</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">ABOUT</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">PRODUCTS</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">REGISTER E-WARRANTY</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">WARRANTY STATUS</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">CONTACT</a>
-            </p>
-          </div>
-          <!-- Grid column -->
+                    <!-- Contact -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                        <p><i class="fas fa-home me-2"></i> New York, NY 10012, US</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@roliin.com</p>
+                        <p><i class="fas fa-phone me-2"></i> + 01 234 567 88</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">PRODUCT</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              Gloss PPF for 10 years
-            </p>
-            <p>
-              Gloss PPF for 6 years
-            </p>
-            <p>
-              Matte PPF for 6 years
-            </p>
-            <p>
-              Black PPF for 6 years
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Contact</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-            <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
-            <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-            <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
-          </div>
-          <!-- Grid column -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            <span class="text-dark">&copy; {% now "Y" %} Copyright: <a class="text-dark fw-bold text-decoration-none" href="https://roliin.com">roliin.com</a></span>
         </div>
-        <!-- Grid row -->
-      </div>
-    </section>
-    <!-- Section: Links  -->
+    </footer>
 
-    <!-- Copyright -->
-    <div
-         class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)"
-         >
-      © 2026 Copyright:
-      <a class="text-dark" href="https://mdbootstrap.com/"
-         >roliin.com</a
-        >
-    </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
-</div>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square back-to-top" id="backToTop" aria-label="Back to top" style="display: none;">
+        <i class="bi bi-arrow-up"></i>
+    </a>
 
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'js/static.js' %}"></script>
-
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}" defer></script>
+    <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}" defer></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}" defer></script>
+    <script src="{% static 'js/static.js' %}" defer></script>
+    
+    <script>
+        // Initialize WOW.js and Back to Top
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof WOW !== 'undefined') new WOW().init();
+            
+            // Back to Top Button
+            const backToTop = document.getElementById('backToTop');
+            if (backToTop) {
+                window.addEventListener('scroll', () => {
+                    backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
+                });
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
