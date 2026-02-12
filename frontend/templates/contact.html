@@ -6,61 +6,130 @@
 
 
 {% load static %}
-<section id="quote" class="quote-section">
-    <div class="container">
-        <div class="section-header">
-            <h2>Contact US</h2>
-            <p>Give us your details and we'll get back to you within 24 hours.</p>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                
-                <div class="col-12">
-                    <div class="form-container">
-                        <form id="ppfForm">
-                            <div class="form-grid">
-                                <div class="form-column">
-                                    <span class="form-subtitle fw-bold fs-2">Personal Details</span>
+<section id="quote" class="quote-section roliin-form">
+    <div class="container py-5">
 
-                                    <div class="form-group">
-                                        <label>Full Name</label>
-                                        <input type="text" placeholder="Write your name" required>
-                                    </div>
+        <!-- Page Header -->
+        <header class="text-center mb-5 wow fadeInUp">
+            <div class="title">
+                <h1 id="products-heading" class=" fw-bold">
+                    Contact Us
+                </h1>
+                <p class="lead mt-3 text-muted">
+                   Share your details — we’ll get back to you within 24 hours.
+                </p>
+            </div>
+        </header>
 
-                                    <div class="form-group">
-                                        <label>Email Address</label>
-                                        <input type="email" placeholder="name@example.com" required>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label>Phone Number</label>
-                                        <input type="tel" placeholder="(555) 000-0000" required>
-                                    </div>
+        <div class="form-container">
+            <form id="contactForm" class="ppf-form" novalidate>
+                <div class="form-grid">
 
-                                    <div class="form-group">
-                                        <label>Special Requirements / Notes</label>
-                                        <textarea rows="4" placeholder="Mention any additional requests..."></textarea>
-                                    </div>
-                                </div>
+                    <!-- LEFT -->
+                    <div class="form-column">
+                        <span class="form-subtitle">Personal Details</span>
+
+                        <div class="form-group">
+                            <label for="cName">Full Name <span class="req">*</span></label>
+                            <input id="cName" name="name" type="text" placeholder="Write your name" required />
+                            <small class="hint">Use your full name</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cEmail">Email Address <span class="req">*</span></label>
+                                <input id="cEmail" name="email" type="email" placeholder="name@example.com" required />
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
-                                Send Quote Request
-                            </button>
-                        </form>
+                            <div class="form-group">
+                                <label for="cPhone">Phone Number <span class="req">*</span></label>
+                                <input id="cPhone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" required />
+                            </div>
+                        </div>
 
-                        <div id="successMessage" class="success-box hidden">
-                            <i class="fas fa-check-circle"></i>
-                            <h3>Request Received!</h3>
-                            <p>Our specialist will contact you shortly to discuss your vehicle.</p>
-                            <a href="#" onclick="location.reload(); return false;"
-                                style="color: var(--primary); text-decoration: none; margin-top: 20px; display: inline-block;">Send
-                                another request</a>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cCity">City</label>
+                                <input id="cCity" name="city" type="text" placeholder="Hyderabad" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cPurpose">Purpose <span class="req">*</span></label>
+                                <select id="cPurpose" name="purpose" required>
+                                    <option value="" selected disabled>Select purpose</option>
+                                    <option>General Enquiry</option>
+                                    <option>PPF</option>
+                                    <option>Ceramic Coating</option>
+                                    <option>Detailing</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- RIGHT -->
+                    <div class="form-column">
+                        <span class="form-subtitle">Message</span>
+
+                        <div class="form-group">
+                            <label for="cSubject">Subject <span class="req">*</span></label>
+                            <input id="cSubject" name="subject" type="text" placeholder="How can we help you?"
+                                required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cMsg">Special Requirements / Notes</label>
+                            <textarea id="cMsg" name="message" rows="8"
+                                placeholder="Mention any additional requests..."></textarea>
+                            <small class="hint">Include car model, service needed, and preferred call time
+                                (optional)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cFile">Attach File (Optional)</label>
+                            <input id="cFile" name="file" type="file" accept="image/*,application/pdf" />
+                            <small class="hint">JPG, PNG, PDF (optional)</small>
+                        </div>
+                    </div>
+
+                    <!-- FULL WIDTH -->
+                    <div class="form-column full">
+                        <div class="consent">
+                            <label class="check">
+                                <input type="checkbox" required />
+                                <span>
+                                    I agree to be contacted via call/WhatsApp/email regarding this enquiry.
+                                </span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
+                            Send Enquiry
+                            <span class="btn-glow" aria-hidden="true"></span>
+                        </button>
+
+                        <p class="micro">
+                            We usually respond within 24 hours.
+                        </p>
+                    </div>
+
                 </div>
+            </form>
+
+            <div id="successMessage" class="success-box hidden">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3>Request Received!</h3>
+                <p>Thanks for contacting us. Our team will reach out shortly.</p>
+
+                <a href="#" class="reset-link" onclick="location.reload(); return false;">
+                    Send another request
+                </a>
             </div>
         </div>
     </div>
 </section>
+
 {% endblock body %}

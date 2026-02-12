@@ -4,7 +4,160 @@
 
 
 {% block body %}
+
+<section id="quote" class="quote-section roliin-form">
+  <div class="container py-5">
     
+    <!-- Page Header -->
+        <header class="text-center mb-5 wow fadeInUp">
+            <div class="title">
+                <h1 id="products-heading" class=" fw-bold">
+                    Roliin PPF Warranty Registration
+                </h1>
+                <p class="lead mt-3 text-muted">
+                   Protect your investment — activate your warranty in 60 seconds.
+                </p>
+            </div>
+        </header>
+    <div class="form-container">
+      <form id="ppfForm" class="ppf-form" novalidate>
+        <div class="form-grid">
+
+          <!-- LEFT -->
+          <div class="form-column">
+            <span class="form-subtitle">Customer Information</span>
+
+            <div class="form-group">
+              <label for="fullName">Full Name <span class="req">*</span></label>
+              <input id="fullName" name="fullName" type="text" placeholder="Write your name" required />
+              <small class="hint">As per invoice / bill</small>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input id="email" name="email" type="email" placeholder="name@example.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number <span class="req">*</span></label>
+                <input id="phone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City <span class="req">*</span></label>
+                <input id="city" name="city" type="text" placeholder="Hyderabad" required />
+              </div>
+
+              <div class="form-group">
+                <label for="state">State</label>
+                <input id="state" name="state" type="text" placeholder="Telangana" />
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="form-column">
+            <span class="form-subtitle">Vehicle & Installation</span>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="carMake">Car Make <span class="req">*</span></label>
+                <input id="carMake" name="carMake" type="text" placeholder="Mahindra" required />
+              </div>
+
+              <div class="form-group">
+                <label for="carModel">Car Model <span class="req">*</span></label>
+                <input id="carModel" name="carModel" type="text" placeholder="XUV700" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="vin">VIN / Chassis No. <span class="req">*</span></label>
+                <input id="vin" name="vin" type="text" placeholder="17 characters (A-Z, 0-9)" minlength="17" maxlength="17" required />
+                <small class="hint">Example: MA1XXXXXXXXXXXXXX</small>
+              </div>
+
+              <div class="form-group">
+                <label for="installDate">Installation Date <span class="req">*</span></label>
+                <input id="installDate" name="installDate" type="text" placeholder="DD-MM-YYYY" required />
+                <small class="hint">Format: DD-MM-YYYY</small>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ppfVariant">PPF Variant <span class="req">*</span></label>
+                <select id="ppfVariant" name="ppfVariant" required>
+                  <option value="" selected disabled>Select variant</option>
+                  <option>Gloss</option>
+                  <option>Matte</option>
+                  <option>Color PPF</option>
+                  <option>Stealth / Satin</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="installer">Installer / Studio Name</label>
+                <input id="installer" name="installer" type="text" placeholder="Detailing Studio Name" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="proof">Upload Proof (Invoice / Installation Photo)</label>
+              <input id="proof" name="proof" type="file" accept="image/*,application/pdf" />
+              <small class="hint">Accepted: JPG, PNG, PDF (max depends on server)</small>
+            </div>
+          </div>
+
+          <!-- FULL WIDTH -->
+          <div class="form-column full">
+            <span class="form-subtitle">Additional Notes</span>
+
+            <div class="form-group">
+              <label for="notes">Special Requirements / Notes</label>
+              <textarea id="notes" name="notes" rows="4" placeholder="Mention any additional requests..."></textarea>
+            </div>
+
+            <div class="consent">
+              <label class="check">
+                <input type="checkbox" required />
+                <span>
+                  I confirm the details are correct and agree to be contacted for warranty verification.
+                </span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+              Activate Warranty
+              <span class="btn-glow" aria-hidden="true"></span>
+            </button>
+
+            <p class="micro">
+              By submitting, you agree to our warranty terms and privacy policy.
+            </p>
+          </div>
+        </div>
+      </form>
+
+      <div id="successMessage" class="success-box hidden">
+        <div class="success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3>Registration Received!</h3>
+        <p>Your warranty request has been submitted. Our team will verify and contact you shortly.</p>
+
+        <a href="#" class="reset-link" onclick="location.reload(); return false;">
+          Send another request
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock body %}
     
     
