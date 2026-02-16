@@ -1,541 +1,269 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Premium Paint Protection Films{% endblock %}
+{% block title %}Protection Experience{% endblock %}
 
 {% block body %}
 <style>
-    :root{
-      --brand: rgb(255,145,0);
-      --brand2: rgb(255,187,0);
 
-      --dark: #0b1220;
-      --muted: rgba(11,18,32,.65);
-      --stroke: rgba(15,23,42,.10);
+/* ================= EXPERIENCE PAGE ================= */
 
-      --shadow-sm: 0 10px 22px rgba(2,6,23,.08);
-      --shadow-md: 0 20px 55px rgba(2,6,23,.16);
+.exp-hero{
+  min-height:90vh;
+  position:relative;
+  display:grid;
+  place-items:center;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85)),
+    url("{% static 'assets/img/demo_product.jpeg' %}") center/cover no-repeat;
+}
 
-      --radius-lg: 26px;
-    }
+.exp-hero h1{
+  color:#fff;
+  font-weight:900;
+  font-size:clamp(2.2rem,5vw,3.6rem);
+  letter-spacing:-0.02em;
+}
 
-    body{
-      font-family: 'Montserrat', sans-serif;
-      color: var(--dark);
-      background:#fff;
-      line-height:1.6;
-      margin:0;
-    }
+.exp-hero p{
+  color:rgba(255,255,255,.8);
+  max-width:700px;
+  margin:auto;
+  margin-top:12px;
+  font-size:1.05rem;
+}
 
-    .products-page{
-      background:
-        radial-gradient(900px 360px at 20% 10%, rgba(255,145,0,.12), transparent 80%),
-        radial-gradient(700px 360px at 80% 40%, rgba(255,187,0,.10), transparent 55%),
-        linear-gradient(180deg,#f8fafc,#ffffff);
-      padding: 38px 0 70px;
-      min-height: 100vh;
-    }
+.exp-section{
+  padding:90px 0;
+}
 
-    .container{
-      width: min(1180px, 92%);
-      margin: 0 auto;
-    }
+.exp-dark{
+  background:#0b1220;
+  color:#fff;
+}
 
-    .badge-brand{
-      background: linear-gradient(135deg,var(--brand),var(--brand2));
-      color:#fff;
-      border-radius:999px;
-      padding:.45rem .85rem;
-      font-weight:700;
-      border:1px solid rgba(255,255,255,.25);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
+.exp-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:center;
+}
 
-    .products-header{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
+@media(max-width:900px){
+  .exp-grid{grid-template-columns:1fr;}
+}
 
-    .products-header h1{
-      font-size: clamp(1.65rem, 2.6vw, 2.2rem);
-      line-height:1.15;
-      margin: 0;
-      letter-spacing: -0.02em;
-    }
+.exp-img{
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 30px 70px rgba(0,0,0,.35);
+}
 
-    .products-header p{
-      margin: 8px 0 0;
-      color: var(--muted);
-      max-width: 70ch;
-    }
+.exp-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .toolbar{
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      margin: 18px 0 22px;
-      padding: 14px;
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,.88);
-      box-shadow: var(--shadow-sm);
-      backdrop-filter: blur(8px);
-    }
+.exp-label{
+  font-weight:800;
+  letter-spacing:.18em;
+  font-size:.75rem;
+  color:var(--brand);
+}
 
-    .toolbar-left, .toolbar-right{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-    }
+.exp-title{
+  font-weight:900;
+  letter-spacing:-0.02em;
+  margin:10px 0;
+}
 
-    .field{
-      position: relative;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,145,0,.30);
-      background: rgba(255,255,255,.95);
-      min-width: 240px;
-    }
-    .field input{
-      width: 100%;
-      border:none;
-      outline:none;
-      background: transparent;
-      font-family: inherit;
-      font-size: .95rem;
-      color: var(--dark);
-    }
-    .field .icon{
-      width: 18px;
-      height: 18px;
-      opacity: .7;
-      flex: 0 0 18px;
-    }
+.exp-list{
+  margin-top:14px;
+}
 
-    .select{
-      border-radius: 999px;
-      border: 1px solid rgba(255,145,0,.30);
-      background: rgba(255,255,255,.95);
-      padding: 10px 12px;
-      font-family: inherit;
-      font-weight: 600;
-      color: var(--dark);
-      outline: none;
-    }
+.exp-list li{
+  margin-bottom:8px;
+  font-weight:600;
+  color:rgba(11,18,32,.8);
+}
 
-    .chips{
-      display:flex;
-      gap: 8px;
-      flex-wrap:wrap;
-    }
-    .chip{
-      border-radius: 999px;
-      padding: 9px 12px;
-      border: 1px solid rgba(255,145,0,.28);
-      background: rgba(255,255,255,.92);
-      color: rgba(11,18,32,.80);
-      font-weight: 700;
-      font-size: .86rem;
-      cursor:pointer;
-      transition: .25s ease;
-      user-select:none;
-    }
-    .chip:hover{ transform: translateY(-1px); box-shadow: var(--shadow-sm); }
-    .chip.active{
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      border-color: transparent;
-      color:#fff;
-    }
+.exp-dark .exp-list li{
+  color:rgba(255,255,255,.8);
+}
 
-    /* 4 products grid: perfect 2x2 */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-    @media (max-width: 720px){
-      .grid{ grid-template-columns: 1fr; }
-      .field{ min-width: 100%; }
-    }
+/* Panels */
+.exp-panel{
+  min-height:80vh;
+  display:grid;
+  place-items:center;
+  position:relative;
+  color:#fff;
+}
 
-    .p-card{
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,.92);
-      box-shadow: var(--shadow-sm);
-      overflow:hidden;
-      transition: .25s ease;
-      display:flex;
-      flex-direction:column;
-      min-height: 100%;
-    }
-    .p-card:hover{
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
+.exp-panel::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.8));
+}
 
-    .p-media{
-      position: relative;
-      aspect-ratio: 16 / 10;
-      background:
-        radial-gradient(600px 240px at 20% 10%, rgba(255,145,0,.18), transparent 55%),
-        radial-gradient(600px 240px at 80% 40%, rgba(255,187,0,.14), transparent 55%),
-        #fff;
-      border-bottom: 1px solid var(--stroke);
-      overflow:hidden;
-    }
+.exp-panel .inner{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:800px;
+}
 
-    /* Image styling */
-    .p-media img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;      /* keeps image nice */
-      object-position: center;/* center crop */
-      display:block;
-      transform: scale(1.01);
-    }
+.exp-panel h2{
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:900;
+}
 
-    /* Nice fallback placeholder if image fails */
-    .img-fallback{
-      width:100%;
-      height:100%;
-      display:grid;
-      place-items:center;
-      color: rgba(11,18,32,.70);
-      font-weight: 900;
-      letter-spacing: .12em;
-    }
+.exp-panel p{
+  opacity:.85;
+  margin-top:10px;
+}
 
-    .p-badges{
-      position:absolute;
-      top: 12px;
-      left: 12px;
-      display:flex;
-      gap: 8px;
-      flex-wrap:wrap;
-      z-index: 2;
-    }
-    .pill{
-      font-size: .78rem;
-      font-weight: 800;
-      padding: .45rem .7rem;
-      border-radius: 999px;
-      color:#fff;
-      border:1px solid rgba(255,255,255,.25);
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-    }
-    .pill.muted{
-      background: rgba(11,18,32,.78);
-      border-color: rgba(255,255,255,.18);
-    }
+/* CTA */
+.exp-cta{
+  background:
+    radial-gradient(600px 260px at 20% 10%, rgba(255,145,0,.22), transparent 60%),
+    linear-gradient(180deg,#0b1220,#060b16);
+  color:#fff;
+  text-align:center;
+  padding:90px 20px;
+}
 
-    .p-body{ padding: 16px 16px 14px; display:flex; flex-direction:column; gap: 10px; flex:1; }
+</style>
 
-    .p-title{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-    }
-    .p-title h3{
-      margin:0;
-      font-size: 1.06rem;
-      line-height:1.3;
-      letter-spacing: -0.01em;
-    }
-    .p-sub{
-      margin: 0;
-      color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.55;
-    }
 
-    .p-meta{
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-      align-items:center;
-      color: rgba(11,18,32,.70);
-      font-weight: 700;
-      font-size: .86rem;
-    }
-    .dot{ opacity:.55; }
+<!-- ================= HERO ================= -->
+<section class="exp-hero text-center">
+  <div class="container">
+    <span class="badge-brand mb-3 d-inline-block">ROLIIN EXPERIENCE</span>
 
-    .p-footer{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-      margin-top:auto;
-      padding-top: 10px;
-      border-top: 1px solid rgba(0,0,0,.06);
-    }
+    <h1>Your Car’s Story Deserves Protection</h1>
 
-    .price{
-      font-weight: 900;
-      font-size: 1.06rem;
-      letter-spacing: -0.01em;
-    }
-    .price small{
-      font-weight: 800;
-      color: var(--muted);
-      font-size: .85rem;
-      text-decoration: line-through;
-      margin-left: 8px;
-    }
+    <p>
+      Every drive leaves a mark. Roliin ensures those marks never touch your paint.
+    </p>
 
-    .btn-mini{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255,145,0,.28);
-      background: rgba(255,255,255,.95);
-      font-weight: 800;
-      cursor:pointer;
-      transition: .25s ease;
-      text-decoration:none;
-      color: var(--dark);
-      white-space: nowrap;
-    }
-    .btn-mini.primary{
-      background: linear-gradient(135deg,var(--brand),var(--brand2));
-      border-color: transparent;
-      color:#fff;
-    }
-    .btn-mini:hover{ transform: translateY(-1px); box-shadow: var(--shadow-sm); }
-
-    .empty{
-      padding: 34px 18px;
-      text-align:center;
-      border: 1px dashed rgba(255,145,0,.35);
-      border-radius: var(--radius-lg);
-      color: var(--muted);
-      background: rgba(255,255,255,.7);
-      margin-top: 14px;
-    }
-  </style>
-
- <div class="container py-5">
-
-    <div class="products-header">
-      <div>
-        <h1>Our Products</h1>
-        <p>Professional product list with images, search, filters and sorting.</p>
-      </div>
-      <span class="badge-brand">ROLIIN</span>
-    </div>
-
-    <div class="toolbar">
-      <div class="toolbar-left">
-        <div class="field">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <input id="search" type="search" placeholder="Search product…" />
-        </div>
-
-        <div class="chips">
-          <button class="chip active" data-cat="all" type="button">All</button>
-          <button class="chip" data-cat="ppf" type="button">PPF</button>
-          <button class="chip" data-cat="wrap" type="button">Wrap</button>
-          <button class="chip" data-cat="tint" type="button">Tint</button>
-          <button class="chip" data-cat="care" type="button">Car Care</button>
-        </div>
-      </div>
-
-      <div class="toolbar-right">
-        <select id="sort" class="select">
-          <option value="popular">Sort: Popular</option>
-          <option value="priceLow">Price: Low to High</option>
-          <option value="priceHigh">Price: High to Low</option>
-          <option value="new">Newest</option>
-        </select>
-      </div>
-    </div>
-
-    <div id="grid" class="grid"></div>
-
-    <div id="empty" class="empty" style="display:none;">
-      No products found. Try a different search or category.
-    </div>
+    <a href="{% url 'contact' %}" class="btn btn-primary btn-lg mt-3">
+      Start Protection Journey
+    </a>
   </div>
-  <script>
-  const STATIC_URL = "{% get_static_prefix %}";
-</script>
+</section>
 
-  <script>
-    // Put your images inside: assets/products/
-    // Example filenames:
-    // assets/products/ppf-gloss.jpg
-    // assets/products/ppf-matte.jpg
-    // assets/products/wrap-satin-black.jpg
-    // assets/products/window-tint.jpg
 
-    const products = [
-      {
-        id: 1,
-        name: "ROLIIN PPF Ultra Gloss",
-        cat: "ppf",
-        desc: "High gloss paint protection film with self-healing topcoat.",
-        price: 24999,
-        oldPrice: 29999,
-        rating: 4.8,
-        tag: "Best Seller",
-        img: "assets\img\product1.jpeg",
-        date: "2026-01-20"
-      },
-      {
-        id: 2,
-        name: "ROLIIN Matte PPF Pro",
-        cat: "ppf",
-        desc: "Premium matte protection for a stealth, factory-matte finish.",
-        price: 27999,
-        oldPrice: 32999,
-        rating: 4.7,
-        tag: "New",
-        img: "assets/img/product1.jpeg",
-        date: "2026-02-01"
-      },
-      {
-        id: 3,
-        name: "ROLIIN Color Wrap – Satin Black",
-        cat: "wrap",
-        desc: "Durable wrap with clean satin texture and rich tone.",
-        price: 18999,
-        oldPrice: 21999,
-        rating: 4.6,
-        tag: "Trending",
-        img: "assets/img/product1.jpeg",
-        date: "2025-12-15"
-      },
-      {
-        id: 4,
-        name: "ROLIIN Premium Window Tint",
-        cat: "tint",
-        desc: "Heat rejection tint for comfort, UV protection and privacy.",
-        price: 7999,
-        oldPrice: 9999,
-        rating: 4.4,
-        tag: "Value",
-        img: "assets/img/product1.jpeg",
-        date: "2025-10-10"
-      }
-    ];
+<!-- ================= REALITY ================= -->
+<section class="exp-section">
+  <div class="container">
 
-    const state = { cat:"all", query:"", sort:"popular" };
-    const grid = document.getElementById("grid");
-    const empty = document.getElementById("empty");
-    const search = document.getElementById("search");
-    const sort = document.getElementById("sort");
+    <div class="exp-grid">
 
-    const money = (n) => "₹" + n.toLocaleString("en-IN");
+      <div>
+        <span class="exp-label">DAILY REALITY</span>
 
-    function apply(items){
-      let out = items.slice();
+        <h2 class="exp-title">Roads Are Not Gentle</h2>
 
-      if(state.cat !== "all") out = out.filter(p => p.cat === state.cat);
+        <p class="text-muted">
+          Stone chips, swirl marks, pollution, harsh sunlight —
+          every day slowly damages your car’s finish.
+        </p>
 
-      if(state.query.trim()){
-        const q = state.query.trim().toLowerCase();
-        out = out.filter(p =>
-          p.name.toLowerCase().includes(q) ||
-          p.desc.toLowerCase().includes(q) ||
-          p.cat.toLowerCase().includes(q)
-        );
-      }
+        <ul class="exp-list">
+          <li>✔ Micro scratches from washing</li>
+          <li>✔ Rock chips on highways</li>
+          <li>✔ UV fading over time</li>
+          <li>✔ Stain & water marks</li>
+        </ul>
+      </div>
 
-      if(state.sort === "priceLow") out.sort((a,b) => a.price - b.price);
-      if(state.sort === "priceHigh") out.sort((a,b) => b.price - a.price);
-      if(state.sort === "new") out.sort((a,b) => new Date(b.date) - new Date(a.date));
-      if(state.sort === "popular") out.sort((a,b) => b.rating - a.rating);
+      <div class="exp-img">
+        <img src="{% static 'assets/img/demo_product.jpeg' %}" alt="">
+      </div>
 
-      return out;
-    }
+    </div>
 
-    function card(p){
-      return `
-        <article class="p-card">
-          <div class="p-media">
-            <img
-              src="${p.img}"
-              alt="${p.name}"
-              loading="lazy"
-              onerror="this.remove(); this.parentElement.insertAdjacentHTML('beforeend',
-                '<div class=\\'img-fallback\\'>${p.cat.toUpperCase()}</div>')"
-            />
-            <div class="p-badges">
-              <span class="pill">${p.tag}</span>
-              <span class="pill muted">${p.rating.toFixed(1)}★</span>
-            </div>
-          </div>
+  </div>
+</section>
 
-          <div class="p-body">
-            <div class="p-title">
-              <h3>${p.name}</h3>
-            </div>
 
-            <p class="p-sub">${p.desc}</p>
+<!-- ================= GLOSS PANEL ================= -->
+<section class="exp-panel" style="background:url('{% static 'assets/img/demo_product.jpeg' %}') center/cover no-repeat;">
+  <div class="inner">
+    <h2>Ultra Gloss Protection</h2>
+    <p>For those who love deep shine and showroom finish.</p>
+  </div>
+</section>
 
-            <div class="p-meta">
-              <span>${p.cat.toUpperCase()}</span>
-              <span class="dot">•</span>
-              <span>Quote Available</span>
-              <span class="dot">•</span>
-              <span>Support</span>
-            </div>
 
-            <div class="p-footer">
-              <div class="price">
-                ${money(p.price)}
-                ${p.oldPrice ? `<small>${money(p.oldPrice)}</small>` : ``}
-              </div>
+<!-- ================= MATTE PANEL ================= -->
+<section class="exp-panel" style="background:url('{% static 'assets/img/demo_product.jpeg' %}') center/cover no-repeat;">
+  <div class="inner">
+    <h2>Matte Defense Layer</h2>
+    <p>Stealth look. Zero compromise.</p>
+  </div>
+</section>
 
-              <a class="btn-mini primary" href="product-details.html?id=${p.id}">
-                View
-              </a>
-            </div>
-          </div>
-        </article>
-      `;
-    }
 
-    function render(){
-      const filtered = apply(products);
-      grid.innerHTML = filtered.map(card).join("");
+<!-- ================= BLACK PANEL ================= -->
+<section class="exp-panel" style="background:url('{% static 'assets/img/demo_product.jpeg' %}') center/cover no-repeat;">
+  <div class="inner">
+    <h2>Black Transformation Film</h2>
+    <p>Bold presence with hidden strength.</p>
+  </div>
+</section>
 
-      const isEmpty = filtered.length === 0;
-      empty.style.display = isEmpty ? "block" : "none";
-      grid.style.display = isEmpty ? "none" : "grid";
-    }
 
-    document.querySelectorAll(".chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-        state.cat = chip.dataset.cat;
-        render();
-      });
-    });
+<!-- ================= TECHNOLOGY ================= -->
+<section class="exp-section exp-dark">
+  <div class="container">
 
-    search.addEventListener("input", (e) => { state.query = e.target.value; render(); });
-    sort.addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+    <div class="exp-grid">
 
-    render();
-  </script>
+      <div class="exp-img">
+        <img src="{% static 'assets/img/demo_product.jpeg' %}" alt="">
+      </div>
+
+      <div>
+        <span class="exp-label">ROLIIN TECH</span>
+
+        <h2 class="exp-title">Built With Intelligence</h2>
+
+        <p>
+          Our films use advanced multi-layer construction
+          to balance flexibility, clarity, and strength.
+        </p>
+
+        <ul class="exp-list">
+          <li>✔ Self-healing polymer layer</li>
+          <li>✔ UV-resistant coating</li>
+          <li>✔ Impact absorption layer</li>
+          <li>✔ Optical clarity base</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= CTA ================= -->
+<section class="exp-cta">
+
+  <h2 class="fw-bold mb-3">Protect Once. Drive Free Forever.</h2>
+
+  <p class="opacity-75 mb-4">
+    Talk to our experts and choose the right protection for your car.
+  </p>
+
+  <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">
+    Book Consultation
+  </a>
+
+</section>
 
 {% endblock %}

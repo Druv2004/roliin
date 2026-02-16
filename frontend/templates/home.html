@@ -1,10 +1,482 @@
-{% extends 'base.html' %}
+{# templates/home.html #}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}Home{% endblock %}
 
+{% block extra_css %}
+<style>
+  /* ================= HOME (scoped) ================= */
+  .home-hero{
+    position: relative;
+    min-height: calc(100vh - 88px);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .home-hero video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    filter: saturate(1.05) contrast(1.05);
+    transform: scale(1.02);
+  }
+
+  .home-hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(900px 520px at 20% 20%, rgba(255,145,0,.22), transparent 60%),
+      radial-gradient(700px 460px at 80% 40%, rgba(255,187,0,.16), transparent 60%),
+      linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+    z-index:1;
+  }
+
+  .home-hero .hero-inner{
+    position: relative;
+    z-index: 2;
+    padding: 110px 0 70px;
+  }
+
+  .home-hero .badge-brand{ margin-bottom: 14px; display:inline-flex; }
+  .home-hero h1{
+    color:#fff;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    font-size: clamp(2.0rem, 4vw, 3.35rem);
+  }
+  .home-hero p{
+    color: rgba(255,255,255,.84);
+    font-size: 1.03rem;
+    max-width: 52ch;
+    margin-top: 14px;
+  }
+
+  .hero-cta{
+    margin-top: 22px;
+    display:flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items:center;
+  }
+
+  .btn-outline-light-custom{
+    border: 1px solid rgba(255,255,255,.35);
+    color:#fff;
+    background: transparent;
+    padding: 12px 22px;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: var(--transition);
+    text-decoration:none;
+  }
+  .btn-outline-light-custom:hover{
+    border-color: rgba(255,255,255,.6);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0,0,0,.18);
+  }
+
+  .hero-proof{
+    margin-top: 28px;
+    display:flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    color: rgba(255,255,255,.78);
+    font-weight: 600;
+    font-size: .95rem;
+  }
+  .hero-proof .dot{
+    width: 6px; height: 6px; border-radius: 999px;
+    background: linear-gradient(135deg,var(--brand),var(--brand2));
+    display:inline-block;
+    margin: 0 10px 0 4px;
+  }
+
+  /* section backgrounds using your theme */
+  .home-section-soft{
+    background:
+      radial-gradient(900px 360px at 20% 10%, rgba(255,145,0,.12), transparent 80%),
+      radial-gradient(700px 360px at 80% 40%, rgba(255,187,0,.10), transparent 55%),
+      linear-gradient(180deg,#f8fafc,#ffffff);
+  }
+
+  .home-card{
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    background: rgba(255,255,255,.92);
+    overflow:hidden;
+    transition: var(--transition);
+  }
+  .home-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+  .icon-pill{
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display:grid; place-items:center;
+    background: radial-gradient(120px 60px at 20% 10%, rgba(255,145,0,.25), rgba(255,187,0,.12));
+    border: 1px solid rgba(255,145,0,.22);
+    color: var(--dark);
+  }
+
+  /* Dark feature band aligned with your .features-mature style */
+  .home-features-band{
+    background:
+      radial-gradient(900px 360px at 20% 10%, rgba(255,145,0,.16), transparent 60%),
+      linear-gradient(180deg,#0b1220,#060b16);
+  }
+  .home-features-band .lead{ color: rgba(255,255,255,.78); }
+
+  /* Minimal gallery tiles */
+  .tile{
+    position:relative;
+    border-radius: var(--radius-lg);
+    overflow:hidden;
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: var(--shadow-sm);
+  }
+  .tile img{ width:100%; height: 280px; object-fit:cover; display:block; }
+  .tile::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(180deg, transparent 50%, rgba(11,18,32,.70));
+  }
+  .tile .tile-label{
+    position:absolute;
+    left: 18px;
+    bottom: 16px;
+    z-index: 2;
+    color:#fff;
+    font-weight: 800;
+    letter-spacing:.02em;
+  }
+
+  /* Make sure anchor offsets work with sticky navbar */
+  .anchor-offset{ scroll-margin-top: 110px; }
+
+  @media (max-width: 576px){
+    .home-hero .hero-inner{ padding: 100px 0 60px; }
+    .tile img{ height: 220px; }
+  }
+</style>
+{% endblock %}
 
 {% block body %}
+
+<!-- ================= HERO (Background Video) ================= -->
+<section class="home-hero" aria-label="Roliin hero section">
+  {# Put your mp4 here: static/assets/video/hero.mp4 #}
+  <video autoplay muted loop playsinline preload="metadata" poster="{% static 'assets/img/hero-poster.jpg' %}">
+    <source src="{% static 'assets/video/hero.mp4' %}" type="video/mp4">
+  </video>
+
+  <div class="container hero-inner">
+    <div class="row align-items-center">
+      <div class="col-lg-12">
+        <span class="badge-brand">Premium Paint Protection Film</span>
+        <h1>
+          New car, new journey.<br>
+          Keep it <span class="text-brand">scratch-free</span> for years.
+        </h1>
+        <p>
+          Roliin PPF protects your paint from road rash, swirl marks, UV fade, and daily wear — with self-healing clarity and a finish that stays stunning.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="{% url 'registration' %}">
+            Register E-Warranty
+          </a>
+          <a class="btn-outline-light-custom" href="{% url 'product' %}">
+            View Products
+          </a>
+        </div>
+
+        <div class="hero-proof">
+          <div><i class="fa-solid fa-shield-halved me-2"></i>Self-healing top coat</div>
+          <span class="dot"></span>
+          <div><i class="fa-solid fa-sun me-2"></i>UV & stain resistant</div>
+          <span class="dot"></span>
+          <div><i class="fa-solid fa-clock me-2"></i>Up to 10-year durability</div>
+        </div>
+      </div>
+
+    {% comment %} <div class="col-lg-5 mt-4 mt-lg-0">
+        <div class="home-card p-4">
+            <h5 class="fw-bold mb-2">Get a quick quote</h5>
+            <p class="text-muted mb-3">Share your car details — we’ll guide the best film option.</p>
     
-{% endblock body %}
+            <form method="post" action="{% url 'contact' %}">
+                {% csrf_token %}
+                <div class="row g-2">
+                    <div class="col-12">
+                        <input class="form-control" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="col-12">
+                        <input class="form-control" type="tel" name="phone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="col-12">
+                        <input class="form-control" name="car" placeholder="Car Model (e.g., XUV700)">
+                    </div>
+                    <div class="col-12">
+                        <select class="form-select" name="interest">
+                            <option value="PPF">PPF</option>
+                            <option value="Ceramic">Ceramic Coating</option>
+                            <option value="Both">PPF + Ceramic</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100" type="submit">
+                            Request Call Back
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <small class="text-muted d-block text-center">
+                            By submitting, you agree to be contacted by Roliin.
+                        </small>
+                    </div>
+                </div>
+            </form>
     
-    
+        </div>
+    </div> {% endcomment %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST STRIP ================= -->
+<section class="py-4 home-section-soft">
+  <div class="container">
+    <div class="row g-3 text-center">
+      <div class="col-6 col-lg-3">
+        <div class="home-card p-3 h-100">
+          <div class="icon-pill mx-auto mb-2"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="fw-bold">Crystal Clarity</div>
+          <div class="text-muted small">Gloss that lasts</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="home-card p-3 h-100">
+          <div class="icon-pill mx-auto mb-2"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div class="fw-bold">Self-Healing</div>
+          <div class="text-muted small">Heat-activated</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="home-card p-3 h-100">
+          <div class="icon-pill mx-auto mb-2"><i class="fa-solid fa-droplet"></i></div>
+          <div class="fw-bold">Hydrophobic</div>
+          <div class="text-muted small">Easy cleaning</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="home-card p-3 h-100">
+          <div class="icon-pill mx-auto mb-2"><i class="fa-solid fa-award"></i></div>
+          <div class="fw-bold">Warranty</div>
+          <div class="text-muted small">E-Warranty support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="py-5 anchor-offset" id="about-home">
+  <div class="container py-4">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <span class="badge-brand">Built for real roads</span>
+        <h2 class="fw-bold mt-3">Protection that doesn’t hide your paint.</h2>
+        <p class="text-muted mt-3">
+          Roliin films are engineered for impact resistance, swirl control, and long-term visual performance.
+          Keep factory paint intact while maintaining a premium finish.
+        </p>
+
+        <div class="row g-3 mt-2">
+          <div class="col-md-6">
+            <div class="home-card p-3 h-100">
+              <div class="fw-bold mb-1">Scratch & chip defense</div>
+              <div class="text-muted small">Stops daily damage before it starts.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="home-card p-3 h-100">
+              <div class="fw-bold mb-1">UV & stain resistance</div>
+              <div class="text-muted small">Helps reduce yellowing & water spots.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <a class="btn btn-primary" href="{% url 'about' %}">Learn More</a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="home-card p-2">
+          <img
+            src="{% static 'assets/img/product_1.png' %}"
+            alt="Roliin PPF protection on car paint"
+            class="img-fluid rounded-4"
+            loading="lazy"
+          >
+        </div>
+        {% comment %} <small class="text-muted d-block mt-2">
+          Tip: Add your image at <code>static/assets/img/home/about-ppf.jpg</code>
+        </small> {% endcomment %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCTS CTA ================= -->
+<section class="py-5 home-section-soft anchor-offset" id="products-home">
+  <div class="container py-4">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <h2 class="fw-bold">Choose your finish</h2>
+        <p class="text-muted mt-2 mb-0">
+          Gloss • Matte • Black — built for durability and premium appearance.
+        </p>
+      </div>
+      <div class="col-lg-5 text-lg-end">
+        <a class="btn btn-primary btn-lg" href="{% url 'product' %}">Explore Products</a>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="home-card p-4 h-100">
+          <div class="fw-bold">Gloss PPF</div>
+          <div class="text-muted small mt-1">Deep shine, high clarity.</div>
+          <div class="mt-3"><span class="badge-brand">Up to 10 Years</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="home-card p-4 h-100">
+          <div class="fw-bold">Gloss PPF</div>
+          <div class="text-muted small mt-1">Balanced protection.</div>
+          <div class="mt-3"><span class="badge-brand">6 Years</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="home-card p-4 h-100">
+          <div class="fw-bold">Matte PPF</div>
+          <div class="text-muted small mt-1">Stealth look, tough surface.</div>
+          <div class="mt-3"><span class="badge-brand">6 Years</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="home-card p-4 h-100">
+          <div class="fw-bold">Black PPF</div>
+          <div class="text-muted small mt-1">Bold depth, clean finish.</div>
+          <div class="mt-3"><span class="badge-brand">6 Years</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES (DARK) ================= -->
+<section class="py-5 home-features-band anchor-offset" id="why-roliin">
+  <div class="container py-5">
+    <div class="text-center mb-4">
+      <span class="badge-brand">Why Roliin</span>
+      <h2 class="fw-bold text-white mt-3">Confidence on every drive</h2>
+      <p class="lead mb-0">Premium materials, precise application, and support you can rely on.</p>
+    </div>
+
+    <div class="row g-3 mt-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box h-100">
+          <h5 class="fw-bold text-white">High impact resistance</h5>
+          <p class="mb-0 text-white">Helps reduce damage from stones and road debris.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box h-100">
+          <h5 class="fw-bold text-white">Clean install standards</h5>
+          <p class="mb-0 text-white">Professional fitment for smooth edges and finish.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box h-100">
+          <h5 class="fw-bold text-white">Easy maintenance</h5>
+          <p class="mb-0 text-white">Wash friendly. Helps reduce swirl marks over time.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-box h-100">
+          <h5 class="fw-bold text-white">E-Warranty ready</h5>
+          <p class="mb-0 text-white">Simple registration and warranty status tracking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="py-5 anchor-offset" id="gallery">
+  <div class="container py-4">
+    <div class="row align-items-end">
+      <div class="col-lg-7">
+        <h2 class="fw-bold">Recent transformations</h2>
+        <p class="text-muted mb-0">Replace these images with your own install shots.</p>
+      </div>
+      <div class="col-lg-5 text-lg-end mt-3 mt-lg-0">
+        <a class="btn btn-primary" href="{% url 'contact' %}">Book an Installation</a>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-4">
+      <div class="col-md-4">
+        <div class="tile">
+          <img src="{% static 'assets/img/product_1.png' %}" alt="PPF installation result 1" loading="lazy">
+          <div class="tile-label">Gloss Finish</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tile">
+          <img src="{% static 'assets/img/product_1.png' %}" alt="PPF installation result 2" loading="lazy">
+          <div class="tile-label">Matte Finish</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tile">
+          <img src="{% static 'assets/img/product_1.png' %}" alt="PPF installation result 3" loading="lazy">
+          <div class="tile-label">Black PPF</div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} <small class="text-muted d-block mt-2">
+      Add images at <code>static/assets/img/home/gallery-1.jpg</code>, <code>gallery-2.jpg</code>, <code>gallery-3.jpg</code>
+    </small> {% endcomment %}
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Small helper: if video can't autoplay, show a fallback class (optional)
+  document.addEventListener('DOMContentLoaded', () => {
+    const v = document.querySelector('.home-hero video');
+    if (!v) return;
+
+    const tryPlay = v.play();
+    if (tryPlay && typeof tryPlay.catch === 'function') {
+      tryPlay.catch(() => {
+        // Autoplay blocked: keep poster visible, nothing else needed.
+        v.controls = true;
+      });
+    }
+  });
+</script>
+{% endblock %}
