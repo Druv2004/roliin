@@ -140,6 +140,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API documentation for the Roliin platform',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    "COMPONENT_SPLIT_REQUEST": True,
 }
 
 
@@ -179,3 +180,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+

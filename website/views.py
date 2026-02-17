@@ -1,26 +1,26 @@
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'website/home.html')
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'website/about.html')
 
 def product(request):
-    return render(request, 'product.html')
+    return render(request, 'website/product.html')
 
 def registration(request):
-    return render(request, 'warranty_registration.html')
+    return render(request, 'website/warranty_registration.html')
 
 def status(request):
-    return render(request, 'warranty_status.html')
+    return render(request, 'website/warranty_status.html')
 
 def contact(request):
-    return render(request, 'contact.html')
+    return render(request, 'website/contact.html')
 
 def terms_and_conditions(request):
-    return render(request, 'terms_and_conditions.html')
+    return render(request, 'website/terms_and_conditions.html')
 
 def perivacy_policy(request):
-    return render(request, 'privacy_policy.html')
+    return render(request, 'website/privacy_policy.html')
 

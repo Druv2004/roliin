@@ -3,22 +3,7 @@ from rest_framework import serializers
 from apps.warranty.models import Warranty
 
 
-
-# class WarrantySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Warranty
-#         fields = '__all__'
-#         read_only_fields = (
-#             'approval_status',
-#             'warranty_start_date',
-#             'warranty_end_date',
-#             'created_at',
-#             'updated_at',
-#         )
-
 class WarrantyCreateSerializer(serializers.ModelSerializer):
-    car_image_with_ppf = serializers.ImageField()
-    rc_photo = serializers.ImageField()
 
     class Meta:
         model = Warranty
@@ -31,8 +16,12 @@ class WarrantyCreateSerializer(serializers.ModelSerializer):
             "warranty_end_date",
             "created_at",
         )
-        
-        
+
+    def validate_vin_chassis_number(self, value):
+        if len(value) != 17:
+            raise serializers.ValidationError("VIN must be exactly 17 characters.")
+        return value
+
 
 class WarrantyReadSerializer(serializers.ModelSerializer):
     approved_by = serializers.StringRelatedField()
@@ -40,8 +29,8 @@ class WarrantyReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Warranty
         fields = "__all__"
-        
-        
+
+
 class WarrantyAdminActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Warranty
@@ -52,3 +41,4 @@ class WarrantyAdminActionSerializer(serializers.ModelSerializer):
             "warranty_start_date",
             "warranty_end_date",
         )
+        read_only_fields = fields

@@ -1,3 +1,4 @@
+# ================================ WARRANTY MODELS ==================================
 import uuid
 from django.db import models
 from datetime import date
@@ -5,9 +6,9 @@ from dateutil.relativedelta import relativedelta
 from django.conf import settings
 
 
-# ================================ WARRANTY MODELS ==================================
 class Warranty(models.Model):
 
+    # ===================== PPF CATEGORY =====================
     PPF_CATEGORY_CHOICES = [
         ('GLOSS_6', 'Gloss PPF – 6 Years'),
         ('GLOSS_10', 'Gloss PPF – 10 Years'),
@@ -28,18 +29,37 @@ class Warranty(models.Model):
         ('REJECTED', 'Rejected'),
     ]
 
-    # Customer & Vehicle
-    customer_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
-    email = models.EmailField()
-    car_number = models.CharField(max_length=20)
-    chassis_number = models.CharField(max_length=50)
-    roliin_roll_unique_code = models.CharField(max_length=100, unique=True)
+    # ===================== CUSTOMER INFORMATION =====================
+    # 🔐 UUID Primary Key
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    customer_name = models.CharField(max_length=100, default="")
+    email = models.EmailField(default="")
+    phone_number = models.CharField(max_length=15, default="")
+    city = models.CharField(max_length=100, default="")
+    state = models.CharField(max_length=100, default="")
 
-    # PPF
-    ppf_category = models.CharField(max_length=20, choices=PPF_CATEGORY_CHOICES)
+    # ===================== VEHICLE INFORMATION =====================
+    car_make_model = models.CharField(max_length=150, default="")  # Merged field
+    vin_chassis_number = models.CharField(max_length=50, default="")
+    installation_date = models.DateField(null=True, blank=True)
 
-    # Approval
+    # ===================== PPF DETAILS =====================
+    ppf_category = models.CharField(max_length=20, choices=PPF_CATEGORY_CHOICES, default="")
+    installer_studio_name = models.CharField(max_length=150, default="")
+
+    # ===================== UPLOADS =====================
+
+    # Invoice / Proof
+    installation_proof = models.FileField(upload_to='warranty/proof/', default="")
+
+    # Car View Images
+    car_front_view = models.ImageField(upload_to='warranty/car_views/', default="")
+    car_back_view = models.ImageField(upload_to='warranty/car_views/', default="")
+    car_left_view = models.ImageField(upload_to='warranty/car_views/', default="")
+    car_right_view = models.ImageField(upload_to='warranty/car_views/', default="")
+    car_roof_view = models.ImageField(upload_to='warranty/car_views/',default="")
+
+    # ===================== APPROVAL SYSTEM =====================
     approval_status = models.CharField(
         max_length=20,
         choices=APPROVAL_STATUS_CHOICES,
@@ -52,13 +72,13 @@ class Warranty(models.Model):
         null=True,
         blank=True
     )
+
     approved_at = models.DateField(null=True, blank=True)
 
-    # Warranty dates
+    # ===================== WARRANTY DATES =====================
     warranty_start_date = models.DateField(null=True, blank=True)
     warranty_end_date = models.DateField(null=True, blank=True)
 
-    # 🔐 WARRANTY CODE (created after approval)
     warranty_code = models.CharField(
         max_length=50,
         unique=True,
@@ -66,24 +86,16 @@ class Warranty(models.Model):
         blank=True
     )
 
-    # Uploads
-    car_image_with_ppf = models.ImageField(upload_to='warranty/car_images/')
-    rc_photo = models.ImageField(upload_to='warranty/rc_photos/')
-
-    detailer_studio_name = models.CharField(max_length=150)
-    detailer_mobile_number = models.CharField(max_length=15)
-    location = models.CharField(max_length=150)
-
     message = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # 🔧 Warranty helpers
+    # ===================== WARRANTY HELPERS =====================
+
     def generate_warranty_code(self):
         today = date.today()
         year = today.year
         month = f"{today.month:02d}"
 
-        # Count approved warranties this month
         count = Warranty.objects.filter(
             approval_status='APPROVED',
             approved_at__year=year,
@@ -101,4 +113,4 @@ class Warranty(models.Model):
         self.warranty_code = self.generate_warranty_code()
 
     def __str__(self):
-        return f"{self.customer_name} - {self.car_number}"
+        return f"{self.customer_name} - {self.car_make_model}"
