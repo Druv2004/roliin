@@ -1,269 +1,1122 @@
 {% extends 'website/base.html' %}
 {% load static %}
 
-{% block title %}Protection Experience{% endblock %}
+{% block title %}PPF Product Showcase{% endblock %}
 
 {% block body %}
+
 <style>
+/* ======================================================
+   ROLIIN OFFICIAL STYLESHEET (Palette + UI)
+====================================================== */
 
-/* ================= EXPERIENCE PAGE ================= */
+/* ================= ROOT ================= */
+:root{
+  --brand: rgb(255,145,0);
+  --brand2: rgb(255,187,0);
 
-.exp-hero{
-  min-height:90vh;
-  position:relative;
-  display:grid;
-  place-items:center;
+  --dark: #0b1220;
+  --light: #ffffff;
+
+  --muted: rgba(11,18,32,.65);
+  --stroke: rgba(15,23,42,.10);
+
+  --shadow-sm: 0 10px 22px rgba(2,6,23,.08);
+  --shadow-md: 0 20px 55px rgba(2,6,23,.16);
+
+  --radius-sm: 14px;
+  --radius-lg: 26px;
+
+  --transition: .25s ease;
+
+  --rf-primary: rgb(255, 153, 0);
+  --rf-primary-2: rgb(255, 187, 0);
+  --rf-card: rgba(255, 255, 255, 0.92);
+  --rf-stroke: rgba(255, 153, 0, 0.65);
+  --rf-text: #0b1220;
+  --rf-muted: rgba(11, 18, 32, 0.65);
+  --rf-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  --rf-transition: 240ms ease;
+}
+
+/* ================= RESET ================= */
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+body{
+  font-family:'Montserrat',sans-serif;
+  color:var(--dark);
+  background:#fff;
+  line-height:1.6;
+}
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+.container{ width:min(1160px, 92%); margin:0 auto; }
+
+.text-brand{ color: var(--brand) !important; }
+.badge-brand{
+  background: linear-gradient(135deg,var(--brand),var(--brand2));
+  color:#fff;
+  border-radius:999px;
+  padding:.45rem .85rem;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,.25);
+}
+.hidden{ display:none; }
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.55rem;
+  padding: 12px 18px;
+  font-weight:800;
+  border-radius:50px;
+  transition: var(--transition);
+  border:1px solid rgba(15,23,42,.10);
+  background:#fff;
+  cursor:pointer;
+}
+.btn-primary{
+  background: linear-gradient(135deg,var(--brand),var(--brand2));
+  border:none;
+  color:#fff;
+}
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.btn-ghost{
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(255,145,0,.35);
+}
+.btn-ghost:hover{ transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+.back-to-top{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:99;
+  display:none;
+  border:none;
+  border-radius:999px;
+  padding:12px 14px;
+  cursor:pointer;
+  background: linear-gradient(135deg,var(--brand),var(--brand2));
+  color:#fff;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+.back-to-top:hover{ transform: translateY(-2px); }
+
+/* ================= PAGE BACKDROP ================= */
+.ppf-page{
   background:
-    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85)),
-    url("{% static 'assets/img/demo_product.jpeg' %}") center/cover no-repeat;
+    radial-gradient(900px 360px at 20% 10%, rgba(255,145,0,.12), transparent 80%),
+    radial-gradient(700px 360px at 80% 40%, rgba(255,187,0,.10), transparent 55%),
+    linear-gradient(180deg,#f8fafc,#ffffff);
 }
 
-.exp-hero h1{
-  color:#fff;
-  font-weight:900;
-  font-size:clamp(2.2rem,5vw,3.6rem);
-  letter-spacing:-0.02em;
+/* ================= HERO ================= */
+.hero{
+  padding: 70px 0 26px 0;
 }
-
-.exp-hero p{
-  color:rgba(255,255,255,.8);
-  max-width:700px;
-  margin:auto;
-  margin-top:12px;
-  font-size:1.05rem;
-}
-
-.exp-section{
-  padding:90px 0;
-}
-
-.exp-dark{
-  background:#0b1220;
-  color:#fff;
-}
-
-.exp-grid{
+.hero-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 22px;
   align-items:center;
 }
-
-@media(max-width:900px){
-  .exp-grid{grid-template-columns:1fr;}
+.hero h1{
+  font-size: clamp(2.15rem, 3.3vw, 3.15rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
+.hero p{
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+.hero-cta{
+  margin-top: 18px;
+  display:flex;
+  gap: 12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.small{
+  font-size:.88rem;
+  color: var(--muted);
+  font-weight:750;
+}
+.notice{
+  margin-top: 14px;
+  display:flex;
+  gap: 10px;
+  align-items:flex-start;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,145,0,.22);
+  background: rgba(255,255,255,.70);
+  color: rgba(11,18,32,.78);
+  font-weight: 750;
+}
+.notice b{ color: rgba(11,18,32,.92); }
 
-.exp-img{
-  border-radius:26px;
+.hero-card{
+  border-radius: var(--radius-lg);
+  border:1px solid rgba(255,145,0,.18);
+  background: rgba(255,255,255,.80);
+  box-shadow: var(--shadow-md);
   overflow:hidden;
-  box-shadow:0 30px 70px rgba(0,0,0,.35);
-}
-
-.exp-img img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.exp-label{
-  font-weight:800;
-  letter-spacing:.18em;
-  font-size:.75rem;
-  color:var(--brand);
-}
-
-.exp-title{
-  font-weight:900;
-  letter-spacing:-0.02em;
-  margin:10px 0;
-}
-
-.exp-list{
-  margin-top:14px;
-}
-
-.exp-list li{
-  margin-bottom:8px;
-  font-weight:600;
-  color:rgba(11,18,32,.8);
-}
-
-.exp-dark .exp-list li{
-  color:rgba(255,255,255,.8);
-}
-
-/* Panels */
-.exp-panel{
-  min-height:80vh;
-  display:grid;
-  place-items:center;
   position:relative;
-  color:#fff;
+}
+.hero-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(600px 240px at 20% 0%, rgba(255,145,0,.22), transparent 55%);
+  pointer-events:none;
+}
+.hero-card-inner{
+  position:relative;
+  padding: 16px;
+}
+.hero-card img{
+  width:100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 18px;
+  border:1px solid rgba(15,23,42,.08);
 }
 
-.exp-panel::before{
-  content:'';
+/* ================= SECTION ================= */
+.section{ padding: 52px 0; }
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap: 20px;
+  flex-wrap:wrap;
+  margin-bottom: 18px;
+}
+.section-header h2{
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  letter-spacing: -0.02em;
+}
+.section-header p{
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* ================= PPF GRID (5 PRODUCTS) ================= */
+.ppf-grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.ppf-item{
+  grid-column: span 4;
+  border:1px solid var(--stroke);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,.82);
+  box-shadow: var(--shadow-sm);
+  overflow:hidden;
+  transition: var(--transition);
+}
+.ppf-item:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.ppf-media{
+  height: 190px;
+  margin: 14px 16px 0;
+  border-radius: 18px;
+  border:1px solid rgba(15,23,42,.08);
+  overflow:hidden;
+  background: linear-gradient(135deg, rgba(11,18,32,.06), rgba(255,255,255,.5));
+}
+.ppf-media img{ width:100%; height:100%; object-fit:cover; }
+
+.ppf-body{ padding: 14px 16px 16px; }
+
+.ppf-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+.ppf-title h3{
+  font-size: 1.12rem;
+  letter-spacing:-0.01em;
+}
+.ppf-sub{
+  margin-top: 6px;
+  color: var(--muted);
+  font-weight: 700;
+  font-size:.95rem;
+}
+.ppf-tags{
+  margin-top: 12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap: 8px;
+}
+.tag{
+  font-size:.82rem;
+  font-weight: 900;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,145,0,.22);
+  background: rgba(255,145,0,.08);
+  color: rgba(11,18,32,.88);
+}
+.ppf-actions{
+  margin-top: 14px;
+  display:flex;
+  gap: 10px;
+  flex-wrap:wrap;
+}
+
+/* ================= MODAL ================= */
+.modal-backdrop{
+  position:fixed; inset:0;
+  background: rgba(2,6,23,.55);
+  display:grid; place-items:center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal{
+  width: min(1040px, 96vw);
+  border-radius: 26px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,145,0,.25);
+  box-shadow: var(--shadow-md);
+  overflow:hidden;
+  position:relative;
+}
+.modal::before{
+  content:"";
+  position:absolute; inset:-2px;
+  background: radial-gradient(740px 280px at 20% 0%, rgba(255,145,0,.22), transparent 55%);
+  pointer-events:none;
+}
+.modal-inner{ position:relative; padding: 18px; }
+.modal-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+.modal-head h3{
+  font-size: 1.35rem;
+  letter-spacing:-0.02em;
+}
+.x{
+  border:none; cursor:pointer;
+  width:40px; height:40px;
+  border-radius: 14px;
+  background: rgba(255,145,0,.10);
+  border:1px solid rgba(255,145,0,.20);
+  font-weight: 900;
+  transition: var(--transition);
+}
+.x:hover{ transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+.modal-grid{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.panel{
+  border-radius: 18px;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.86);
+  padding: 14px;
+}
+
+.panel b{ display:block; margin-bottom:8px; }
+
+.spec-image{
+  border-radius: 18px;
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,.10);
+  background: #fff;
+}
+.spec-image img{
+  width:100%;
+  height: auto;
+  display:block;
+}
+
+/* Spec table */
+.spec-table{
+  border-radius: 18px;
+  overflow:hidden;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.86);
+}
+.spec-table-head{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  background: linear-gradient(135deg, rgba(255,145,0,.20), rgba(255,187,0,.16));
+  border-bottom: 1px solid rgba(15,23,42,.10);
+}
+.spec-table-head div{
+  padding: 12px 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing:.06em;
+}
+.spec-row2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px dashed rgba(15,23,42,.10);
+}
+.spec-row2 div{
+  padding: 12px 14px;
+  font-weight: 800;
+  color: rgba(11,18,32,.85);
+}
+.spec-row2:last-child{ border-bottom:none; }
+
+/* ================= CONTACT FORM (Scoped) ================= */
+.roliin-form .quote-section{
+  padding: 90px 0;
+  background:
+    radial-gradient(900px 350px at 20% 10%, rgba(255,153,0,0.20), transparent 60%),
+    radial-gradient(700px 350px at 80% 40%, rgba(255,187,0,0.14), transparent 55%),
+    linear-gradient(180deg, rgba(255, 136, 0, 0.85), rgba(255,255,255,0.55));
+}
+.roliin-form .section-header{ text-align:center; margin-bottom:42px; }
+.roliin-form .section-header h2{
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em;
+  color: var(--rf-text);
+}
+.roliin-form .section-header p{ margin-top:10px; color: var(--rf-muted); font-size:1.02rem; }
+.roliin-form .form-container{
+  max-width: 980px;
+  margin: 0 auto;
+  background: var(--rf-card);
+  border: 2px solid var(--rf-stroke);
+  border-radius: 26px;
+  padding: 44px;
+  box-shadow: var(--rf-shadow);
+  position: relative;
+  overflow: hidden;
+}
+.roliin-form .form-container::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(600px 220px at 30% 0%, rgba(255, 153, 0, 0.25), transparent 55%);
+  pointer-events:none;
+}
+.roliin-form .ppf-form{ position:relative; z-index:1; }
+.roliin-form .form-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+.roliin-form .form-column{
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 18px;
+  padding: 22px;
+  backdrop-filter: blur(8px);
+}
+.roliin-form .form-subtitle{
+  display:block;
+  font-weight: 900;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,153,0,0.95);
+  margin-bottom: 16px;
+}
+.roliin-form .form-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.roliin-form .form-group{ margin-bottom: 14px; }
+.roliin-form .form-group label{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--rf-text);
+  margin-bottom: 8px;
+}
+.roliin-form .req{ color: rgb(220, 38, 38); font-weight: 900; }
+
+.roliin-form input,
+.roliin-form select,
+.roliin-form textarea{
+  width:100%;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,153,0,0.55);
+  background: rgba(255,255,255,0.9);
+  color: var(--rf-text);
+  font-size: 0.96rem;
+  transition: var(--rf-transition);
+  outline: none;
+}
+.roliin-form textarea{ resize: vertical; min-height: 120px; }
+.roliin-form input:focus,
+.roliin-form select:focus,
+.roliin-form textarea:focus{
+  border-color: rgba(255,153,0,1);
+  box-shadow: 0 0 0 4px rgba(255,153,0,0.18);
+  transform: translateY(-1px);
+}
+.roliin-form .btn-submit{
+  position:relative;
+  width: 100%;
+  padding: 15px 18px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--rf-primary), var(--rf-primary-2));
+  color: #fff;
+  box-shadow: 0 16px 28px rgba(255,153,0,0.26);
+  overflow:hidden;
+  transition: var(--rf-transition);
+}
+.roliin-form .btn-submit:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(255,153,0,0.30);
+}
+.roliin-form .btn-glow{
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.8));
+  background: radial-gradient(250px 120px at 20% 0%, rgba(255,255,255,0.45), transparent 55%);
+  opacity: 0.9;
+  pointer-events:none;
 }
-
-.exp-panel .inner{
-  position:relative;
-  z-index:2;
+.roliin-form .micro{
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--rf-muted);
   text-align:center;
-  max-width:800px;
 }
 
-.exp-panel h2{
-  font-size:clamp(2rem,4vw,3rem);
-  font-weight:900;
+/* ================= FOOTER ================= */
+.footer{
+  padding: 28px 0;
+  border-top:1px solid rgba(15,23,42,.08);
+  color: var(--muted);
+}
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  gap: 14px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.footer b{ color: rgba(11,18,32,.9); }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 980px){
+  .hero-grid{ grid-template-columns: 1fr; }
+  .ppf-item{ grid-column: span 6; }
+  .modal-grid{ grid-template-columns: 1fr; }
+}
+@media (max-width: 640px){
+  .ppf-item{ grid-column: span 12; }
+}
+@media (max-width: 900px){
+  .roliin-form .form-grid{ grid-template-columns: 1fr; }
+  .roliin-form .form-row{ grid-template-columns: 1fr; }
+  .roliin-form .form-container{ padding: 28px; }
 }
 
-.exp-panel p{
-  opacity:.85;
-  margin-top:10px;
+/* ===== Unique modal names to avoid Bootstrap conflicts ===== */
+.ppf-modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,.55);
+  display: grid;
+  place-items: center;
+  z-index: 5000; /* above nav / bootstrap */
+  padding: 20px;
 }
 
-/* CTA */
-.exp-cta{
-  background:
-    radial-gradient(600px 260px at 20% 10%, rgba(255,145,0,.22), transparent 60%),
-    linear-gradient(180deg,#0b1220,#060b16);
-  color:#fff;
-  text-align:center;
-  padding:90px 20px;
+.ppf-modal{
+  width: min(1040px, 96vw);
+  border-radius: 26px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,145,0,.25);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
 }
 
+.ppf-modal::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(740px 280px at 20% 0%, rgba(255,145,0,.22), transparent 55%);
+  pointer-events:none;
+}
+
+.ppf-modal-inner{ position: relative; padding: 18px; }
+
+.ppf-modal-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.ppf-modal-head h3{
+  font-size: 1.35rem;
+  letter-spacing:-0.02em;
+}
+
+.ppf-modal-close{
+  border:none;
+  cursor:pointer;
+  width:40px;
+  height:40px;
+  border-radius: 14px;
+  background: rgba(255,145,0,.10);
+  border:1px solid rgba(255,145,0,.20);
+  font-weight: 900;
+  transition: var(--transition);
+}
+
+.ppf-modal-close:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ppf-modal-grid{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.ppf-panel{
+  border-radius: 18px;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.86);
+  padding: 14px;
+}
+
+.ppf-panel b{ display:block; margin-bottom:8px; }
+
+.ppf-spec-image{
+  border-radius: 18px;
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,.10);
+  background:#fff;
+}
+
+.ppf-spec-image img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.ppf-spec-table{
+  border-radius: 18px;
+  overflow:hidden;
+  border: 1px solid rgba(15,23,42,.10);
+  background: rgba(255,255,255,.86);
+}
+
+.ppf-spec-table-head{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  background: linear-gradient(135deg, rgba(255,145,0,.20), rgba(255,187,0,.16));
+  border-bottom: 1px solid rgba(15,23,42,.10);
+}
+
+.ppf-spec-table-head div{
+  padding: 12px 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing:.06em;
+}
+
+.ppf-spec-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px dashed rgba(15,23,42,.10);
+}
+
+.ppf-spec-row div{
+  padding: 12px 14px;
+  font-weight: 800;
+  color: rgba(11,18,32,.85);
+}
+
+.ppf-spec-row:last-child{ border-bottom:none; }
+
+@media (max-width: 980px){
+  .ppf-modal-grid{ grid-template-columns: 1fr; }
+}
+@media (max-width: 760px){
+  .ppf-spec-row, .ppf-spec-table-head{ grid-template-columns: 1fr; }
+}
 </style>
 
+<main class="ppf-page">
 
-<!-- ================= HERO ================= -->
-<section class="exp-hero text-center">
-  <div class="container">
-    <span class="badge-brand mb-3 d-inline-block">ROLIIN EXPERIENCE</span>
-
-    <h1>Your Car’s Story Deserves Protection</h1>
-
-    <p>
-      Every drive leaves a mark. Roliin ensures those marks never touch your paint.
-    </p>
-
-    <a href="{% url 'contact' %}" class="btn btn-primary btn-lg mt-3">
-      Start Protection Journey
-    </a>
-  </div>
-</section>
-
-
-<!-- ================= REALITY ================= -->
-<section class="exp-section">
-  <div class="container">
-
-    <div class="exp-grid">
-
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="container hero-grid">
       <div>
-        <span class="exp-label">DAILY REALITY</span>
-
-        <h2 class="exp-title">Roads Are Not Gentle</h2>
-
-        <p class="text-muted">
-          Stone chips, swirl marks, pollution, harsh sunlight —
-          every day slowly damages your car’s finish.
-        </p>
-
-        <ul class="exp-list">
-          <li>✔ Micro scratches from washing</li>
-          <li>✔ Rock chips on highways</li>
-          <li>✔ UV fading over time</li>
-          <li>✔ Stain & water marks</li>
-        </ul>
-      </div>
-
-      <div class="exp-img">
-        <img src="{% static 'assets/img/demo_product.jpeg' %}" alt="">
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ================= GLOSS PANEL ================= -->
-<section class="exp-panel" style="background:url('{% static 'assets/img/demo_product.jpeg' %}') center/cover no-repeat;">
-  <div class="inner">
-    <h2>Ultra Gloss Protection</h2>
-    <p>For those who love deep shine and showroom finish.</p>
-  </div>
-</section>
-
-
-<!-- ================= MATTE PANEL ================= -->
-<section class="exp-panel" style="background:url('{% static 'assets/img/demo_product.jpeg' %}') center/cover no-repeat;">
-  <div class="inner">
-    <h2>Matte Defense Layer</h2>
-    <p>Stealth look. Zero compromise.</p>
-  </div>
-</section>
-
-
-<!-- ================= BLACK PANEL ================= -->
-<section class="exp-panel" style="background:url('{% static 'assets/img/demo_product.jpeg' %}') center/cover no-repeat;">
-  <div class="inner">
-    <h2>Black Transformation Film</h2>
-    <p>Bold presence with hidden strength.</p>
-  </div>
-</section>
-
-
-<!-- ================= TECHNOLOGY ================= -->
-<section class="exp-section exp-dark">
-  <div class="container">
-
-    <div class="exp-grid">
-
-      <div class="exp-img">
-        <img src="{% static 'assets/img/demo_product.jpeg' %}" alt="">
-      </div>
-
-      <div>
-        <span class="exp-label">ROLIIN TECH</span>
-
-        <h2 class="exp-title">Built With Intelligence</h2>
-
+        <span class="badge-brand">PPF SHOWCASE</span>
+        <h1 style="margin-top:14px;">
+          Paint Protection Film — <span class="text-brand">Protection Experience</span>
+        </h1>
         <p>
-          Our films use advanced multi-layer construction
-          to balance flexibility, clarity, and strength.
+          This page is built to showcase our PPF variants and their test specifications.
+          <b>No pricing</b>, <b>no online sales</b> — only product display and enquiry.
         </p>
 
-        <ul class="exp-list">
-          <li>✔ Self-healing polymer layer</li>
-          <li>✔ UV-resistant coating</li>
-          <li>✔ Impact absorption layer</li>
-          <li>✔ Optical clarity base</li>
-        </ul>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#products">View Products</a>
+          <a class="btn btn-ghost" href="#quote">Request Demo</a>
+          <span class="small">Hydrophobic • UV tested • Premium TPU</span>
+        </div>
+
+        <div class="notice">
+          <span>ℹ️</span>
+          <div><b>Demo content:</b> Specifications shown are for reference/presentation purposes.</div>
+        </div>
       </div>
 
+      <aside class="hero-card" aria-label="PPF visual">
+        <div class="hero-card-inner">
+          <!-- Replace with your real hero image -->
+          <img src="{% static 'assets/img/product_1.png' %}" alt="PPF installed on vehicle surface">
+          <p class="small" style="margin-top:10px;">
+            Replace <code>hero.jpg</code> with your real application photo.
+          </p>
+        </div>
+      </aside>
     </div>
+  </section>
 
+  <!-- PRODUCTS (5 items) -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>PPF Products</h2>
+          <p>Click “View Specifications” to see each product’s spec image and test parameters.</p>
+        </div>
+        <a class="btn btn-primary" href="#quote">Installation Demo / Enquiry</a>
+      </div>
+
+      <div class="ppf-grid">
+
+        <!-- PRODUCT 1 -->
+        <article class="ppf-item">
+          <div class="ppf-media">
+            <img src="{% static 'assets/img/product_1.png' %}" alt="ROLIIN PPF Product 1">
+          </div>
+          <div class="ppf-body">
+            <div class="ppf-title">
+              <div>
+                <h3>ROLIIN PPF — Gloss Elite</h3>
+                <div class="ppf-sub">High clarity • Hydrophobic finish</div>
+              </div>
+              <span class="badge-brand">PPF</span>
+            </div>
+            <div class="ppf-tags">
+              <span class="tag">190 Microns</span>
+              <span class="tag">ΔE ≤ 1.5</span>
+              <span class="tag">Ashland Adhesive</span>
+            </div>
+            <div class="ppf-actions">
+              <button class="btn btn-primary" data-open="spec" data-product="p1">View Specifications</button>
+              <a class="btn btn-ghost" href="#quote">Enquiry</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRODUCT 2 -->
+        <article class="ppf-item">
+          <div class="ppf-media">
+            <img src="{% static 'assets/img/product_1.png' %}" alt="ROLIIN PPF Product 2">
+          </div>
+          <div class="ppf-body">
+            <div class="ppf-title">
+              <div>
+                <h3>ROLIIN PPF — Matte Pro</h3>
+                <div class="ppf-sub">Matte aesthetics • UV stability</div>
+              </div>
+              <span class="badge-brand">PPF</span>
+            </div>
+            <div class="ppf-tags">
+              <span class="tag">TPU Covestro</span>
+              <span class="tag">Hydrophobic</span>
+              <span class="tag">QUV Tested</span>
+            </div>
+            <div class="ppf-actions">
+              <button class="btn btn-primary" data-open="spec" data-product="p2">View Specifications</button>
+              <a class="btn btn-ghost" href="#quote">Enquiry</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRODUCT 3 -->
+        <article class="ppf-item">
+          <div class="ppf-media">
+            <img src="{% static 'assets/img/product_1.png' %}" alt="ROLIIN PPF Product 3">
+          </div>
+          <div class="ppf-body">
+            <div class="ppf-title">
+              <div>
+                <h3>ROLIIN PPF — Black Gloss</h3>
+                <div class="ppf-sub">Deep gloss • Styling protection</div>
+              </div>
+              <span class="badge-brand">PPF</span>
+            </div>
+            <div class="ppf-tags">
+              <span class="tag">Premium Finish</span>
+              <span class="tag">Durable</span>
+              <span class="tag">Easy Care</span>
+            </div>
+            <div class="ppf-actions">
+              <button class="btn btn-primary" data-open="spec" data-product="p3">View Specifications</button>
+              <a class="btn btn-ghost" href="#quote">Enquiry</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRODUCT 4 -->
+        <article class="ppf-item">
+          <div class="ppf-media">
+            <img src="{% static 'assets/img/product_1.png' %}" alt="ROLIIN PPF Product 4">
+          </div>
+          <div class="ppf-body">
+            <div class="ppf-title">
+              <div>
+                <h3>ROLIIN PPF — Headlight Film</h3>
+                <div class="ppf-sub">Optical clarity • Impact protection</div>
+              </div>
+              <span class="badge-brand">PPF</span>
+            </div>
+            <div class="ppf-tags">
+              <span class="tag">High Clarity</span>
+              <span class="tag">UV Stable</span>
+              <span class="tag">Scratch Resistant</span>
+            </div>
+            <div class="ppf-actions">
+              <button class="btn btn-primary" data-open="spec" data-product="p4">View Specifications</button>
+              <a class="btn btn-ghost" href="#quote">Enquiry</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRODUCT 5 -->
+        <article class="ppf-item">
+          <div class="ppf-media">
+            <img src="{% static 'assets/img/product_1.png' %}" alt="ROLIIN PPF Product 5">
+          </div>
+          <div class="ppf-body">
+            <div class="ppf-title">
+              <div>
+                <h3>ROLIIN PPF — Ultra Shield</h3>
+                <div class="ppf-sub">Enhanced durability • Long roll</div>
+              </div>
+              <span class="badge-brand">PPF</span>
+            </div>
+            <div class="ppf-tags">
+              <span class="tag">16 Meter Roll</span>
+              <span class="tag">295% EB</span>
+              <span class="tag">Hydrophobic</span>
+            </div>
+            <div class="ppf-actions">
+              <button class="btn btn-primary" data-open="spec" data-product="p5">View Specifications</button>
+              <a class="btn btn-ghost" href="#quote">Enquiry</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / DEMO REQUEST -->
+  <section class="roliin-form" id="quote">
+    <div class="quote-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Request an installation demo</h2>
+          <p>Share your vehicle details and we’ll guide you with the best PPF option.</p>
+        </div>
+
+        <div class="form-container">
+          <form class="ppf-form" method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+
+              <div class="form-column">
+                <span class="form-subtitle">Contact</span>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Full Name <span class="req">*</span></label>
+                    <input required name="name" placeholder="Your name">
+                  </div>
+                  <div class="form-group">
+                    <label>Phone / WhatsApp <span class="req">*</span></label>
+                    <input required name="phone" placeholder="+91 XXXXX XXXXX">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" placeholder="you@domain.com">
+                </div>
+              </div>
+
+              <div class="form-column">
+                <span class="form-subtitle">Vehicle / Requirement</span>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Vehicle Type</label>
+                    <select name="vehicle">
+                      <option value="">Select</option>
+                      <option>Hatchback</option>
+                      <option>Sedan</option>
+                      <option>SUV</option>
+                      <option>Bike</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Coverage</label>
+                    <select name="coverage">
+                      <option value="">Select</option>
+                      <option>Full Body</option>
+                      <option>Partial Panels</option>
+                      <option>Front Package</option>
+                      <option>Custom</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Message</label>
+                  <textarea name="notes" placeholder="City, car model, preferred date, and film preference…"></textarea>
+                </div>
+
+                <button class="btn-submit" type="submit">
+                  <span class="btn-glow" aria-hidden="true"></span>
+                  Submit Demo Request
+                </button>
+
+                <div class="micro">No online sales — showcase + enquiry only.</div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><b>ROLIIN</b> © <span id="year"></span> • All rights reserved</div>
+      <div class="small">Privacy • Terms • Support</div>
+    </div>
+  </footer>
+
+</main>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- SPEC MODAL (IMAGE + TABLE) -->
+<div id="specModal" class="hidden" aria-hidden="true">
+  <div class="ppf-modal-backdrop" role="dialog" aria-modal="true" aria-label="PPF specifications">
+    <div class="ppf-modal">
+      <div class="ppf-modal-inner">
+
+        <div class="ppf-modal-head">
+          <div>
+            <span class="badge-brand" id="specBadge">PPF</span>
+            <h3 id="specTitle" style="margin-top:10px;">PPF Specifications</h3>
+            <div class="small" id="specSubtitle">Demo test parameters</div>
+          </div>
+          <button class="ppf-modal-close" id="closeSpec" aria-label="Close">×</button>
+        </div>
+
+        <div class="ppf-modal-grid">
+          <!-- LEFT: SPEC IMAGE -->
+          <div class="ppf-panel">
+            <b>Specification Image</b>
+            <div class="ppf-spec-image">
+              <img id="specImg" src="" alt="PPF specification image">
+            </div>
+            <p class="small" style="margin-top:10px;">
+              Note: Spec image is displayed for showcase purposes (demo).
+            </p>
+          </div>
+
+          <!-- RIGHT: TABLE -->
+          <div class="ppf-panel">
+            <b>Test Table</b>
+            <div class="ppf-spec-table">
+              <div class="ppf-spec-table-head">
+                <div>Parameter</div>
+                <div>Test Method</div>
+              </div>
+              <div id="specRows"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="#quote" onclick="hideSpec()">Request Demo</a>
+          <a class="btn btn-ghost" href="#products" onclick="hideSpec()">Back to Products</a>
+        </div>
+
+      </div>
+    </div>
   </div>
-</section>
+</div>
 
+<script>
+  // Year
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-<!-- ================= CTA ================= -->
-<section class="exp-cta">
+  // Back to top
+  const backToTop = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    backToTop.style.display = (window.scrollY > 600) ? "inline-flex" : "none";
+  });
+  backToTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
 
-  <h2 class="fw-bold mb-3">Protect Once. Drive Free Forever.</h2>
+  // ===== Specs Modal (Image + Table) =====
+const specModal = document.getElementById("specModal");
+const closeSpec = document.getElementById("closeSpec");
+const specTitle = document.getElementById("specTitle");
+const specSubtitle = document.getElementById("specSubtitle");
+const specRows = document.getElementById("specRows");
+const specImg = document.getElementById("specImg");
 
-  <p class="opacity-75 mb-4">
-    Talk to our experts and choose the right protection for your car.
-  </p>
+// Replace paths with your actual spec images
+const specs = {
+  p1: {
+    title: "ROLIIN PPF — Gloss Elite",
+    subtitle: "High clarity • Hydrophobic finish",
+    specImg: "{% static 'assets/img/product_1.png' %}",
+    rows: [
+      ["Thickness", "7.5 mil / 190 Microns"],
+      ["EB", "295%"],
+      ["QUV", "ΔE ≤ 1.5"],
+      ["TPU", "Covestro"],
+      ["Adhesive", "Ashland USA"],
+      ["Remark", "Hydrophobic"],
+      ["Length", "16 Meter"],
+    ],
+  },
+  p2: { title:"ROLIIN PPF — Matte Pro", subtitle:"Matte aesthetics • UV stability", specImg:"{% static 'assets/img/product_1.png' %}", rows:[["Thickness","7.5 mil / 190 Microns"],["EB","295%"],["QUV","ΔE ≤ 1.5"],["TPU","Covestro"],["Adhesive","Ashland USA"],["Remark","Hydrophobic"],["Length","16 Meter"]] },
+  p3: { title:"ROLIIN PPF — Black Gloss", subtitle:"Deep gloss • Styling protection", specImg:"{% static 'assets/img/product_1.png' %}", rows:[["Thickness","7.5 mil / 190 Microns"],["EB","295%"],["QUV","ΔE ≤ 1.5"],["TPU","Covestro"],["Adhesive","Ashland USA"],["Remark","Hydrophobic"],["Length","16 Meter"]] },
+  p4: { title:"ROLIIN PPF — Headlight Film", subtitle:"Optical clarity • Impact protection", specImg:"{% static 'assets/img/product_1.png' %}", rows:[["Thickness","7.5 mil / 190 Microns"],["EB","295%"],["QUV","ΔE ≤ 1.5"],["TPU","Covestro"],["Adhesive","Ashland USA"],["Remark","Hydrophobic"],["Length","16 Meter"]] },
+  p5: { title:"ROLIIN PPF — Ultra Shield", subtitle:"Enhanced durability • Long roll", specImg:"{% static 'assets/img/product_1.png' %}", rows:[["Thickness","7.5 mil / 190 Microns"],["EB","295%"],["QUV","ΔE ≤ 1.5"],["TPU","Covestro"],["Adhesive","Ashland USA"],["Remark","Hydrophobic"],["Length","16 Meter"]] },
+};
 
-  <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">
-    Book Consultation
-  </a>
+function openSpec(key){
+  const d = specs[key];
+  if(!d) return;
 
-</section>
+  specTitle.textContent = d.title;
+  specSubtitle.textContent = d.subtitle;
+
+  specImg.src = d.specImg;
+  specImg.alt = d.title + " specification image";
+
+  specRows.innerHTML = d.rows.map(([k,v]) => `
+    <div class="ppf-spec-row">
+      <div>${k}</div>
+      <div><b>${v}</b></div>
+    </div>
+  `).join("");
+
+  specModal.classList.remove("hidden");
+  specModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function hideSpec(){
+  specModal.classList.add("hidden");
+  specModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+window.hideSpec = hideSpec;
+
+document.querySelectorAll('[data-open="spec"]').forEach(btn => {
+  btn.addEventListener("click", () => openSpec(btn.dataset.product));
+});
+
+closeSpec.addEventListener("click", hideSpec);
+
+// click outside closes
+specModal.addEventListener("click", (e) => {
+  if (e.target.classList.contains("ppf-modal-backdrop")) hideSpec();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !specModal.classList.contains("hidden")) hideSpec();
+});
+
+  function openSpec(key){
+    const d = specs[key];
+    if(!d) return;
+
+    specTitle.textContent = d.title;
+    specSubtitle.textContent = d.subtitle;
+
+    // spec image
+    specImg.src = d.specImg;
+    specImg.alt = d.title + " specification image";
+
+    // table rows
+    specRows.innerHTML = d.rows.map(([k,v]) => `
+      <div class="spec-row2">
+        <div>${k}</div>
+        <div><b>${v}</b></div>
+      </div>
+    `).join("");
+
+    specModal.classList.remove("hidden");
+    specModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideSpec(){
+    specModal.classList.add("hidden");
+    specModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  // expose to inline buttons
+  window.hideSpec = hideSpec;
+
+  document.querySelectorAll('[data-open="spec"]').forEach(btn => {
+    btn.addEventListener("click", () => openSpec(btn.dataset.product));
+  });
+
+  closeSpec.addEventListener("click", hideSpec);
+  specModal.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal-backdrop")) hideSpec();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !specModal.classList.contains("hidden")) hideSpec();
+  });
+</script>
 
 {% endblock %}
