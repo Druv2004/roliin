@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+</head>
+<body>
+
+<script>
+  const token = localStorage.getItem("access_token");
+  if (!token) window.location.href = "/login/";
+</script>
+
+<h1>Dashboard</h1>
+<button id="logoutBtn">Logout</button>
+
+<script>
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    const access = localStorage.getItem("access_token");
+    const refresh = localStorage.getItem("refresh_token");
+
+    try {
+      await fetch("/api/auth/logout/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + access
+        },
+        body: JSON.stringify({ refresh })
+      });
+    } catch (e) {}
+
+    localStorage.clear();
+    window.location.href = "/login/";
+  });
+</script>
+
+</body>
+</html>

@@ -8,19 +8,21 @@ from django.conf import settings
 
 class Warranty(models.Model):
 
-    # ===================== PPF CATEGORY =====================
-    PPF_CATEGORY_CHOICES = [
-        ('GLOSS_6', 'Gloss PPF – 6 Years'),
-        ('GLOSS_10', 'Gloss PPF – 10 Years'),
-        ('MATTE_6', 'Matte PPF – 6 Years'),
-        ('BLACK_6', 'Black PPF – 6 Years'),
+    # ===================== PPF VARIANT =====================
+    PPF_VARIANT_CHOICES = [
+        ('PREMIUM_MATTE_SERIES', 'Premium Matte Series'),
+        ('PREMIUM_GLOSS_SERIES', 'Premium Gloss Series'),
+        ('TITANIUM_GLOSS_SERIES', 'Titanium Gloss Series'),
+        ('PIANO_BLACK_COLOR_PPF_SERIES', 'Piano Black Color PPF Series'),
+        ('CHARCOAL_BLACK_COLOR_PPF_SERIES', 'Charcoal Black Color PPF Series'),
     ]
 
     WARRANTY_YEARS_MAP = {
-        'GLOSS_6': 6,
-        'GLOSS_10': 10,
-        'MATTE_6': 6,
-        'BLACK_6': 6,
+        'PREMIUM_MATTE_SERIES': 5,
+        'PREMIUM_GLOSS_SERIES': 5,
+        'TITANIUM_GLOSS_SERIES': 10,   # ✅ 10 Years
+        'PIANO_BLACK_COLOR_PPF_SERIES': 5,
+        'CHARCOAL_BLACK_COLOR_PPF_SERIES': 5,
     }
 
     APPROVAL_STATUS_CHOICES = [
@@ -29,35 +31,41 @@ class Warranty(models.Model):
         ('REJECTED', 'Rejected'),
     ]
 
+    # ===================== PRIMARY KEY =====================
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     # ===================== CUSTOMER INFORMATION =====================
-    # 🔐 UUID Primary Key
-    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
-    customer_name = models.CharField(max_length=100, default="")
-    email = models.EmailField(default="")
-    phone_number = models.CharField(max_length=15, default="")
-    city = models.CharField(max_length=100, default="")
-    state = models.CharField(max_length=100, default="")
+    customer_name = models.CharField(max_length=100, default='')
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=15, default='')
+    city = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=100, default='')
 
     # ===================== VEHICLE INFORMATION =====================
-    car_make_model = models.CharField(max_length=150, default="")  # Merged field
-    vin_chassis_number = models.CharField(max_length=50, default="")
+    car_make_model = models.CharField(max_length=15, default='')
+    vin_chassis_number = models.CharField(max_length=50, default='')
     installation_date = models.DateField(null=True, blank=True)
 
     # ===================== PPF DETAILS =====================
-    ppf_category = models.CharField(max_length=20, choices=PPF_CATEGORY_CHOICES, default="")
-    installer_studio_name = models.CharField(max_length=150, default="")
+    ppf_variant = models.CharField(
+        max_length=100,
+        choices=PPF_VARIANT_CHOICES,
+        default=''
+    )
 
-    # ===================== UPLOADS =====================
+    installer_studio_name = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+        default=''
+    )
 
-    # Invoice / Proof
-    installation_proof = models.FileField(upload_to='warranty/proof/', default="")
+    # ===================== FILE UPLOADS =====================
+    rc_upload = models.FileField(upload_to='warranty/rc/', default='')
+    car_with_ppf_roll_box = models.ImageField(upload_to='warranty/car_images/', default='')
 
-    # Car View Images
-    car_front_view = models.ImageField(upload_to='warranty/car_views/', default="")
-    car_back_view = models.ImageField(upload_to='warranty/car_views/', default="")
-    car_left_view = models.ImageField(upload_to='warranty/car_views/', default="")
-    car_right_view = models.ImageField(upload_to='warranty/car_views/', default="")
-    car_roof_view = models.ImageField(upload_to='warranty/car_views/',default="")
+    # ===================== ADDITIONAL NOTES =====================
+    special_notes = models.TextField(blank=True, null=True)
 
     # ===================== APPROVAL SYSTEM =====================
     approval_status = models.CharField(
@@ -75,7 +83,7 @@ class Warranty(models.Model):
 
     approved_at = models.DateField(null=True, blank=True)
 
-    # ===================== WARRANTY DATES =====================
+    # ===================== WARRANTY DETAILS =====================
     warranty_start_date = models.DateField(null=True, blank=True)
     warranty_end_date = models.DateField(null=True, blank=True)
 
@@ -86,7 +94,6 @@ class Warranty(models.Model):
         blank=True
     )
 
-    message = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     # ===================== WARRANTY HELPERS =====================
@@ -107,10 +114,42 @@ class Warranty(models.Model):
         return f"WR-{year}-{month}-{count:04d}-{random_code}"
 
     def start_warranty(self):
-        years = self.WARRANTY_YEARS_MAP.get(self.ppf_category, 0)
+        years = self.WARRANTY_YEARS_MAP.get(self.ppf_variant, 0)
         self.warranty_start_date = date.today()
         self.warranty_end_date = date.today() + relativedelta(years=years)
         self.warranty_code = self.generate_warranty_code()
 
     def __str__(self):
         return f"{self.customer_name} - {self.car_make_model}"
+
+
+
+
+
+class ContactEnquiry(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # ================= PERSONAL DETAILS =================
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=15)
+
+    # ================= MESSAGE =================
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+
+    attachment = models.FileField(
+        upload_to="contact/attachments/",
+        null=True,
+        blank=True
+    )
+
+    # ================= CONSENT =================
+    consent = models.BooleanField(default=False)
+
+    # ================= SYSTEM =================
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.subject}"

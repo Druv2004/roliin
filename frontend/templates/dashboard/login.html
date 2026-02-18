@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Login</title>
+
+  <!-- Optional Google Font (matches your CSS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+/* ======================================================
+   ROLIIN OFFICIAL STYLESHEET
+   (Your exact CSS pasted here)
+====================================================== */
+
+/* ================= ROOT ================= */
+:root{
+  --brand: rgb(255,145,0);
+  --brand2: rgb(255,187,0);
+
+  --dark: #0b1220;
+  --light: #ffffff;
+
+  --muted: rgba(11,18,32,.65);
+  --stroke: rgba(15,23,42,.10);
+
+  --shadow-sm: 0 10px 22px rgba(2,6,23,.08);
+  --shadow-md: 0 20px 55px rgba(2,6,23,.16);
+
+  --radius-sm: 14px;
+  --radius-lg: 26px;
+
+  --transition: .25s ease;
+
+  --rf-primary: rgb(255, 153, 0);
+  --rf-primary-2: rgb(255, 187, 0);
+  --rf-card: rgba(255, 255, 255, 0.92);
+  --rf-stroke: rgba(255, 153, 0, 0.65);
+  --rf-text: #0b1220;
+  --rf-muted: rgba(11, 18, 32, 0.65);
+  --rf-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  --rf-transition: 240ms ease;
+}
+
+/* ================= RESET ================= */
+*,
+*::before,
+*::after{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+  font-family:'Montserrat', sans-serif;
+  color: var(--dark);
+  background:#fff;
+  line-height:1.6;
+}
+
+/* ================= GLOBAL ================= */
+.hidden{ display:none; }
+
+/* ================= TITLES ================= */
+.title{ margin-bottom:2rem; text-transform:uppercase; }
+.title h1{ border-bottom:1px solid rgba(0,0,0,.1); padding-bottom:8px; }
+
+/* ================= ROLIIN FORM THEME ================= */
+.roliin-form .quote-section{
+  padding: 110px 0;
+  background:
+    radial-gradient(900px 350px at 20% 10%, rgba(255,153,0,0.20), transparent 60%),
+    radial-gradient(700px 350px at 80% 40%, rgba(255,187,0,0.14), transparent 55%),
+    linear-gradient(180deg, rgba(255, 136, 0, 0.85), rgba(255,255,255,0.55));
+}
+
+.roliin-form .form-container{
+  max-width: 980px;
+  margin: 0 auto;
+  background: var(--rf-card);
+  border: 2px solid var(--rf-stroke);
+  border-radius: 26px;
+  padding: 44px;
+  box-shadow: var(--rf-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.roliin-form .form-container::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background: radial-gradient(600px 220px at 30% 0%, rgba(255, 153, 0, 0.25), transparent 55%);
+  pointer-events:none;
+}
+
+.roliin-form .ppf-form{ position:relative; z-index:1; }
+
+.roliin-form .form-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.roliin-form .form-column{
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 18px;
+  padding: 22px;
+  backdrop-filter: blur(8px);
+}
+
+.roliin-form .form-column.full{ grid-column: 1 / -1; }
+
+.roliin-form .form-subtitle{
+  display:block;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,153,0,0.95);
+  margin-bottom: 16px;
+}
+
+.roliin-form .form-group{ margin-bottom: 14px; }
+
+.roliin-form .form-group label{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--rf-text);
+  margin-bottom: 8px;
+}
+
+.roliin-form .req{ color: rgb(220, 38, 38); font-weight: 900; }
+
+.roliin-form .hint{
+  display:block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--rf-muted);
+}
+
+.roliin-form input{
+  width:100%;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,153,0,0.55);
+  background: rgba(255,255,255,0.9);
+  color: var(--rf-text);
+  font-size: 0.96rem;
+  transition: var(--rf-transition);
+  outline: none;
+}
+
+.roliin-form input:focus{
+  border-color: rgba(255,153,0,1);
+  box-shadow: 0 0 0 4px rgba(255,153,0,0.18);
+  transform: translateY(-1px);
+}
+
+.roliin-form .btn-submit{
+  position:relative;
+  width: 100%;
+  padding: 15px 18px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--rf-primary), var(--rf-primary-2));
+  color: #fff;
+  box-shadow: 0 16px 28px rgba(255,153,0,0.26);
+  overflow:hidden;
+  transition: var(--rf-transition);
+}
+
+.roliin-form .btn-submit:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(255,153,0,0.30);
+}
+
+.roliin-form .btn-submit:disabled{
+  cursor:not-allowed;
+  opacity:.85;
+}
+
+.roliin-form .btn-glow{
+  position:absolute;
+  inset:0;
+  background: radial-gradient(250px 120px at 20% 0%, rgba(255,255,255,0.45), transparent 55%);
+  opacity: 0.9;
+  pointer-events:none;
+}
+
+.roliin-form .micro{
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--rf-muted);
+  text-align:center;
+}
+
+@media (max-width: 900px){
+  .roliin-form .form-grid{ grid-template-columns: 1fr; }
+  .roliin-form .form-container{ padding: 28px; }
+}
+
+/* Small helper layout from scratch */
+.container{
+  width: min(1100px, 92%);
+  margin-inline:auto;
+}
+.text-center{ text-align:center; }
+.mb-5{ margin-bottom: 2.25rem; }
+.lead{ font-size:1.05rem; }
+.text-muted{ color: rgba(11,18,32,.65); }
+.fw-bold{ font-weight:800; }
+  </style>
+</head>
+
+<body>
+
+  <section class="quote-section roliin-form">
+    <div class="container">
+
+      <header class="text-center mb-5">
+        <div class="title">
+          <h1 class="fw-bold">Dashboard Login</h1>
+          <p class="lead text-muted" style="margin-top:12px;">
+            Secure access to your Roliin dashboard.
+          </p>
+        </div>
+      </header>
+
+      <div class="form-container">
+        <form id="loginForm" class="ppf-form" novalidate>
+          <div class="form-grid">
+
+            <div class="form-column full">
+              <span class="form-subtitle">Admin Access</span>
+
+              <!-- Error box -->
+              <div id="alertBox" class="hidden" style="margin-bottom:14px;">
+                <div id="alertMsg"
+                  style="padding:12px 14px;border-radius:14px;border:1px solid rgba(220,38,38,.35);
+                         background:rgba(220,38,38,.08);color:#991b1b;font-weight:700;">
+                  Error
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email <span class="req">*</span></label>
+                <input id="email" type="email" placeholder="admin@roliin.com" autocomplete="username" required>
+                <span class="hint">Use your registered admin email.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password <span class="req">*</span></label>
+                <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
+              </div>
+
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <span class="btn-glow"></span>
+                <span id="btnText">Login</span>
+              </button>
+
+              <p class="micro">JWT secured login • ROLIIN</p>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // ✅ Change only if your router path is different
+    const LOGIN_API_URL = "/api/auth/login/";
+    const DASHBOARD_URL = "/dashboard/";
+    const LOGIN_URL = "/login/";
+
+    // Auto redirect if already logged in
+    if (localStorage.getItem("access_token")) {
+      window.location.href = DASHBOARD_URL;
+    }
+
+    const form = document.getElementById("loginForm");
+    const alertBox = document.getElementById("alertBox");
+    const alertMsg = document.getElementById("alertMsg");
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+
+    function showError(message){
+      alertMsg.textContent = message || "Login failed";
+      alertBox.classList.remove("hidden");
+    }
+
+    function hideError(){
+      alertBox.classList.add("hidden");
+    }
+
+    function setLoading(isLoading){
+      submitBtn.disabled = isLoading;
+      btnText.textContent = isLoading ? "Authenticating..." : "Login";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        showError("Email and password are required.");
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const res = await fetch(LOGIN_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          showError(data.error || "Invalid credentials.");
+          setLoading(false);
+          return;
+        }
+
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
+
+        window.location.href = DASHBOARD_URL;
+
+      } catch (err) {
+        showError("Network/server error. Please try again.");
+        setLoading(false);
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -11,5 +11,12 @@ urlpatterns = [
     path('status', views.status, name='status'),
     path('contact', views.contact, name='contact'),
     path('terms-and-conditions', views.terms_and_conditions, name='terms_and_conditions'),
-    path('perivacy-policy', views.perivacy_policy, name='perivacy_policy')
+    path('perivacy-policy', views.perivacy_policy, name='perivacy_policy'),
+    
+    
+    
+    
+    
+    path("login/", views.dashboard_login_page, name="dashboard_login"),
+    path("dashboard/", views.dashboard_page, name="dashboard"),
 ]

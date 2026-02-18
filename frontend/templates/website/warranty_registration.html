@@ -7,18 +7,18 @@
 
 <section id="quote" class="quote-section roliin-form">
   <div class="container py-5">
-    
+
     <!-- Page Header -->
-        <header class="text-center mb-5 wow fadeInUp">
-            <div class="title">
-                <h1 id="products-heading" class=" fw-bold">
-                    Roliin PPF Warranty Registration
-                </h1>
-                <p class="lead mt-3 text-muted">
-                   Protect your investment — activate your warranty in 60 seconds.
-                </p>
-            </div>
-        </header>
+    <header class="text-center mb-5 wow fadeInUp">
+      <div class="title">
+        <h1 id="products-heading" class=" fw-bold">
+          Roliin PPF Warranty Registration
+        </h1>
+        <p class="lead mt-3 text-muted">
+          Protect your investment — activate your warranty in 60 seconds.
+        </p>
+      </div>
+    </header>
     <div class="form-container">
       <form id="ppfForm" class="ppf-form" novalidate>
         <div class="form-grid">
@@ -62,22 +62,18 @@
           <div class="form-column">
             <span class="form-subtitle">Vehicle & Installation</span>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="carMake">Car Make <span class="req">*</span></label>
-                <input id="carMake" name="carMake" type="text" placeholder="Mahindra" required />
-              </div>
-
-              <div class="form-group">
-                <label for="carModel">Car Model <span class="req">*</span></label>
-                <input id="carModel" name="carModel" type="text" placeholder="XUV700" required />
-              </div>
+            <div class="form-group">
+              <label for="carMakeModel">Car Make & Model <span class="req">*</span></label>
+              <input id="carMakeModel" name="carMakeModel" type="text" placeholder="Mahindra XUV700" required />
+              <small class="hint">Example: Mahindra XUV700</small>
             </div>
+
 
             <div class="form-row">
               <div class="form-group">
                 <label for="vin">VIN / Chassis No. <span class="req">*</span></label>
-                <input id="vin" name="vin" type="text" placeholder="17 characters (A-Z, 0-9)" minlength="17" maxlength="17" required />
+                <input id="vin" name="vin" type="text" placeholder="17 characters (A-Z, 0-9)" minlength="17"
+                  maxlength="17" required />
                 <small class="hint">Example: MA1XXXXXXXXXXXXXX</small>
               </div>
 
@@ -93,10 +89,20 @@
                 <label for="ppfVariant">PPF Variant <span class="req">*</span></label>
                 <select id="ppfVariant" name="ppfVariant" required>
                   <option value="" selected disabled>Select variant</option>
-                  <option>Gloss</option>
-                  <option>Matte</option>
-                  <option>Color PPF</option>
-                  <option>Stealth / Satin</option>
+
+                  <option value="PREMIUM_MATTE_SERIES">PREMIUM MATTE SERIES (5 Years)</option>
+
+                  <option value="PREMIUM_GLOSS_SERIES">PREMIUM GLOSS SERIES (5 Years)</option>
+
+                  <option value="TITANIUM_GLOSS_SERIES">TITANIUM GLOSS SERIES (10 Years)</option>
+
+                  <option value="PIANO_BLACK_COLOR_PPF_SERIES">
+                    PIANO BLACK COLOR PPF SERIES (5 Years)
+                  </option>
+
+                  <option value="CHARCOAL_BLACK_COLOR_PPF_SERIES">
+                    CHARCOAL BLACK COLOR PPF SERIES (5 Years)
+                  </option>
                 </select>
               </div>
 
@@ -107,9 +113,16 @@
             </div>
 
             <div class="form-group">
-              <label for="proof">Upload Proof (Invoice / Installation Photo)</label>
-              <input id="proof" name="proof" type="file" accept="image/*,application/pdf" />
-              <small class="hint">Accepted: JPG, PNG, PDF (max depends on server)</small>
+              <label for="rcUpload">Upload RC <span class="req">*</span></label>
+              <input id="rcUpload" name="rcUpload" type="file" accept="image/*,application/pdf" required />
+              <small class="hint">Accepted: JPG, PNG, PDF</small>
+            </div>
+
+            <!-- NEW FIELD: CAR WITH PPF ROLL BOX -->
+            <div class="form-group">
+              <label for="carWithRollBox">Car with PPF Roll Box <span class="req">*</span></label>
+              <input id="carWithRollBox" name="carWithRollBox" type="file" accept="image/*" required />
+              <small class="hint">Upload a clear photo of the car along with the PPF roll box.</small>
             </div>
           </div>
 
@@ -158,6 +171,143 @@
   </div>
 </section>
 
+
+<script>
+  // ✅ Put your actual DRF create endpoint here
+  // Examples:
+  // const WARRANTY_CREATE_API = "/api/warranty/";
+  // const WARRANTY_CREATE_API = "https://yourdomain.com/api/warranty/";
+  const WARRANTY_CREATE_API = "/apis/warranty/";
+
+  function ddmmyyyyToYyyymmdd(ddmmyyyy) {
+    const parts = (ddmmyyyy || "").trim().split("-");
+    if (parts.length !== 3) return null;
+
+    const [dd, mm, yyyy] = parts;
+    if (!dd || !mm || !yyyy) return null;
+    if (dd.length !== 2 || mm.length !== 2 || yyyy.length !== 4) return null;
+
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  // ✅ If your Django site requires CSRF for POST
+  // this reads csrftoken from cookie (works if CSRF cookie is set)
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  }
+
+  function showErrors(data) {
+    // DRF errors: {field: ["msg"]} OR {detail: "..."}
+    if (data?.detail) return alert(data.detail);
+
+    const msgs = [];
+    for (const key in data) {
+      if (Array.isArray(data[key])) msgs.push(`${key}: ${data[key].join(", ")}`);
+      else msgs.push(`${key}: ${data[key]}`);
+    }
+    alert(msgs.join("\n"));
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("ppfForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const successBox = document.getElementById("successMessage");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Browser validation
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // ✅ Read values from your form
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const state = document.getElementById("state").value.trim();
+
+      const carMakeModel = document.getElementById("carMakeModel").value.trim();
+      const vin = document.getElementById("vin").value.trim();
+      const installDateRaw = document.getElementById("installDate").value.trim();
+      const installDate = ddmmyyyyToYyyymmdd(installDateRaw);
+
+      const ppfVariant = document.getElementById("ppfVariant").value;
+      const installer = document.getElementById("installer").value.trim();
+
+      const rcUpload = document.getElementById("rcUpload").files[0];
+      const carWithRollBox = document.getElementById("carWithRollBox").files[0];
+
+      const notes = document.getElementById("notes").value.trim();
+
+      if (!installDate) {
+        alert("Installation Date must be in DD-MM-YYYY format.");
+        return;
+      }
+
+      // ✅ Build multipart/form-data for DRF (files included)
+      const fd = new FormData();
+
+      // Map → backend serializer field names
+      fd.append("customer_name", fullName);
+      fd.append("email", email);
+      fd.append("phone_number", phone);
+      fd.append("city", city);
+      fd.append("state", state);
+
+      fd.append("car_make_model", carMakeModel);
+      fd.append("vin_chassis_number", vin);
+      fd.append("installation_date", installDate);
+
+      fd.append("ppf_variant", ppfVariant);
+
+      if (installer) fd.append("installer_studio_name", installer);
+      if (notes) fd.append("special_notes", notes);
+
+      // Required uploads
+      fd.append("rc_upload", rcUpload);
+      fd.append("car_with_ppf_roll_box", carWithRollBox);
+
+      // UI loading state
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        const csrftoken = getCookie("csrftoken"); // may be null if not set
+
+        const res = await fetch(WARRANTY_CREATE_API, {
+          method: "POST",
+          body: fd,
+          headers: csrftoken ? { "X-CSRFToken": csrftoken } : {},
+          credentials: "same-origin", // important if CSRF/session-based
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          showErrors(data);
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Activate Warranty";
+          return;
+        }
+
+        // ✅ Success UI
+        form.classList.add("hidden");
+        successBox.classList.remove("hidden");
+
+      } catch (err) {
+        console.error(err);
+        alert("Network error. Please try again.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Activate Warranty";
+      }
+    });
+  });
+</script>
+
 {% endblock body %}
-    
-    

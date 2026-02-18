@@ -11,7 +11,7 @@ class WarrantyAdmin(admin.ModelAdmin):
         "customer_name",
         "car_make_model",
         "vin_chassis_number",
-        "ppf_category",
+        "ppf_variant",
         "approval_status",
         "warranty_code",
         "warranty_end_date",
@@ -21,7 +21,7 @@ class WarrantyAdmin(admin.ModelAdmin):
     # ================= FILTERS =================
     list_filter = (
         "approval_status",
-        "ppf_category",
+        "ppf_variant",
         "installation_date",
         "created_at",
     )
@@ -46,7 +46,7 @@ class WarrantyAdmin(admin.ModelAdmin):
         "created_at",
     )
 
-    # ================= ORGANIZED FIELDSETS =================
+    # ================= FIELD ORGANIZATION =================
     fieldsets = (
 
         ("Customer Information", {
@@ -64,19 +64,21 @@ class WarrantyAdmin(admin.ModelAdmin):
                 "car_make_model",
                 "vin_chassis_number",
                 "installation_date",
-                "ppf_category",
+                "ppf_variant",
                 "installer_studio_name",
             )
         }),
 
         ("Uploads", {
             "fields": (
-                "installation_proof",
-                "car_front_view",
-                "car_back_view",
-                "car_left_view",
-                "car_right_view",
-                "car_roof_view",
+                "rc_upload",
+                "car_with_ppf_roll_box",
+            )
+        }),
+
+        ("Additional Notes", {
+            "fields": (
+                "special_notes",
             )
         }),
 
@@ -102,6 +104,8 @@ class WarrantyAdmin(admin.ModelAdmin):
     )
 
     ordering = ("-created_at",)
+
+    # ================= BULK APPROVE ACTION =================
     actions = ["approve_selected"]
 
     def approve_selected(self, request, queryset):
@@ -112,5 +116,7 @@ class WarrantyAdmin(admin.ModelAdmin):
                 warranty.approved_at = date.today()
                 warranty.start_warranty()
                 warranty.save()
+
+        self.message_user(request, "Selected warranties approved successfully.")
 
     approve_selected.short_description = "Approve selected warranties"

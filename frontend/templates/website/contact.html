@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label for="cName">Full Name <span class="req">*</span></label>
-                            <input id="cName" name="name" type="text" placeholder="Write your name" required />
+                            <input id="cName" name="full_name" type="text" placeholder="Write your name" required />
                             <small class="hint">Use your full name</small>
                         </div>
 
@@ -44,28 +44,11 @@
 
                             <div class="form-group">
                                 <label for="cPhone">Phone Number <span class="req">*</span></label>
-                                <input id="cPhone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" required />
+                                <input id="cPhone" name="phone_number" type="tel" placeholder="+91 XXXXX XXXXX" required />
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="cCity">City</label>
-                                <input id="cCity" name="city" type="text" placeholder="Hyderabad" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="cPurpose">Purpose <span class="req">*</span></label>
-                                <select id="cPurpose" name="purpose" required>
-                                    <option value="" selected disabled>Select purpose</option>
-                                    <option>General Enquiry</option>
-                                    <option>PPF</option>
-                                    <option>Ceramic Coating</option>
-                                    <option>Detailing</option>
-                                    <option>Other</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <!-- RIGHT -->
@@ -131,5 +114,53 @@
         </div>
     </div>
 </section>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Sending...";
+
+    const formData = new FormData();
+
+    // Map frontend fields to backend fields
+    formData.append("full_name", document.getElementById("cName").value);
+    formData.append("email", document.getElementById("cEmail").value);
+    formData.append("phone_number", document.getElementById("cPhone").value);
+    formData.append("subject", document.getElementById("cSubject").value);
+    formData.append("message", document.getElementById("cMsg").value);
+    formData.append("consent", true);
+
+    const fileInput = document.getElementById("cFile");
+    if (fileInput.files.length > 0) {
+        formData.append("attachment", fileInput.files[0]);
+    }
+
+    try {
+        const response = await fetch("/apis/contact/", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            document.getElementById("contactForm").classList.add("hidden");
+            document.getElementById("successMessage").classList.remove("hidden");
+        } else {
+            alert(data.detail || "Something went wrong.");
+        }
+
+    } catch (error) {
+        alert("Server error. Please try again.");
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Send Enquiry";
+});
+</script>
+
 
 {% endblock body %}
