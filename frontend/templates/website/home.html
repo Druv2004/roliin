@@ -8,63 +8,76 @@
 <style>
   /* ================= HOME (scoped) ================= */
   .home-hero{
-    position: relative;
-    min-height: calc(100vh - 88px);
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    background: #000;
-  }
+  position: relative;
+  min-height: calc(100svh - 88px); /* better on mobile than 100vh */
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  background: #000;
+  padding-left: 0;
+  padding-right: 0;
+}
 
-  .home-hero video{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit: cover;
-    filter: saturate(1.05) contrast(1.05);
-    transform: scale(1.02);
-  }
+/* Keep video stable */
+.home-hero video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  transform: scale(1.02);
+}
 
-  .home-hero::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-      radial-gradient(900px 520px at 20% 20%, rgba(255,145,0,.22), transparent 60%),
-      radial-gradient(700px 460px at 80% 40%, rgba(255,187,0,.16), transparent 60%),
-      linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
-    z-index:1;
-  }
+/* Overlay stays same */
+.home-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(900px 520px at 20% 20%, rgba(255,145,0,.22), transparent 60%),
+    radial-gradient(700px 460px at 80% 40%, rgba(255,187,0,.16), transparent 60%),
+    linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
+  z-index:1;
+}
 
-  .home-hero .hero-inner{
-    position: relative;
-    z-index: 2;
-    padding: 110px 0 70px;
-  }
+.home-hero .hero-inner{
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 110px 0 70px; /* desktop default */
+}
 
-  .home-hero .badge-brand{ margin-bottom: 14px; display:inline-flex; }
-  .home-hero h1{
-    color:#fff;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.12;
-    font-size: clamp(2.0rem, 4vw, 3.35rem);
-  }
-  .home-hero p{
-    color: rgba(255,255,255,.84);
-    font-size: 1.03rem;
-    max-width: 52ch;
-    margin-top: 14px;
-  }
+.hero-copy{
+  max-width: 780px;
+}
 
-  .hero-cta{
-    margin-top: 22px;
-    display:flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items:center;
-  }
+/* Typography stays strong, but prevent overflow */
+.home-hero h1{
+  color:#fff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  font-size: clamp(2.0rem, 4vw, 3.35rem);
+  margin: 0;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.home-hero p{
+  color: rgba(255,255,255,.84);
+  font-size: 1.03rem;
+  max-width: 52ch;
+  margin-top: 14px;
+}
+
+/* CTA */
+.hero-cta{
+  margin-top: 22px;
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items:center;
+}
 
   .btn-outline-light-custom{
     border: 1px solid rgba(255,255,255,.35);
@@ -82,21 +95,24 @@
     box-shadow: 0 12px 26px rgba(0,0,0,.18);
   }
 
-  .hero-proof{
-    margin-top: 28px;
-    display:flex;
-    gap: 18px;
-    flex-wrap: wrap;
-    color: rgba(255,255,255,.78);
-    font-weight: 600;
-    font-size: .95rem;
-  }
-  .hero-proof .dot{
-    width: 6px; height: 6px; border-radius: 999px;
-    background: linear-gradient(135deg,var(--brand),var(--brand2));
-    display:inline-block;
-    margin: 0 10px 0 4px;
-  }
+  /* Proof row */
+.hero-proof{
+  margin-top: 28px;
+  display:flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: rgba(255,255,255,.78);
+  font-weight: 600;
+  font-size: .95rem;
+}
+
+.hero-proof .dot{
+  width: 6px; height: 6px; border-radius: 999px;
+  background: linear-gradient(135deg,var(--brand),var(--brand2));
+  display:inline-block;
+  margin: 0 10px 0 4px;
+}
+
 
   /* section backgrounds using your theme */
   .home-section-soft{
@@ -165,13 +181,77 @@
     .home-hero .hero-inner{ padding: 100px 0 60px; }
     .tile img{ height: 220px; }
   }
+
+
+  /* =================== MOBILE =================== */
+@media (max-width: 576px){
+
+  .home-hero .hero-inner{
+    padding: 88px 0 52px; /* less top/bottom so it fits */
+  }
+
+  /* give side padding on very small screens */
+  .home-hero .container{
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero-copy{
+    max-width: 100%;
+  }
+
+  .home-hero .badge-brand{
+    font-size: .78rem;
+    padding: .42rem .78rem;
+  }
+
+  .home-hero h1{
+    font-size: 2.05rem;       /* tighter than desktop clamp for phone */
+    line-height: 1.12;
+  }
+
+  .home-hero p{
+    font-size: .98rem;
+    max-width: 40ch;
+  }
+
+  /* Make buttons stack nicely */
+  .hero-cta{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .hero-cta .btn,
+  .hero-cta .btn-outline-light-custom{
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Proof points stack in a clean list */
+  .hero-proof{
+    flex-direction: column;
+    gap: 10px;
+    font-size: .95rem;
+  }
+
+  .hero-proof .dot{
+    display: none; /* dots look odd in stacked layout */
+  }
+
+  /* Optional: reduce icon spacing so it doesn't wrap */
+  .hero-proof i{
+    margin-right: 8px;
+  }
+}
 </style>
 {% endblock %}
 
 {% block body %}
 
 <!-- ================= HERO (Background Video) ================= -->
-<section class="home-hero" aria-label="Roliin hero section">
+<section class="home-hero px-sm-5" aria-label="Roliin hero section">
   {# Put your mp4 here: static/assets/video/hero.mp4 #}
   <video autoplay muted loop playsinline preload="metadata" poster="{% static 'assets/img/hero-poster.jpg' %}">
     <source src="{% static 'assets/video/hero.mp4' %}" type="video/mp4">
@@ -180,32 +260,32 @@
   <div class="container hero-inner">
     <div class="row align-items-center">
       <div class="col-lg-12">
-        <span class="badge-brand">Premium Paint Protection Film</span>
-        <h1>
-          New car, new journey.<br>
-          Keep it <span class="text-brand">scratch-free</span> for years.
-        </h1>
-        <p>
-          Roliin PPF protects your paint from road rash, swirl marks, UV fade, and daily wear — with self-healing clarity and a finish that stays stunning.
-        </p>
+  <div class="hero-copy">
+    <span class="badge-brand">Roliin Premium Paint Protection Film</span>
 
-        <div class="hero-cta">
-          <a class="btn btn-primary btn-lg" href="{% url 'registration' %}">
-            Register E-Warranty
-          </a>
-          <a class="btn-outline-light-custom" href="{% url 'product' %}">
-            View Products
-          </a>
-        </div>
+    <h1>
+      New car, new journey.<br>
+      Keep it <span class="text-brand">scratch-free</span> for years.
+    </h1>
 
-        <div class="hero-proof">
-          <div><i class="fa-solid fa-shield-halved me-2"></i>Self-healing top coat</div>
-          <span class="dot"></span>
-          <div><i class="fa-solid fa-sun me-2"></i>UV & stain resistant</div>
-          <span class="dot"></span>
-          <div><i class="fa-solid fa-clock me-2"></i>Up to 10-year durability</div>
-        </div>
-      </div>
+    <p>
+      Roliin PPF protects your paint from road rash, swirl marks, UV fade, and daily wear — with self-healing clarity and a finish that stays stunning.
+    </p>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="{% url 'registration' %}">Register E-Warranty</a>
+      <a class="btn-outline-light-custom" href="{% url 'product' %}">View Products</a>
+    </div>
+
+    <div class="hero-proof">
+      <div><i class="fa-solid fa-shield-halved me-2"></i>Self-healing top coat</div>
+      <span class="dot"></span>
+      <div><i class="fa-solid fa-sun me-2"></i>UV & stain resistant</div>
+      <span class="dot"></span>
+      <div><i class="fa-solid fa-clock me-2"></i>Up to 10-year durability</div>
+    </div>
+  </div>
+</div>
 
     {% comment %} <div class="col-lg-5 mt-4 mt-lg-0">
         <div class="home-card p-4">
