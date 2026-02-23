@@ -1,48 +1,73 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Roliin - Premium Paint Protection Film (PPF) solutions for vehicles. 10-year gloss, matte, and black PPF protection.">
+    <meta name="description"
+        content="Roliin - Premium Paint Protection Film (PPF) solutions for vehicles. 10-year gloss, matte, and black PPF protection.">
     <meta name="keywords" content="PPF, Paint Protection Film, Car Protection, Roliin, Vehicle Wrap">
-    
+
     <title>Roliin - {% block title %}{% endblock %}</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{% static 'assets/img/RoliinLOGO.png' %}">
-    
+
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
+
     <!-- Critical CSS Inline -->
     <style>
-        
-        html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
-        .navbar { background-color: var(--dark-bg) !important; }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            background-color: var(--dark-bg) !important;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
     </style>
-    
+
     <!-- Async CSS Loading -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"></noscript>
-    
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </noscript>
+
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+
     <!-- Icons (Font Awesome 6) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
     <!-- Libraries -->
     <link rel="stylesheet" href="{% static 'lib/animate/animate.min.css' %}">
     <link rel="stylesheet" href="{% static 'lib/lightbox/css/lightbox.min.css' %}">
     <link rel="stylesheet" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/static.css' %}">
-    
+
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -53,72 +78,71 @@
         <nav class="navbar navbar-expand-lg navbar-dark px-lg-5 py-3 bg-black" aria-label="Main navigation">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                    <img src="{% static 'assets/img/RoliinLOGO.png' %}" alt="Roliin Logo" height="55" width="auto" class="navbar-brand-img">
+                    <img src="{% static 'assets/img/RoliinLOGO.png' %}" alt="Roliin Logo" height="55" width="auto"
+                        class="navbar-brand-img">
                 </a>
-                
+
                 <!-- Mobile Toggle -->
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                  <ul class="navbar-nav mx-auto p-lg-0">
+                    <ul class="navbar-nav mx-auto p-lg-0">
 
-                      <li class="nav-item mx-lg-2">
-                          <a href="{% url 'home' %}"
-                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                            Home
-                          </a>
-                      </li>
+                        <li class="nav-item mx-lg-2">
+                            <a href="{% url 'home' %}"
+                                class="nav-link nav-highlight {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                                Home
+                            </a>
+                        </li>
 
-                      <li class="nav-item mx-lg-2">
-                          <a href="{% url 'about' %}"
-                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
-                            About
-                          </a>
-                      </li>
+                        <li class="nav-item mx-lg-2">
+                            <a href="{% url 'about' %}"
+                                class="nav-link nav-highlight {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                                About
+                            </a>
+                        </li>
 
-                      <li class="nav-item mx-lg-2">
-                          <a href="{% url 'product' %}"
-                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'product' %}active{% endif %}">
-                            Products
-                          </a>
-                      </li>
+                        <li class="nav-item mx-lg-2">
+                            <a href="{% url 'product' %}"
+                                class="nav-link nav-highlight {% if request.resolver_match.url_name == 'product' %}active{% endif %}">
+                                Products
+                            </a>
+                        </li>
 
-                      <li class="nav-item dropdown mx-lg-2">
-                          <a href="#"
-                            class="nav-link nav-highlight dropdown-toggle"
-                            id="warrantyDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Warranty
-                          </a>
-                          <ul class="dropdown-menu m-0 border-0 shadow" aria-labelledby="warrantyDropdown">
-                              <li>
-                                  <a href="{% url 'registration' %}"
-                                    class="dropdown-item nav-highlight {% if request.resolver_match.url_name == 'registration' %}active{% endif %}">
-                                    Register E-Warranty
-                                  </a>
-                              </li>
-                              <li>
-                                  <a href="{% url 'status' %}"
-                                    class="dropdown-item nav-highlight {% if request.resolver_match.url_name == 'status' %}active{% endif %}">
-                                    Warranty Status
-                                  </a>
-                              </li>
-                          </ul>
-                      </li>
+                        <li class="nav-item dropdown mx-lg-2">
+                            <a href="#" class="nav-link nav-highlight dropdown-toggle" id="warrantyDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Warranty
+                            </a>
+                            <ul class="dropdown-menu m-0 border-0 shadow" aria-labelledby="warrantyDropdown">
+                                <li>
+                                    <a href="{% url 'registration' %}"
+                                        class="dropdown-item nav-highlight {% if request.resolver_match.url_name == 'registration' %}active{% endif %}">
+                                        Register E-Warranty
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'status' %}"
+                                        class="dropdown-item nav-highlight {% if request.resolver_match.url_name == 'status' %}active{% endif %}">
+                                        Warranty Status
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                      <li class="nav-item mx-lg-2">
-                          <a href="{% url 'contact' %}"
-                            class="nav-link nav-highlight {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
-                            Contact
-                          </a>
-                      </li>
+                        <li class="nav-item mx-lg-2">
+                            <a href="{% url 'contact' %}"
+                                class="nav-link nav-highlight {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                                Contact
+                            </a>
+                        </li>
 
-                  </ul>
-              </div>
+                    </ul>
+                </div>
 
             </div>
         </nav>
@@ -132,16 +156,21 @@
     <!-- Footer -->
     <footer class="text-center text-lg-start text-dark mt-auto py-0" style="background-color: #ECEFF1">
         <!-- Social Media -->
-        <section class="d-flex justify-content-between align-items-center py-4 px-3 px-lg-5 text-white" style="background-color: #000000">
+        <section class="d-flex justify-content-between align-items-center py-4 px-3 px-lg-5 text-white"
+            style="background-color: #000000">
             <div>
                 <span class="d-none d-md-inline">Get connected with us on social networks:</span>
                 <span class="d-md-none">Follow us:</span>
             </div>
             <div class="social-links">
-                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Facebook"><i
+                        class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Twitter"><i
+                        class="fab fa-twitter"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="Instagram"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white me-3 me-lg-4 hover-opacity" aria-label="LinkedIn"><i
+                        class="fab fa-linkedin"></i></a>
             </div>
         </section>
 
@@ -153,7 +182,8 @@
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">Roliin</h6>
                         <p class="text-secondary">
-                            Premium Paint Protection Film solutions offering 10-year durability, self-healing technology, and superior gloss and matte retention for vehicle protection.
+                            Premium Paint Protection Film solutions offering 10-year durability, self-healing
+                            technology, and superior gloss and matte retention for vehicle protection.
                         </p>
                     </div>
 
@@ -161,9 +191,12 @@
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">Quick Links</h6>
                         <p><a href="{% url 'home' %}" class="text-dark text-decoration-none hover-primary">Home</a></p>
-                        <p><a href="{% url 'about' %}" class="text-dark text-decoration-none hover-primary">About</a></p>
-                        <p><a href="{% url 'product' %}" class="text-dark text-decoration-none hover-primary">Products</a></p>
-                        <p><a href="{% url 'registration' %}" class="text-dark text-decoration-none hover-primary">Register E-Warranty</a></p>
+                        <p><a href="{% url 'about' %}" class="text-dark text-decoration-none hover-primary">About</a>
+                        </p>
+                        <p><a href="{% url 'product' %}"
+                                class="text-dark text-decoration-none hover-primary">Products</a></p>
+                        <p><a href="{% url 'registration' %}"
+                                class="text-dark text-decoration-none hover-primary">Register E-Warranty</a></p>
                     </div>
 
                     <!-- Products -->
@@ -178,9 +211,23 @@
                     <!-- Contact -->
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                         <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p><i class="fas fa-home me-2"></i> New York, NY 10012, US</p>
-                        <p><i class="fas fa-envelope me-2"></i> roliinfilmsprivatelimited@gmail.com</p>
-                        <p><i class="fas fa-phone me-2"></i> + 91 9667671355</p>
+
+                        <p class="contact-item">
+                            <i class="fas fa-home"></i>
+                            <span>New York, NY 10012, US</span>
+                        </p>
+
+                        <p class="footer-contact">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:roliinfilmsprivatelimited@gmail.com" class="footer-email">
+                                roliinfilmsprivatelimited@gmail.com
+                            </a>
+                        </p>
+
+                        <p class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 9667671355</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -188,12 +235,14 @@
 
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-            <span class="text-dark">&copy; {% now "Y" %} Copyright: <a class="text-dark fw-bold text-decoration-none" href="https://roliin.com">roliin.com</a></span>
+            <span class="text-dark">&copy; {% now "Y" %} Copyright: <a class="text-dark fw-bold text-decoration-none"
+                    href="https://roliin.com">roliin.com</a></span>
         </div>
     </footer>
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary btn-lg-square back-to-top" id="backToTop" aria-label="Back to top" style="display: none;">
+    <a href="#" class="btn btn-primary btn-lg-square back-to-top" id="backToTop" aria-label="Back to top"
+        style="display: none;">
         <i class="bi bi-arrow-up"></i>
     </a>
 
@@ -203,12 +252,12 @@
     <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}" defer></script>
     <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}" defer></script>
     <script src="{% static 'js/static.js' %}" defer></script>
-    
+
     <script>
         // Initialize WOW.js and Back to Top
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             if (typeof WOW !== 'undefined') new WOW().init();
-            
+
             // Back to Top Button
             const backToTop = document.getElementById('backToTop');
             if (backToTop) {
@@ -218,7 +267,8 @@
             }
         });
     </script>
-    
+
     {% block extra_js %}{% endblock %}
 </body>
+
 </html>

@@ -380,3 +380,28 @@ body{
   .roliin-form .form-row{ grid-template-columns: 1fr; }
   .roliin-form .form-container{ padding: 28px; }
 }
+/* Footer contact alignment + clean email wrapping */
+.footer-contact{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px 0;
+}
+
+.footer-contact i{
+  width: 18px;
+  flex: 0 0 18px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+/* Wrap in a readable way (not random letters) */
+.footer-email{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 220px; /* adjust if needed */
+  text-decoration: none;
+  color: black;
+}
