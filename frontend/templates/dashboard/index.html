@@ -1,39 +1,1085 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roliin | Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --brand: rgb(255, 145, 0);
+      --brand2: rgb(255, 187, 0);
+      --dark: #0b1220;
+      --light: #ffffff;
+      --muted: rgba(255, 255, 255, .72);
+      --muted2: rgba(255, 255, 255, .55);
+      --stroke: rgba(255, 255, 255, .10);
+      --shadow-sm: 0 10px 22px rgba(2, 6, 23, .22);
+      --shadow-md: 0 28px 70px rgba(2, 6, 23, .45);
+      --radius-lg: 26px;
+      --transition: .25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--light);
+      background:
+        radial-gradient(1000px 650px at 20% 10%, rgba(255, 145, 0, .18), transparent 55%),
+        radial-gradient(900px 600px at 85% 25%, rgba(255, 187, 0, .14), transparent 55%),
+        radial-gradient(1000px 800px at 60% 90%, rgba(79, 166, 255, .10), transparent 60%),
+        linear-gradient(180deg, var(--dark) 0%, #070d18 100%);
+      overflow-x: hidden;
+    }
+
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, .8), rgba(0, 0, 0, .15) 55%, transparent 72%);
+      pointer-events: none;
+      opacity: .55;
+    }
+
+    .container {
+      width: min(1200px, 100%);
+      margin: 0 auto;
+      padding: 18px 16px 28px;
+      position: relative;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, .06);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .brand img {
+      height: 42px;
+      width: auto;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .25));
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: .6px;
+      font-weight: 900;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted2);
+      margin-top: 2px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 18, 32, .35);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 10px 18px rgba(255, 145, 0, .22);
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      color: #10131b;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 18px 40px rgba(255, 145, 0, .18);
+      transition: transform var(--transition), filter var(--transition), opacity var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .btn:active {
+      transform: translateY(0px);
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, .08);
+      color: var(--light);
+      border: 1px solid rgba(255, 255, 255, .12);
+      box-shadow: none;
+      font-weight: 800;
+    }
+
+    .btn.secondary:hover {
+      border-color: rgba(255, 145, 0, .45);
+    }
+
+    .heading {
+      margin: 18px 6px 14px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .heading h2 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -.02em;
+    }
+
+    .heading p {
+      margin: 6px 0 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 70ch;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .06);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:before {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      right: -180px;
+      top: -200px;
+      background: radial-gradient(circle at center, rgba(255, 145, 0, .18), transparent 62%);
+      pointer-events: none;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-head strong {
+      font-size: 14px;
+      letter-spacing: .2px;
+      font-weight: 900;
+    }
+
+    .card-head span {
+      font-size: 12px;
+      color: var(--muted2);
+    }
+
+    .kpi {
+      margin-top: 10px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .kpi .num {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+
+    .kpi .desc {
+      font-size: 12px;
+      color: var(--muted2);
+      text-align: right;
+      max-width: 24ch;
+      line-height: 1.35;
+    }
+
+    .spark {
+      height: 30px;
+      border-radius: 12px;
+      margin-top: 12px;
+      background:
+        linear-gradient(90deg,
+          rgba(255, 145, 0, .00),
+          rgba(255, 145, 0, .18),
+          rgba(255, 187, 0, .14),
+          rgba(79, 166, 255, .10));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spark:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(18px 12px at 20% 60%, rgba(255, 145, 0, .55), transparent 70%),
+        radial-gradient(22px 14px at 50% 30%, rgba(255, 187, 0, .45), transparent 72%),
+        radial-gradient(16px 12px at 78% 70%, rgba(79, 166, 255, .35), transparent 70%);
+      opacity: .85;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-12 {
+      grid-column: span 12;
+    }
+
+    @media (max-width: 960px) {
+      .span-4 {
+        grid-column: span 12;
+      }
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      max-width: 360px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 18, 32, .82);
+      color: var(--light);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+      display: none;
+      z-index: 9999;
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .toast p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+
+    /* =================== PREMIUM MODAL =================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(10px);
+      z-index: 99999;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, .06);
+      border-radius: 22px;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, .55);
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(10px) scale(.98);
+      opacity: 0;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .modal-backdrop.show .modal {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .modal:before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -260px;
+      top: -320px;
+      background: radial-gradient(circle at center, rgba(255, 145, 0, .26), transparent 62%);
+      pointer-events: none;
+    }
+
+    .modal:after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      left: -300px;
+      bottom: -360px;
+      background: radial-gradient(circle at center, rgba(255, 187, 0, .16), transparent 62%);
+      pointer-events: none;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 16px 10px;
+      position: relative;
+    }
+
+    .modal-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255, 145, 0, .95), rgba(255, 187, 0, .90));
+      box-shadow: 0 16px 30px rgba(255, 145, 0, .18);
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .modal-icon:after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 12px;
+      background: rgba(11, 18, 32, .45);
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .modal-title-wrap {
+      flex: 1;
+      padding-top: 2px;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.01em;
+    }
+
+    .modal-sub {
+      margin: 6px 0 0 0;
+      color: rgba(255, 255, 255, .72);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .modal-x {
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 18, 32, .35);
+      color: rgba(255, 255, 255, .85);
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform .2s ease, border .2s ease;
+    }
+
+    .modal-x:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 145, 0, .45);
+    }
+
+    .modal-body {
+      padding: 6px 16px 14px;
+      position: relative;
+    }
+
+    .modal-message {
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(11, 18, 32, .45);
+      border-radius: 16px;
+      padding: 12px 12px;
+      color: rgba(255, 255, 255, .82);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .modal-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .62);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 0 16px 16px;
+      position: relative;
+    }
+
+    /* Danger state (Reject / Logout) */
+    .modal.danger .modal-icon {
+      background: linear-gradient(135deg, rgba(255, 90, 90, .95), rgba(255, 145, 0, .60));
+    }
+
+    .modal.danger .btn {
+      background: linear-gradient(135deg, rgba(255, 90, 90, .95), rgba(255, 145, 0, .75));
+      color: #10131b;
+    }
+    .linkish{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: rgba(255,187,0,.95);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+.linkish:hover{ text-decoration: underline; }
+  </style>
 </head>
+
 <body>
+  <script>
+    // Frontend guard (basic)
+    const token = localStorage.getItem("access_token");
+    if (!token) window.location.replace("/login/");
+  </script>
 
-<script>
-  const token = localStorage.getItem("access_token");
-  if (!token) window.location.href = "/login/";
-</script>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <img src="{% static 'assets/img/RoliinLOGO.png' %}" alt="Roliin Logo">
+        <div>
+          <strong>ROLIIN DASHBOARD</strong>
+          <span>Admin Panel</span>
+        </div>
+      </div>
 
-<h1>Dashboard</h1>
-<button id="logoutBtn">Logout</button>
+      <div class="top-actions">
+        <span class="pill"><span class="dot"></span> Session Active</span>
+        <button class="btn secondary" id="refreshBtn" type="button">Refresh</button>
+        <button class="btn" id="logoutBtn" type="button">Logout</button>
+      </div>
+    </header>
 
-<script>
-  document.getElementById("logoutBtn").addEventListener("click", async () => {
-    const access = localStorage.getItem("access_token");
-    const refresh = localStorage.getItem("refresh_token");
+    <section class="heading">
+      <div>
+        <h2>Dashboard</h2>
+        <p>Warranty requests overview + approvals. Approve/Reject will ask for confirmation.</p>
+      </div>
+    </section>
 
-    try {
-      await fetch("/api/auth/logout/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + access
-        },
-        body: JSON.stringify({ refresh })
+    <!-- WARRANTY SECTION -->
+    <section class="grid" aria-label="Warranty Section">
+      <div class="card span-12">
+        <div class="card-head">
+          <strong>Warranty Overview</strong>
+          <span>Pending • Approved • Rejected</span>
+        </div>
+        <p class="muted" style="margin:10px 0 0 0;">Track warranty requests by approval status.</p>
+      </div>
+
+      <!-- Pending -->
+      <div class="card span-4">
+        <div class="card-head">
+          <strong>Pending</strong>
+          <span>Needs review</span>
+        </div>
+        <div class="kpi">
+          <div class="num" id="pendingCount">—</div>
+          <div class="desc">New warranty submissions waiting for admin action.</div>
+        </div>
+        <div class="spark" aria-hidden="true"></div>
+      </div>
+
+      <!-- Approved -->
+      <div class="card span-4">
+        <div class="card-head">
+          <strong>Approved</strong>
+          <span>Accepted</span>
+        </div>
+        <div class="kpi">
+          <div class="num" id="approvedCount">—</div>
+          <div class="desc">Approved warranties with active start dates.</div>
+        </div>
+        <div class="spark" aria-hidden="true"></div>
+      </div>
+
+      <!-- Rejected -->
+      <div class="card span-4">
+        <div class="card-head">
+          <strong>Rejected</strong>
+          <span>Declined</span>
+        </div>
+        <div class="kpi">
+          <div class="num" id="rejectedCount">—</div>
+          <div class="desc">Rejected warranties (not started).</div>
+        </div>
+        <div class="spark" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- WARRANTY TABLE -->
+    <section class="grid" style="margin-top:14px;">
+      <div class="card span-12">
+        <div class="card-head">
+          <strong>Warranty Requests</strong>
+          <span id="listMeta">Showing: Pending</span>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+          <button class="btn secondary" type="button" id="filterPending">Pending</button>
+          <button class="btn secondary" type="button" id="filterApproved">Approved</button>
+          <button class="btn secondary" type="button" id="filterRejected">Rejected</button>
+        </div>
+
+        <div style="overflow:auto; margin-top:14px; border:1px solid rgba(255,255,255,.10); border-radius:16px;">
+          <table style="width:100%; border-collapse:collapse; min-width:860px;">
+            <thead>
+              <tr style="background: rgba(255,255,255,.04);">
+                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Customer</th>
+                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Email</th>
+                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Car</th>
+                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Variant</th>
+                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Status</th>
+                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="warrantyRows">
+              <tr>
+                <td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">
+    <strong id="toastTitle">Notice</strong>
+    <p id="toastMsg">Message</p>
+  </div>
+
+
+  <!-- Premium Confirmation Modal -->
+  <div class="modal-backdrop" id="confirmBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="modal-head">
+        <div class="modal-icon" id="confirmIcon" aria-hidden="true"></div>
+
+        <div class="modal-title-wrap">
+          <h3 class="modal-title" id="confirmTitle">Confirm Action</h3>
+          <p class="modal-sub" id="confirmSub">Are you sure?</p>
+        </div>
+
+        <button class="modal-x" type="button" id="confirmClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-message" id="confirmMsg">
+          This action cannot be undone.
+        </div>
+
+        <div class="modal-note" id="confirmNote" style="display:none;">
+          Note: an email notification will be sent automatically.
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn secondary" type="button" id="confirmCancelBtn">Cancel</button>
+        <button class="btn" type="button" id="confirmOkBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Details Modal -->
+  <div class="modal-backdrop" id="detailsBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+      <div class="modal-head">
+        <div class="modal-icon" aria-hidden="true"></div>
+
+        <div class="modal-title-wrap">
+          <h3 class="modal-title" id="detailsTitle">Warranty Details</h3>
+          <p class="modal-sub" id="detailsSub">Customer & Vehicle information</p>
+        </div>
+
+        <button class="modal-x" type="button" id="detailsClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-message" id="detailsBody" style="white-space:normal;">
+          Loading...
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn secondary" type="button" id="detailsOk">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ================= CONFIG =================
+    const API_BASE = "/apis"; // your backend is included at /apis/
+    let currentStatus = "NOT_APPROVED";
+
+    // ================= UI HELPERS =================
+    function showToast(title, msg) {
+      const t = document.getElementById("toast");
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastMsg").textContent = msg;
+      t.style.display = "block";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.style.display = "none", 2400);
+    }
+
+    function authHeaders() {
+      const access = localStorage.getItem("access_token");
+      return { "Authorization": "Bearer " + access };
+    }
+
+    function handleAuthFailure() {
+      localStorage.clear();
+      window.location.replace("/login/");
+    }
+
+    function setMeta(text) {
+      const el = document.getElementById("listMeta");
+      if (el) el.textContent = "Showing: " + text;
+    }
+
+    // ================= API CALLS =================
+    async function loadWarrantyStats() {
+      const access = localStorage.getItem("access_token");
+      if (!access) return;
+
+      const res = await fetch(`${API_BASE}/warranty/stats/`, {
+        method: "GET",
+        headers: { "Authorization": "Bearer " + access }
       });
-    } catch (e) {}
 
-    localStorage.clear();
-    window.location.href = "/login/";
+      if (res.status === 401 || res.status === 403) return handleAuthFailure();
+      if (!res.ok) return;
+
+      const data = await res.json();
+      document.getElementById("pendingCount").textContent = data.pending ?? 0;
+      document.getElementById("approvedCount").textContent = data.approved ?? 0;
+      document.getElementById("rejectedCount").textContent = data.rejected ?? 0;
+    }
+
+    async function loadWarrantyList() {
+      const tbody = document.getElementById("warrantyRows");
+      tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
+
+      const res = await fetch(`${API_BASE}/warranty/?status=${currentStatus}`, {
+        method: "GET",
+        headers: { ...authHeaders() }
+      });
+
+      if (res.status === 401 || res.status === 403) return handleAuthFailure();
+      if (!res.ok) {
+        tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Error loading data.</td></tr>`;
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">No records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.map(w => {
+        const status = w.approval_status || "";
+        const canAct = (status === "NOT_APPROVED");
+        return `
+          <tr style="border-top:1px solid rgba(255,255,255,.08);">
+            <td style="padding:12px;">
+  <button
+    type="button"
+    class="linkish"
+    onclick='openDetailsModal(${JSON.stringify(w).replace(/</g, "\\u003c")})'>
+    ${w.customer_name || "-"}
+  </button>
+</td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${w.email || "-"}</td>
+            <td style="padding:12px;">${w.car_make_model || "-"}</td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${w.ppf_variant || "-"}</td>
+            <td style="padding:12px;">${status}</td>
+            <td style="padding:12px;">
+              <button class="btn secondary" type="button" ${canAct ? "" : "disabled"}
+                onclick="approveWarranty('${w.id}', '${(w.customer_name || 'Customer').replace(/'/g, "\\'")}')">Approve</button>
+              <button class="btn secondary" type="button" ${canAct ? "" : "disabled"}
+                onclick="rejectWarranty('${w.id}', '${(w.customer_name || 'Customer').replace(/'/g, "\\'")}')">Reject</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function approveWarranty(id, name) {
+      const ok = await confirmApprove(name);
+      if (!ok) return;
+
+      const res = await fetch(`${API_BASE}/warranty/${id}/approve/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() }
+      });
+
+      if (res.status === 401 || res.status === 403) return handleAuthFailure();
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        alert(data.message || "Approve failed.");
+        return;
+      }
+
+      // ✅ Email status feedback (from backend response)
+      if (data.email_sent === false) {
+        alert("Approved, but email failed: " + (data.email_error || "Unknown error"));
+      } else if (data.email_sent === true) {
+        alert("Approved and email sent ✅");
+      } else {
+        // if backend didn’t return email_sent
+        alert("Approved ✅");
+      }
+
+      showToast("Approved", data.message || "Warranty approved.");
+      await loadWarrantyStats();
+      await loadWarrantyList();
+    }
+    async function rejectWarranty(id, name) {
+      const ok = await confirmReject(name);
+      if (!ok) return;
+
+      const res = await fetch(`${API_BASE}/warranty/${id}/reject/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() }
+      });
+
+      if (res.status === 401 || res.status === 403) return handleAuthFailure();
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        alert(data.message || "Reject failed.");
+        return;
+      }
+
+      showToast("Rejected", data.message || "Warranty rejected.");
+      await loadWarrantyStats();
+      await loadWarrantyList();
+    }
+
+    // ================= BUTTONS =================
+    document.getElementById("refreshBtn").addEventListener("click", async () => {
+      await loadWarrantyStats();
+      await loadWarrantyList();
+      showToast("Refreshed", "Dashboard data updated.");
+    });
+
+    document.getElementById("filterPending").addEventListener("click", () => {
+      currentStatus = "NOT_APPROVED";
+      setMeta("Pending");
+      loadWarrantyList();
+    });
+
+    document.getElementById("filterApproved").addEventListener("click", () => {
+      currentStatus = "APPROVED";
+      setMeta("Approved");
+      loadWarrantyList();
+    });
+
+    document.getElementById("filterRejected").addEventListener("click", () => {
+      currentStatus = "REJECTED";
+      setMeta("Rejected");
+      loadWarrantyList();
+    });
+
+    // ✅ CONFIRM BEFORE LOGOUT
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      const ok = await confirmLogout();
+      if (!ok) return;
+
+      const access = localStorage.getItem("access_token");
+      const refresh = localStorage.getItem("refresh_token");
+
+      try {
+        await fetch(`${API_BASE}/auth/logout/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + access
+          },
+          body: JSON.stringify({ refresh })
+        });
+      } catch (e) { }
+
+      localStorage.clear();
+      window.location.replace("/login/");
+    });
+
+    // ================= INITIAL LOAD =================
+    setMeta("Pending");
+    loadWarrantyStats();
+    loadWarrantyList();
+  </script>
+
+  <script>
+    // ====== Premium modal confirm helper ======
+    const ConfirmModal = (() => {
+      const backdrop = document.getElementById("confirmBackdrop");
+      const modal = backdrop.querySelector(".modal");
+      const titleEl = document.getElementById("confirmTitle");
+      const subEl = document.getElementById("confirmSub");
+      const msgEl = document.getElementById("confirmMsg");
+      const noteEl = document.getElementById("confirmNote");
+
+      const okBtn = document.getElementById("confirmOkBtn");
+      const cancelBtn = document.getElementById("confirmCancelBtn");
+      const closeBtn = document.getElementById("confirmClose");
+
+      let resolver = null;
+
+      function close(value = false) {
+        backdrop.classList.remove("show");
+        backdrop.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (resolver) resolver(value);
+        resolver = null;
+      }
+
+      function open(opts) {
+        const {
+          title = "Confirm Action",
+          sub = "Are you sure?",
+          message = "This action cannot be undone.",
+          note = "",
+          confirmText = "Confirm",
+          cancelText = "Cancel",
+          variant = "normal" // normal | danger
+        } = opts || {};
+
+        titleEl.textContent = title;
+        subEl.textContent = sub;
+        msgEl.textContent = message;
+
+        if (note) {
+          noteEl.style.display = "block";
+          noteEl.textContent = note;
+        } else {
+          noteEl.style.display = "none";
+          noteEl.textContent = "";
+        }
+
+        okBtn.textContent = confirmText;
+        cancelBtn.textContent = cancelText;
+
+        modal.classList.toggle("danger", variant === "danger");
+
+        backdrop.classList.add("show");
+        backdrop.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        okBtn.focus();
+
+        return new Promise((resolve) => { resolver = resolve; });
+      }
+
+      okBtn.addEventListener("click", () => close(true));
+      cancelBtn.addEventListener("click", () => close(false));
+      closeBtn.addEventListener("click", () => close(false));
+
+      backdrop.addEventListener("click", (e) => {
+        if (e.target === backdrop) close(false);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (!backdrop.classList.contains("show")) return;
+        if (e.key === "Escape") close(false);
+      });
+
+      return { open };
+    })();
+
+    // ====== Replace your approve/reject/logout confirms with this ======
+    async function confirmApprove(customerName) {
+      return ConfirmModal.open({
+        title: "Approve Warranty",
+        sub: `Approve warranty for ${customerName}?`,
+        message: "This will activate the warranty and generate the Warranty Code.",
+        note: "An activation email will be sent automatically to the customer.",
+        confirmText: "Approve",
+        cancelText: "Cancel",
+        variant: "normal"
+      });
+    }
+
+    async function confirmReject(customerName) {
+      return ConfirmModal.open({
+        title: "Reject Warranty",
+        sub: `Reject warranty for ${customerName}?`,
+        message: "This will mark the request as Rejected. The warranty will not be activated.",
+        confirmText: "Reject",
+        cancelText: "Cancel",
+        variant: "danger"
+      });
+    }
+
+    async function confirmLogout() {
+      return ConfirmModal.open({
+        title: "Logout",
+        sub: "Do you want to logout now?",
+        message: "You will be redirected to the login page.",
+        confirmText: "Logout",
+        cancelText: "Stay",
+        variant: "danger"
+      });
+    }
+
+
+    (function(){
+  const backdrop = document.getElementById("detailsBackdrop");
+  const closeBtn = document.getElementById("detailsClose");
+  const okBtn = document.getElementById("detailsOk");
+  const bodyEl = document.getElementById("detailsBody");
+  const subEl = document.getElementById("detailsSub");
+
+  function close(){
+    backdrop.classList.remove("show");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  window.openDetailsModal = function(w){
+    // Build a clean details view (adjust fields if your serializer differs)
+    const lines = [
+      ["Customer Name", w.customer_name],
+      ["Email", w.email],
+      ["Phone", w.phone_number],
+      ["City", w.city],
+      ["State", w.state],
+      ["Car Make/Model", w.car_make_model],
+      ["VIN/Chassis", w.vin_chassis_number],
+      ["Installation Date", w.installation_date],
+      ["PPF Variant", w.ppf_variant],
+      ["Studio", w.installer_studio_name],
+      ["Status", w.approval_status],
+      ["Warranty Code", w.warranty_code],
+      ["Warranty Start", w.warranty_start_date],
+      ["Warranty End", w.warranty_end_date],
+      ["Approved At", w.approved_at],
+      ["Notes", w.special_notes],
+      ["Created At", w.created_at],
+    ];
+
+    subEl.textContent = `Status: ${w.approval_status || "-"}`;
+
+    bodyEl.innerHTML = `
+      <div style="display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:start;">
+        ${lines.map(([k,v]) => `
+          <div style="color: rgba(255,255,255,.62); font-size:12px; padding-top:2px;">${k}</div>
+          <div style="color: rgba(255,255,255,.88); font-size:13px; line-height:1.45;">
+            ${v ? String(v) : "-"}
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    backdrop.classList.add("show");
+    backdrop.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+
+  closeBtn.addEventListener("click", close);
+  okBtn.addEventListener("click", close);
+  backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (!backdrop.classList.contains("show")) return;
+    if (e.key === "Escape") close();
   });
-</script>
-
+})();
+  </script>
 </body>
+
 </html>

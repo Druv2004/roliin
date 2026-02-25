@@ -7,244 +7,276 @@
 {% block extra_css %}
 <style>
   /* ================= HOME (scoped) ================= */
-  .home-hero{
-  position: relative;
-  min-height: calc(100svh - 88px); /* better on mobile than 100vh */
-  display: grid;
-  align-items: center;
-  overflow: hidden;
-  background: #000;
-  padding-left: 0;
-  padding-right: 0;
-}
+  .home-hero {
+    position: relative;
+    min-height: calc(100svh - 88px);
+    /* better on mobile than 100vh */
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+    background: #000;
+    padding-left: 0;
+    padding-right: 0;
+  }
 
-/* Keep video stable */
-.home-hero video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit: cover;
-  transform: scale(1.02);
-}
+  /* Keep video stable */
+  .home-hero video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.02);
+  }
 
-/* Overlay stays same */
-.home-hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(900px 520px at 20% 20%, rgba(255,145,0,.22), transparent 60%),
-    radial-gradient(700px 460px at 80% 40%, rgba(255,187,0,.16), transparent 60%),
-    linear-gradient(180deg, rgba(11,18,32,.72), rgba(11,18,32,.50));
-  z-index:1;
-}
+  /* Overlay stays same */
+  .home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(900px 520px at 20% 20%, rgba(255, 145, 0, .22), transparent 60%),
+      radial-gradient(700px 460px at 80% 40%, rgba(255, 187, 0, .16), transparent 60%),
+      linear-gradient(180deg, rgba(11, 18, 32, .72), rgba(11, 18, 32, .50));
+    z-index: 1;
+  }
 
-.home-hero .hero-inner{
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: 110px 0 70px; /* desktop default */
-}
+  .home-hero .hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 110px 0 70px;
+    /* desktop default */
+  }
 
-.hero-copy{
-  max-width: 780px;
-}
+  .hero-copy {
+    max-width: 780px;
+  }
 
-/* Typography stays strong, but prevent overflow */
-.home-hero h1{
-  color:#fff;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
-  font-size: clamp(2.0rem, 4vw, 3.35rem);
-  margin: 0;
-  word-break: normal;
-  overflow-wrap: anywhere;
-}
+  /* Typography stays strong, but prevent overflow */
+  .home-hero h1 {
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    font-size: clamp(2.0rem, 4vw, 3.35rem);
+    margin: 0;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
 
-.home-hero p{
-  color: rgba(255,255,255,.84);
-  font-size: 1.03rem;
-  max-width: 52ch;
-  margin-top: 14px;
-}
+  .home-hero p {
+    color: rgba(255, 255, 255, .84);
+    font-size: 1.03rem;
+    max-width: 52ch;
+    margin-top: 14px;
+  }
 
-/* CTA */
-.hero-cta{
-  margin-top: 22px;
-  display:flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items:center;
-}
+  /* CTA */
+  .hero-cta {
+    margin-top: 22px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 
-  .btn-outline-light-custom{
-    border: 1px solid rgba(255,255,255,.35);
-    color:#fff;
+  .btn-outline-light-custom {
+    border: 1px solid rgba(255, 255, 255, .35);
+    color: #fff;
     background: transparent;
     padding: 12px 22px;
     border-radius: 50px;
     font-weight: 700;
     transition: var(--transition);
-    text-decoration:none;
+    text-decoration: none;
   }
-  .btn-outline-light-custom:hover{
-    border-color: rgba(255,255,255,.6);
+
+  .btn-outline-light-custom:hover {
+    border-color: rgba(255, 255, 255, .6);
     transform: translateY(-2px);
-    box-shadow: 0 12px 26px rgba(0,0,0,.18);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .18);
   }
 
   /* Proof row */
-.hero-proof{
-  margin-top: 28px;
-  display:flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  color: rgba(255,255,255,.78);
-  font-weight: 600;
-  font-size: .95rem;
-}
+  .hero-proof {
+    margin-top: 28px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    color: rgba(255, 255, 255, .78);
+    font-weight: 600;
+    font-size: .95rem;
+  }
 
-.hero-proof .dot{
-  width: 6px; height: 6px; border-radius: 999px;
-  background: linear-gradient(135deg,var(--brand),var(--brand2));
-  display:inline-block;
-  margin: 0 10px 0 4px;
-}
+  .hero-proof .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    display: inline-block;
+    margin: 0 10px 0 4px;
+  }
 
 
   /* section backgrounds using your theme */
-  .home-section-soft{
+  .home-section-soft {
     background:
-      radial-gradient(900px 360px at 20% 10%, rgba(255,145,0,.12), transparent 80%),
-      radial-gradient(700px 360px at 80% 40%, rgba(255,187,0,.10), transparent 55%),
-      linear-gradient(180deg,#f8fafc,#ffffff);
+      radial-gradient(900px 360px at 20% 10%, rgba(255, 145, 0, .12), transparent 80%),
+      radial-gradient(700px 360px at 80% 40%, rgba(255, 187, 0, .10), transparent 55%),
+      linear-gradient(180deg, #f8fafc, #ffffff);
   }
 
-  .home-card{
+  .home-card {
     border: 1px solid var(--stroke);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
-    background: rgba(255,255,255,.92);
-    overflow:hidden;
+    background: rgba(255, 255, 255, .92);
+    overflow: hidden;
     transition: var(--transition);
   }
-  .home-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
-  .icon-pill{
-    width: 48px; height: 48px;
+  .home-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .icon-pill {
+    width: 48px;
+    height: 48px;
     border-radius: 14px;
-    display:grid; place-items:center;
-    background: radial-gradient(120px 60px at 20% 10%, rgba(255,145,0,.25), rgba(255,187,0,.12));
-    border: 1px solid rgba(255,145,0,.22);
+    display: grid;
+    place-items: center;
+    background: radial-gradient(120px 60px at 20% 10%, rgba(255, 145, 0, .25), rgba(255, 187, 0, .12));
+    border: 1px solid rgba(255, 145, 0, .22);
     color: var(--dark);
   }
 
   /* Dark feature band aligned with your .features-mature style */
-  .home-features-band{
+  .home-features-band {
     background:
-      radial-gradient(900px 360px at 20% 10%, rgba(255,145,0,.16), transparent 60%),
-      linear-gradient(180deg,#0b1220,#060b16);
+      radial-gradient(900px 360px at 20% 10%, rgba(255, 145, 0, .16), transparent 60%),
+      linear-gradient(180deg, #0b1220, #060b16);
   }
-  .home-features-band .lead{ color: rgba(255,255,255,.78); }
+
+  .home-features-band .lead {
+    color: rgba(255, 255, 255, .78);
+  }
 
   /* Minimal gallery tiles */
-  .tile{
-    position:relative;
+  .tile {
+    position: relative;
     border-radius: var(--radius-lg);
-    overflow:hidden;
-    border: 1px solid rgba(0,0,0,.06);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .06);
     box-shadow: var(--shadow-sm);
   }
-  .tile img{ width:100%; height: 280px; object-fit:cover; display:block; }
-  .tile::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background: linear-gradient(180deg, transparent 50%, rgba(11,18,32,.70));
+
+  .tile img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
   }
-  .tile .tile-label{
-    position:absolute;
+
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(11, 18, 32, .70));
+  }
+
+  .tile .tile-label {
+    position: absolute;
     left: 18px;
     bottom: 16px;
     z-index: 2;
-    color:#fff;
+    color: #fff;
     font-weight: 800;
-    letter-spacing:.02em;
+    letter-spacing: .02em;
   }
 
   /* Make sure anchor offsets work with sticky navbar */
-  .anchor-offset{ scroll-margin-top: 110px; }
+  .anchor-offset {
+    scroll-margin-top: 110px;
+  }
 
-  @media (max-width: 576px){
-    .home-hero .hero-inner{ padding: 100px 0 60px; }
-    .tile img{ height: 220px; }
+  @media (max-width: 576px) {
+    .home-hero .hero-inner {
+      padding: 100px 0 60px;
+    }
+
+    .tile img {
+      height: 220px;
+    }
   }
 
 
   /* =================== MOBILE =================== */
-@media (max-width: 576px){
+  @media (max-width: 576px) {
 
-  .home-hero .hero-inner{
-    padding: 88px 0 52px; /* less top/bottom so it fits */
-  }
+    .home-hero .hero-inner {
+      padding: 88px 0 52px;
+      /* less top/bottom so it fits */
+    }
 
-  /* give side padding on very small screens */
-  .home-hero .container{
-    padding-left: 18px;
-    padding-right: 18px;
-  }
+    /* give side padding on very small screens */
+    .home-hero .container {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
 
-  .hero-copy{
-    max-width: 100%;
-  }
+    .hero-copy {
+      max-width: 100%;
+    }
 
-  .home-hero .badge-brand{
-    font-size: .78rem;
-    padding: .42rem .78rem;
-  }
+    .home-hero .badge-brand {
+      font-size: .78rem;
+      padding: .42rem .78rem;
+    }
 
-  .home-hero h1{
-    font-size: 2.05rem;       /* tighter than desktop clamp for phone */
-    line-height: 1.12;
-  }
+    .home-hero h1 {
+      font-size: 2.05rem;
+      /* tighter than desktop clamp for phone */
+      line-height: 1.12;
+    }
 
-  .home-hero p{
-    font-size: .98rem;
-    max-width: 40ch;
-  }
+    .home-hero p {
+      font-size: .98rem;
+      max-width: 40ch;
+    }
 
-  /* Make buttons stack nicely */
-  .hero-cta{
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
+    /* Make buttons stack nicely */
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
 
-  .hero-cta .btn,
-  .hero-cta .btn-outline-light-custom{
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-  }
+    .hero-cta .btn,
+    .hero-cta .btn-outline-light-custom {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
 
-  /* Proof points stack in a clean list */
-  .hero-proof{
-    flex-direction: column;
-    gap: 10px;
-    font-size: .95rem;
-  }
+    /* Proof points stack in a clean list */
+    .hero-proof {
+      flex-direction: column;
+      gap: 10px;
+      font-size: .95rem;
+    }
 
-  .hero-proof .dot{
-    display: none; /* dots look odd in stacked layout */
-  }
+    .hero-proof .dot {
+      display: none;
+      /* dots look odd in stacked layout */
+    }
 
-  /* Optional: reduce icon spacing so it doesn't wrap */
-  .hero-proof i{
-    margin-right: 8px;
+    /* Optional: reduce icon spacing so it doesn't wrap */
+    .hero-proof i {
+      margin-right: 8px;
+    }
   }
-}
 </style>
 {% endblock %}
 
@@ -260,72 +292,73 @@
   <div class="container hero-inner">
     <div class="row align-items-center">
       <div class="col-lg-12">
-  <div class="hero-copy">
-    <span class="badge-brand">Roliin Premium Paint Protection Film</span>
+        <div class="hero-copy">
+          <span class="badge-brand">Roliin Premium Paint Protection Film</span>
 
-    <h1>
-      New car, new journey.<br>
-      Keep it <span class="text-brand">scratch-free</span> for years.
-    </h1>
+          <h1>
+            New car, new journey.<br>
+            Keep it <span class="text-brand">scratch-free</span> for years.
+          </h1>
 
-    <p>
-      Roliin PPF protects your paint from road rash, swirl marks, UV fade, and daily wear — with self-healing clarity and a finish that stays stunning.
-    </p>
+          <p>
+            Roliin PPF protects your paint from road rash, swirl marks, UV fade, and daily wear — with self-healing
+            clarity and a finish that stays stunning.
+          </p>
 
-    <div class="hero-cta">
-      <a class="btn btn-primary btn-lg" href="{% url 'registration' %}">Register E-Warranty</a>
-      <a class="btn-outline-light-custom" href="{% url 'product' %}">View Products</a>
-    </div>
+          <div class="hero-cta">
+            <a class="btn btn-primary btn-lg" href="{% url 'registration' %}">Register E-Warranty</a>
+            <a class="btn-outline-light-custom" href="{% url 'product' %}">View Products</a>
+          </div>
 
-    <div class="hero-proof">
-      <div><i class="fa-solid fa-shield-halved me-2"></i>Self-healing top coat</div>
-      <span class="dot"></span>
-      <div><i class="fa-solid fa-sun me-2"></i>UV & stain resistant</div>
-      <span class="dot"></span>
-      <div><i class="fa-solid fa-clock me-2"></i>Up to 10-year durability</div>
-    </div>
-  </div>
-</div>
-
-    {% comment %} <div class="col-lg-5 mt-4 mt-lg-0">
-        <div class="home-card p-4">
-            <h5 class="fw-bold mb-2">Get a quick quote</h5>
-            <p class="text-muted mb-3">Share your car details — we’ll guide the best film option.</p>
-    
-            <form method="post" action="{% url 'contact' %}">
-                {% csrf_token %}
-                <div class="row g-2">
-                    <div class="col-12">
-                        <input class="form-control" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="col-12">
-                        <input class="form-control" type="tel" name="phone" placeholder="Phone Number" required>
-                    </div>
-                    <div class="col-12">
-                        <input class="form-control" name="car" placeholder="Car Model (e.g., XUV700)">
-                    </div>
-                    <div class="col-12">
-                        <select class="form-select" name="interest">
-                            <option value="PPF">PPF</option>
-                            <option value="Ceramic">Ceramic Coating</option>
-                            <option value="Both">PPF + Ceramic</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">
-                            Request Call Back
-                        </button>
-                    </div>
-                    <div class="col-12">
-                        <small class="text-muted d-block text-center">
-                            By submitting, you agree to be contacted by Roliin.
-                        </small>
-                    </div>
-                </div>
-            </form>
-    
+          <div class="hero-proof">
+            <div><i class="fa-solid fa-shield-halved me-2"></i>Self-healing top coat</div>
+            <span class="dot"></span>
+            <div><i class="fa-solid fa-sun me-2"></i>UV & stain resistant</div>
+            <span class="dot"></span>
+            <div><i class="fa-solid fa-clock me-2"></i>Up to 10-year durability</div>
+          </div>
         </div>
-    </div> {% endcomment %}
+      </div>
+
+      {% comment %} <div class="col-lg-5 mt-4 mt-lg-0">
+        <div class="home-card p-4">
+          <h5 class="fw-bold mb-2">Get a quick quote</h5>
+          <p class="text-muted mb-3">Share your car details — we’ll guide the best film option.</p>
+
+          <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <div class="row g-2">
+              <div class="col-12">
+                <input class="form-control" name="name" placeholder="Your Name" required>
+              </div>
+              <div class="col-12">
+                <input class="form-control" type="tel" name="phone" placeholder="Phone Number" required>
+              </div>
+              <div class="col-12">
+                <input class="form-control" name="car" placeholder="Car Model (e.g., XUV700)">
+              </div>
+              <div class="col-12">
+                <select class="form-select" name="interest">
+                  <option value="PPF">PPF</option>
+                  <option value="Ceramic">Ceramic Coating</option>
+                  <option value="Both">PPF + Ceramic</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">
+                  Request Call Back
+                </button>
+              </div>
+              <div class="col-12">
+                <small class="text-muted d-block text-center">
+                  By submitting, you agree to be contacted by Roliin.
+                </small>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div> {% endcomment %}
     </div>
   </div>
 </section>
@@ -400,12 +433,8 @@
 
       <div class="col-lg-6">
         <div class="home-card p-2">
-          <img
-            src="{% static 'assets/img/product_1.png' %}"
-            alt="Roliin PPF protection on car paint"
-            class="img-fluid rounded-4"
-            loading="lazy"
-          >
+          <img src="{% static 'assets/img/Derfender.png' %}" alt="Roliin PPF protection on car paint"
+            class="img-fluid rounded-4 p--5" loading="lazy">
         </div>
         {% comment %} <small class="text-muted d-block mt-2">
           Tip: Add your image at <code>static/assets/img/home/about-ppf.jpg</code>

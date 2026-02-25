@@ -1,353 +1,644 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Login</title>
+  <title>Roliin | Dashboard Login</title>
 
-  <!-- Optional Google Font (matches your CSS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-/* ======================================================
-   ROLIIN OFFICIAL STYLESHEET
-   (Your exact CSS pasted here)
-====================================================== */
+    :root {
+      --brand: rgb(255, 145, 0);
+      --brand2: rgb(255, 187, 0);
+      --dark: #0b1220;
+      --light: #ffffff;
+      --muted: rgba(255, 255, 255, .72);
+      --muted2: rgba(255, 255, 255, .55);
+      --stroke: rgba(255, 255, 255, .10);
+      --shadow-md: 0 28px 70px rgba(2, 6, 23, .45);
+      --radius-lg: 28px;
+      --transition: .25s ease;
+    }
 
-/* ================= ROOT ================= */
-:root{
-  --brand: rgb(255,145,0);
-  --brand2: rgb(255,187,0);
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
 
-  --dark: #0b1220;
-  --light: #ffffff;
+    body {
+      margin: 0;
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--light);
+      background:
+        radial-gradient(1000px 650px at 20% 10%, rgba(255, 145, 0, .18), transparent 55%),
+        radial-gradient(900px 600px at 85% 25%, rgba(255, 187, 0, .14), transparent 55%),
+        radial-gradient(1000px 800px at 60% 90%, rgba(79, 166, 255, .10), transparent 60%),
+        linear-gradient(180deg, var(--dark) 0%, #070d18 100%);
+      overflow-x: hidden;
+    }
 
-  --muted: rgba(11,18,32,.65);
-  --stroke: rgba(15,23,42,.10);
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, .8), rgba(0, 0, 0, .15) 55%, transparent 72%);
+      pointer-events: none;
+      opacity: .55;
+    }
 
-  --shadow-sm: 0 10px 22px rgba(2,6,23,.08);
-  --shadow-md: 0 20px 55px rgba(2,6,23,.16);
+    .wrap {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+      position: relative;
+    }
 
-  --radius-sm: 14px;
-  --radius-lg: 26px;
+    .panel {
+      width: min(520px, 100%);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, .06);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(12px);
+      padding: 26px;
+      overflow: hidden;
+      position: relative;
+    }
 
-  --transition: .25s ease;
+    .panel:before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      right: -140px;
+      top: -170px;
+      background: radial-gradient(circle at center, rgba(255, 145, 0, .32), transparent 60%);
+      pointer-events: none;
+    }
 
-  --rf-primary: rgb(255, 153, 0);
-  --rf-primary-2: rgb(255, 187, 0);
-  --rf-card: rgba(255, 255, 255, 0.92);
-  --rf-stroke: rgba(255, 153, 0, 0.65);
-  --rf-text: #0b1220;
-  --rf-muted: rgba(11, 18, 32, 0.65);
-  --rf-shadow: 0 20px 60px rgba(0,0,0,0.18);
-  --rf-transition: 240ms ease;
-}
+    .panel:after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      left: -160px;
+      bottom: -190px;
+      background: radial-gradient(circle at center, rgba(255, 187, 0, .22), transparent 62%);
+      pointer-events: none;
+    }
 
-/* ================= RESET ================= */
-*,
-*::before,
-*::after{ box-sizing:border-box; margin:0; padding:0; }
+    .mini-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      position: relative;
+    }
 
-body{
-  font-family:'Montserrat', sans-serif;
-  color: var(--dark);
-  background:#fff;
-  line-height:1.6;
-}
+    .mini-brand img {
+      height: 44px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+    }
 
-/* ================= GLOBAL ================= */
-.hidden{ display:none; }
+    .mini-brand strong {
+      font-size: 14px;
+      letter-spacing: .5px;
+    }
 
-/* ================= TITLES ================= */
-.title{ margin-bottom:2rem; text-transform:uppercase; }
-.title h1{ border-bottom:1px solid rgba(0,0,0,.1); padding-bottom:8px; }
+    .mini-brand span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted2);
+      margin-top: 2px;
+    }
 
-/* ================= ROLIIN FORM THEME ================= */
-.roliin-form .quote-section{
-  padding: 110px 0;
-  background:
-    radial-gradient(900px 350px at 20% 10%, rgba(255,153,0,0.20), transparent 60%),
-    radial-gradient(700px 350px at 80% 40%, rgba(255,187,0,0.14), transparent 55%),
-    linear-gradient(180deg, rgba(255, 136, 0, 0.85), rgba(255,255,255,0.55));
-}
+    .login-head { position: relative; margin-bottom: 18px; }
+    .login-head h3 { margin: 0 0 6px 0; font-size: 22px; letter-spacing: -.01em; }
+    .login-head p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
 
-.roliin-form .form-container{
-  max-width: 980px;
-  margin: 0 auto;
-  background: var(--rf-card);
-  border: 2px solid var(--rf-stroke);
-  border-radius: 26px;
-  padding: 44px;
-  box-shadow: var(--rf-shadow);
-  position: relative;
-  overflow: hidden;
-}
+    .field { margin-top: 14px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
 
-.roliin-form .form-container::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  background: radial-gradient(600px 220px at 30% 0%, rgba(255, 153, 0, 0.25), transparent 55%);
-  pointer-events:none;
-}
+    .input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 18, 32, .55);
+      transition: border var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
 
-.roliin-form .ppf-form{ position:relative; z-index:1; }
+    .input:focus-within {
+      border-color: rgba(255, 145, 0, .65);
+      box-shadow: 0 0 0 4px rgba(255, 145, 0, .16);
+      transform: translateY(-1px);
+    }
 
-.roliin-form .form-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
-}
+    .input svg { width: 18px; height: 18px; opacity: .85; flex: 0 0 auto; }
 
-.roliin-form .form-column{
-  background: rgba(255,255,255,0.7);
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 18px;
-  padding: 22px;
-  backdrop-filter: blur(8px);
-}
+    input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--light);
+      font-size: 14px;
+    }
+    input::placeholder { color: rgba(255, 255, 255, .35); }
 
-.roliin-form .form-column.full{ grid-column: 1 / -1; }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
 
-.roliin-form .form-subtitle{
-  display:block;
-  font-weight: 800;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,153,0,0.95);
-  margin-bottom: 16px;
-}
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .check input { width: 16px; height: 16px; accent-color: var(--brand); }
 
-.roliin-form .form-group{ margin-bottom: 14px; }
+    a {
+      color: rgba(255, 187, 0, .92);
+      text-decoration: none;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    a:hover { text-decoration: underline; }
 
-.roliin-form .form-group label{
-  display:flex;
-  align-items:center;
-  gap: 8px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--rf-text);
-  margin-bottom: 8px;
-}
+    .btn {
+      width: 100%;
+      margin-top: 16px;
+      border: 0;
+      cursor: pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      color: #10131b;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 18px 40px rgba(255, 145, 0, .22);
+      transition: transform var(--transition), filter var(--transition);
+    }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .btn:active { transform: translateY(0px); }
+    .btn:disabled { opacity: .7; cursor: not-allowed; transform:none; }
 
-.roliin-form .req{ color: rgb(220, 38, 38); font-weight: 900; }
+    .toggle {
+      border: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, .72);
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 10px;
+    }
+    .toggle:hover { background: rgba(255, 255, 255, .06); }
 
-.roliin-form .hint{
-  display:block;
-  margin-top: 6px;
-  font-size: 0.78rem;
-  color: var(--rf-muted);
-}
+    .foot {
+      margin-top: 14px;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align: center;
+      position: relative;
+    }
 
-.roliin-form input{
-  width:100%;
-  padding: 13px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,153,0,0.55);
-  background: rgba(255,255,255,0.9);
-  color: var(--rf-text);
-  font-size: 0.96rem;
-  transition: var(--rf-transition);
-  outline: none;
-}
+    /* Alerts */
+    .alert{
+      display:none;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(11,18,32,.55);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .alert.error{ border-color: rgba(255, 80, 80, .35); }
+    .alert.success{ border-color: rgba(100, 255, 170, .25); }
 
-.roliin-form input:focus{
-  border-color: rgba(255,153,0,1);
-  box-shadow: 0 0 0 4px rgba(255,153,0,0.18);
-  transform: translateY(-1px);
-}
-
-.roliin-form .btn-submit{
-  position:relative;
-  width: 100%;
-  padding: 15px 18px;
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--rf-primary), var(--rf-primary-2));
-  color: #fff;
-  box-shadow: 0 16px 28px rgba(255,153,0,0.26);
-  overflow:hidden;
-  transition: var(--rf-transition);
-}
-
-.roliin-form .btn-submit:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 18px 34px rgba(255,153,0,0.30);
-}
-
-.roliin-form .btn-submit:disabled{
-  cursor:not-allowed;
-  opacity:.85;
-}
-
-.roliin-form .btn-glow{
-  position:absolute;
-  inset:0;
-  background: radial-gradient(250px 120px at 20% 0%, rgba(255,255,255,0.45), transparent 55%);
-  opacity: 0.9;
-  pointer-events:none;
-}
-
-.roliin-form .micro{
-  margin-top: 12px;
-  font-size: 0.82rem;
-  color: var(--rf-muted);
-  text-align:center;
-}
-
-@media (max-width: 900px){
-  .roliin-form .form-grid{ grid-template-columns: 1fr; }
-  .roliin-form .form-container{ padding: 28px; }
-}
-
-/* Small helper layout from scratch */
-.container{
-  width: min(1100px, 92%);
-  margin-inline:auto;
-}
-.text-center{ text-align:center; }
-.mb-5{ margin-bottom: 2.25rem; }
-.lead{ font-size:1.05rem; }
-.text-muted{ color: rgba(11,18,32,.65); }
-.fw-bold{ font-weight:800; }
+    /* Modal */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(6px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .modal{
+      width: min(520px, 100%);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 22px;
+      background: rgba(15, 26, 45, .88);
+      box-shadow: var(--shadow-md);
+      padding: 18px;
+      position:relative;
+    }
+    .modal h4{ margin: 0 0 6px 0; font-size: 16px; }
+    .modal p{ margin: 0 0 12px 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .modal .close{
+      position:absolute;
+      right: 10px; top: 10px;
+      border: 0;
+      background: rgba(255,255,255,.08);
+      color: var(--light);
+      padding: 6px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+    }
+    .modal .actions{
+      display:flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap:wrap;
+    }
+    .btn.secondary{
+      background: rgba(255,255,255,.08);
+      color: var(--light);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: none;
+      font-weight: 800;
+    }
   </style>
 </head>
 
 <body>
+  <main class="wrap">
 
-  <section class="quote-section roliin-form">
-    <div class="container">
-
-      <header class="text-center mb-5">
-        <div class="title">
-          <h1 class="fw-bold">Dashboard Login</h1>
-          <p class="lead text-muted" style="margin-top:12px;">
-            Secure access to your Roliin dashboard.
-          </p>
+    <section class="panel" aria-label="Login Panel">
+      <div class="mini-brand">
+        <a href="{% url 'home' %}">
+          <img src="{% static 'assets/img/RoliinLOGO.png' %}" alt="Roliin Logo">
+        </a>
+        <div>
+          <strong>ROLIIN</strong>
+          <span>Dashboard Access</span>
         </div>
-      </header>
-
-      <div class="form-container">
-        <form id="loginForm" class="ppf-form" novalidate>
-          <div class="form-grid">
-
-            <div class="form-column full">
-              <span class="form-subtitle">Admin Access</span>
-
-              <!-- Error box -->
-              <div id="alertBox" class="hidden" style="margin-bottom:14px;">
-                <div id="alertMsg"
-                  style="padding:12px 14px;border-radius:14px;border:1px solid rgba(220,38,38,.35);
-                         background:rgba(220,38,38,.08);color:#991b1b;font-weight:700;">
-                  Error
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email <span class="req">*</span></label>
-                <input id="email" type="email" placeholder="admin@roliin.com" autocomplete="username" required>
-                <span class="hint">Use your registered admin email.</span>
-              </div>
-
-              <div class="form-group">
-                <label for="password">Password <span class="req">*</span></label>
-                <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
-              </div>
-
-              <button type="submit" class="btn-submit" id="submitBtn">
-                <span class="btn-glow"></span>
-                <span id="btnText">Login</span>
-              </button>
-
-              <p class="micro">JWT secured login • ROLIIN</p>
-            </div>
-
-          </div>
-        </form>
       </div>
 
+      <div class="login-head">
+        <h3>Dashboard Login</h3>
+        <p>Use your credentials to access the Roliin admin dashboard.</p>
+      </div>
+
+      <!-- API ALERT -->
+      <div id="alertBox" class="alert"></div>
+
+      <!-- IMPORTANT: we handle submit via JS -->
+      <form id="loginForm" autocomplete="on">
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="input">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 12c2.761 0 5-2.239 5-5S14.761 2 12 2 7 4.239 7 7s2.239 5 5 5Z" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M20 22a8 8 0 0 0-16 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <input id="email" name="email" type="text" placeholder="Enter email" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M6 11h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+
+            <input id="password" name="password" type="password" placeholder="Enter password" required />
+
+            <button class="toggle" type="button" id="togglePass" aria-label="Show or hide password">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:18px;height:18px;">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="check">
+            <input type="checkbox" id="remember" checked />
+            Remember me
+          </label>
+          <a id="forgotLink">Forgot password?</a>
+        </div>
+
+        <button class="btn" id="loginBtn" type="submit">Sign In</button>
+
+        <div class="foot">
+          Need access? <a href="{% url 'contact' %}">Contact admin</a>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- FORGOT PASSWORD MODAL -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="close" id="closeModal" type="button">Close</button>
+
+      <div id="fpStep1">
+        <h4>Forgot Password</h4>
+        <p>Enter your email to receive a 6-digit reset code.</p>
+
+        <div class="field">
+          <label for="fpEmail">Email</label>
+          <div class="input">
+            <input id="fpEmail" type="email" placeholder="Enter email" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="sendCodeBtn" type="button">Send Code</button>
+          <button class="btn secondary" id="cancelFp1" type="button">Cancel</button>
+        </div>
+
+        <div id="fpAlert1" class="alert" style="display:none;"></div>
+      </div>
+
+      <div id="fpStep2" style="display:none;">
+        <h4>Reset Password</h4>
+        <p>Enter the code sent to your email, and set a new password.</p>
+
+        <div class="field">
+          <label for="fpCode">Reset Code</label>
+          <div class="input">
+            <input id="fpCode" type="text" inputmode="numeric" maxlength="6" placeholder="6-digit code" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fpNewPass">New Password</label>
+          <div class="input">
+            <input id="fpNewPass" type="password" placeholder="New password" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="resetPassBtn" type="button">Reset Password</button>
+          <button class="btn secondary" id="backToStep1" type="button">Back</button>
+        </div>
+
+        <div id="fpAlert2" class="alert" style="display:none;"></div>
+      </div>
     </div>
-  </section>
+  </div>
 
   <script>
-    // ✅ Change only if your router path is different
-    const LOGIN_API_URL = "/api/auth/login/";
-    const DASHBOARD_URL = "/dashboard/";
-    const LOGIN_URL = "/login/";
+    // ---------- CONFIG ----------
+    const API_LOGIN  = "/apis/auth/login/";
+    const API_FORGOT = "/apis/auth/forgot_password/";
+    const API_RESET  = "/apis/auth/reset_password/";
+    const DASHBOARD_REDIRECT = "/dashboard/"; // change if your dashboard url is different
 
-    // Auto redirect if already logged in
-    if (localStorage.getItem("access_token")) {
-      window.location.href = DASHBOARD_URL;
+    // ---------- Helpers ----------
+    function showAlert(el, msg, type="error"){
+      el.className = "alert " + type;
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+    function hideAlert(el){
+      el.style.display = "none";
+      el.textContent = "";
+    }
+    async function safeJson(res){
+      try { return await res.json(); } catch(e) { return null; }
     }
 
-    const form = document.getElementById("loginForm");
-    const alertBox = document.getElementById("alertBox");
-    const alertMsg = document.getElementById("alertMsg");
-    const submitBtn = document.getElementById("submitBtn");
-    const btnText = document.getElementById("btnText");
+    // ---------- Password toggle ----------
+    const toggleBtn = document.getElementById('togglePass');
+    const passInput = document.getElementById('password');
+    toggleBtn.addEventListener('click', () => {
+      passInput.type = (passInput.type === 'password') ? 'text' : 'password';
+    });
 
-    function showError(message){
-      alertMsg.textContent = message || "Login failed";
-      alertBox.classList.remove("hidden");
-    }
+    // ---------- Login ----------
+    const loginForm = document.getElementById("loginForm");
+    const loginBtn  = document.getElementById("loginBtn");
+    const alertBox  = document.getElementById("alertBox");
 
-    function hideError(){
-      alertBox.classList.add("hidden");
-    }
-
-    function setLoading(isLoading){
-      submitBtn.disabled = isLoading;
-      btnText.textContent = isLoading ? "Authenticating..." : "Login";
-    }
-
-    form.addEventListener("submit", async (e) => {
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      hideError();
+      hideAlert(alertBox);
 
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
+      const remember = document.getElementById("remember").checked;
 
-      if (!email || !password) {
-        showError("Email and password are required.");
+      if (!email || !password){
+        showAlert(alertBox, "Email and password are required.");
         return;
       }
 
-      setLoading(true);
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Signing In...";
 
-      try {
-        const res = await fetch(LOGIN_API_URL, {
+      try{
+        const res = await fetch(API_LOGIN, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password })
         });
 
-        const data = await res.json().catch(() => ({}));
+        const data = await safeJson(res);
 
-        if (!res.ok) {
-          showError(data.error || "Invalid credentials.");
-          setLoading(false);
+        if (!res.ok){
+          const msg = (data && (data.error || data.detail)) ? (data.error || data.detail) : "Login failed.";
+          showAlert(alertBox, msg, "error");
           return;
         }
 
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
+        // Save tokens
+        const access = data?.access;
+        const refresh = data?.refresh;
 
-        window.location.href = DASHBOARD_URL;
+        if (!access || !refresh){
+          showAlert(alertBox, "Login succeeded but tokens were not returned.", "error");
+          return;
+        }
 
-      } catch (err) {
-        showError("Network/server error. Please try again.");
-        setLoading(false);
+        // If you want session-only when remember is unchecked:
+        // (Your dashboard currently checks localStorage; so we save to localStorage always for compatibility.)
+        localStorage.setItem("access_token", access);
+        localStorage.setItem("refresh_token", refresh);
+
+        showAlert(alertBox, "Login successful. Redirecting...", "success");
+        window.location.replace(DASHBOARD_REDIRECT);
+
+      } catch(err){
+        showAlert(alertBox, "Network error. Please try again.");
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Sign In";
       }
     });
-  </script>
 
+    // ---------- Forgot Password Modal ----------
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const forgotLink = document.getElementById("forgotLink");
+    const closeModal = document.getElementById("closeModal");
+    const cancelFp1 = document.getElementById("cancelFp1");
+
+    const fpStep1 = document.getElementById("fpStep1");
+    const fpStep2 = document.getElementById("fpStep2");
+    const fpEmail = document.getElementById("fpEmail");
+    const fpCode = document.getElementById("fpCode");
+    const fpNewPass = document.getElementById("fpNewPass");
+
+    const sendCodeBtn = document.getElementById("sendCodeBtn");
+    const resetPassBtn = document.getElementById("resetPassBtn");
+    const backToStep1 = document.getElementById("backToStep1");
+
+    const fpAlert1 = document.getElementById("fpAlert1");
+    const fpAlert2 = document.getElementById("fpAlert2");
+
+    function openModal(){
+      modalBackdrop.style.display = "flex";
+      fpStep1.style.display = "block";
+      fpStep2.style.display = "none";
+      hideAlert(fpAlert1); hideAlert(fpAlert2);
+      fpEmail.value = document.getElementById("email").value.trim() || "";
+      fpCode.value = "";
+      fpNewPass.value = "";
+      setTimeout(() => fpEmail.focus(), 50);
+    }
+    function closeModalFn(){
+      modalBackdrop.style.display = "none";
+      hideAlert(fpAlert1); hideAlert(fpAlert2);
+    }
+
+    forgotLink.addEventListener("click", openModal);
+    closeModal.addEventListener("click", closeModalFn);
+    cancelFp1.addEventListener("click", closeModalFn);
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) closeModalFn();
+    });
+
+    sendCodeBtn.addEventListener("click", async () => {
+      hideAlert(fpAlert1);
+
+      const email = fpEmail.value.trim();
+      if (!email){
+        showAlert(fpAlert1, "Please enter your email.");
+        return;
+      }
+
+      sendCodeBtn.disabled = true;
+      sendCodeBtn.textContent = "Sending...";
+
+      try{
+        const res = await fetch(API_FORGOT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await safeJson(res);
+
+        if (!res.ok){
+          const msg = (data && (data.error || data.detail)) ? (data.error || data.detail) : "Failed to send code.";
+          showAlert(fpAlert1, msg, "error");
+          return;
+        }
+
+        showAlert(fpAlert1, "Code sent. Please check your email.", "success");
+        fpStep1.style.display = "none";
+        fpStep2.style.display = "block";
+
+      } catch(err){
+        showAlert(fpAlert1, "Network error. Please try again.");
+      } finally {
+        sendCodeBtn.disabled = false;
+        sendCodeBtn.textContent = "Send Code";
+      }
+    });
+
+    backToStep1.addEventListener("click", () => {
+      fpStep2.style.display = "none";
+      fpStep1.style.display = "block";
+      hideAlert(fpAlert2);
+    });
+
+    resetPassBtn.addEventListener("click", async () => {
+      hideAlert(fpAlert2);
+
+      const email = fpEmail.value.trim();
+      const code = fpCode.value.trim();
+      const new_password = fpNewPass.value;
+
+      if (!email || !code || !new_password){
+        showAlert(fpAlert2, "Email, code, and new password are required.");
+        return;
+      }
+
+      resetPassBtn.disabled = true;
+      resetPassBtn.textContent = "Resetting...";
+
+      try{
+        const res = await fetch(API_RESET, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, code, new_password })
+        });
+
+        const data = await safeJson(res);
+
+        if (!res.ok){
+          const msg = (data && (data.error || data.detail)) ? (data.error || data.detail) : "Reset failed.";
+          showAlert(fpAlert2, msg, "error");
+          return;
+        }
+
+        showAlert(fpAlert2, "Password reset successful. You can login now.", "success");
+        setTimeout(() => {
+          closeModalFn();
+          document.getElementById("email").value = email;
+          document.getElementById("password").focus();
+        }, 900);
+
+      } catch(err){
+        showAlert(fpAlert2, "Network error. Please try again.");
+      } finally {
+        resetPassBtn.disabled = false;
+        resetPassBtn.textContent = "Reset Password";
+      }
+    });
+
+    // Optional: If already logged in, redirect away from login page
+    (function(){
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        // If you want to verify token server-side, do it on dashboard.
+        // Here we just redirect.
+        // window.location.replace(DASHBOARD_REDIRECT);
+      }
+    })();
+  </script>
 </body>
+
 </html>

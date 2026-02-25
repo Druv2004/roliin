@@ -4,8 +4,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.utils.timezone import now
+from django.db.models import Count
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from apps.warranty.models import Warranty, ContactEnquiry
+from django.core.mail import send_mail
+from django.conf import settings
 from apps.warranty.serializers import (
     WarrantyCreateSerializer,
     WarrantyReadSerializer,
@@ -53,6 +56,19 @@ class WarrantyViewSet(viewsets.ModelViewSet):
             return WarrantyCreateSerializer
         return WarrantyReadSerializer
 
+
+
+
+
+    def get_queryset(self):
+        qs = Warranty.objects.all().order_by("-created_at")
+        status_param = self.request.query_params.get("status")  # NOT_APPROVED / APPROVED / REJECTED
+        if status_param in ["NOT_APPROVED", "APPROVED", "REJECTED"]:
+            qs = qs.filter(approval_status=status_param)
+        return qs
+
+
+
     # ================= CREATE WARRANTY =================
     @extend_schema(
         tags=["Warranty"],
@@ -84,21 +100,50 @@ class WarrantyViewSet(viewsets.ModelViewSet):
         warranty = self.get_object()
 
         if warranty.approval_status == "APPROVED":
-            return Response(
-                {"message": "Warranty already approved"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response({"message": "Warranty already approved"}, status=status.HTTP_400_BAD_REQUEST)
 
         warranty.approval_status = "APPROVED"
         warranty.approved_by = request.user
         warranty.approved_at = now().date()
 
-        # 🔥 Auto start warranty
         warranty.start_warranty()
         warranty.save()
 
+        subject = "Roliin Warranty Activated"
+        message = (
+            f"Hello {warranty.customer_name},\n\n"
+            f"Your Roliin warranty has been activated successfully.\n\n"
+            f"Warranty Code: {warranty.warranty_code}\n"
+            f"Car: {warranty.car_make_model}\n"
+            f"PPF Variant: {warranty.get_ppf_variant_display()}\n"
+            f"Start Date: {warranty.warranty_start_date}\n"
+            f"End Date: {warranty.warranty_end_date}\n\n"
+            f"Thank you,\n"
+            f"Team Roliin"
+        )
+
+        email_sent = False
+        email_error = None
+
+        try:
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[warranty.email],
+                fail_silently=False,
+            )
+            email_sent = True
+        except Exception as e:
+            email_error = str(e)
+
         return Response(
-            WarrantyReadSerializer(warranty).data,
+            {
+                "message": "Warranty approved.",
+                "email_sent": email_sent,
+                "email_error": email_error,
+                "data": WarrantyReadSerializer(warranty).data,
+            },
             status=status.HTTP_200_OK,
         )
 
@@ -155,6 +200,34 @@ class WarrantyViewSet(viewsets.ModelViewSet):
             )
 
         return Response(WarrantyReadSerializer(warranty).data)
+    
+    @action(detail=False, methods=["get"], permission_classes=[IsAdminUser])
+    def stats(self, request):
+        """
+        Returns warranty counts by approval_status for dashboard cards.
+        """
+        qs = Warranty.objects.all()
+        grouped = qs.values("approval_status").annotate(count=Count("id"))
+
+        counts = {
+            "pending": 0,   # NOT_APPROVED
+            "approved": 0,  # APPROVED
+            "rejected": 0,  # REJECTED
+            "total": qs.count(),
+        }
+
+        for row in grouped:
+            status = row["approval_status"]
+            c = row["count"]
+
+            if status == "NOT_APPROVED":
+                counts["pending"] = c
+            elif status == "APPROVED":
+                counts["approved"] = c
+            elif status == "REJECTED":
+                counts["rejected"] = c
+
+        return Response(counts, status=200)
 
 
 

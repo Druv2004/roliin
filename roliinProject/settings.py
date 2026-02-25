@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.warranty',
     "rest_framework",
     'drf_spectacular',
+    'rest_framework.authtoken'
     
 ]
 INSTALLED_APPS += [
@@ -144,6 +145,12 @@ SPECTACULAR_SETTINGS = {
 }
 
 
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
@@ -173,10 +180,12 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'kushwahadruv@gmail.com'
-EMAIL_HOST_PASSWORD = 'aqtj gjir yscq zlnf'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
