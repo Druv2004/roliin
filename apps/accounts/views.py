@@ -10,10 +10,12 @@ from drf_spectacular.utils import extend_schema
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from apps.accounts.models import Account
-from apps.accounts.serializers import RegisterSerializer, ForgotPasswordSerializer, ResetPasswordSerializer, ChangePasswordSerializer,LogoutRequestSerializer, LogoutResponseSerializer
+from apps.accounts.serializers import RegisterSerializer, ForgotPasswordSerializer, ResetPasswordSerializer, ChangePasswordSerializer,LogoutRequestSerializer, LogoutResponseSerializer, AdminCreateUserSerializer, AdminUserListSerializer
 import random
 from django.conf import settings
 from django.core.mail import send_mail
+from rest_framework.permissions import IsAdminUser
+
 
 
 
@@ -193,4 +195,38 @@ class AuthViewSet(viewsets.ViewSet):
             {"message": "Password changed successfully"},
             status=status.HTTP_200_OK
         )
+        
+        
+        
+     # ✅ ADMIN: CREATE USER
+    @action(detail=False, methods=["post"], permission_classes=[IsAdminUser])
+    def create_user(self, request):
+        serializer = AdminCreateUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response(
+            {"message": "User created successfully", "data": AdminUserListSerializer(user).data},
+            status=status.HTTP_201_CREATED
+        )
+
+    # ✅ ADMIN: LIST USERS
+    @action(detail=False, methods=["get"], permission_classes=[IsAdminUser])
+    def users(self, request):
+        qs = Account.objects.all().order_by("-date_joined")
+        return Response(AdminUserListSerializer(qs, many=True).data, status=status.HTTP_200_OK)
+
+    # ✅ ADMIN: DELETE USER
+    @action(detail=False, methods=["delete"], permission_classes=[IsAdminUser], url_path=r"users/(?P<user_id>[^/.]+)")
+    def delete_user(self, request, user_id=None):
+        # prevent deleting yourself (recommended)
+        if str(request.user.id) == str(user_id):
+            return Response({"error": "You cannot delete your own account."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = Account.objects.get(id=user_id)
+        except Account.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        user.delete()
+        return Response({"message": "User deleted successfully"}, status=status.HTTP_200_OK)
 

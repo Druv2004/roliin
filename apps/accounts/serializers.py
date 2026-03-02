@@ -43,3 +43,37 @@ class LogoutRequestSerializer(serializers.Serializer):
 
 class LogoutResponseSerializer(serializers.Serializer):
     message = serializers.CharField()
+    
+    
+class AdminCreateUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, validators=[validate_password])
+
+    class Meta:
+        model = Account
+        fields = ["id", "email", "username", "password", "role", "is_active"]
+        read_only_fields = ["id"]
+
+    def create(self, validated_data):
+        role = validated_data.pop("role", "STAFF")
+        password = validated_data.pop("password")
+
+        user = Account.objects.create_user(**validated_data)
+        user.set_password(password)
+        user.role = role
+
+        # optional: map role -> staff/superuser flags
+        if role == "ADMIN":
+            user.is_staff = True
+            user.is_superuser = True
+        else:
+            user.is_staff = False
+            user.is_superuser = False
+
+        user.save()
+        return user
+
+
+class AdminUserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ["id", "email", "username", "role", "is_active", "date_joined", "last_login"]

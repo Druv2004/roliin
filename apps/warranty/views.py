@@ -55,6 +55,11 @@ class WarrantyViewSet(viewsets.ModelViewSet):
         if self.action == "create":
             return WarrantyCreateSerializer
         return WarrantyReadSerializer
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
 
 
 

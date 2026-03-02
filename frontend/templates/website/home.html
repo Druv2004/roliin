@@ -276,6 +276,38 @@
     .hero-proof i {
       margin-right: 8px;
     }
+    .home-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+.home-hero video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 2;
+}
+.home-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+}
   }
 </style>
 {% endblock %}
@@ -286,7 +318,7 @@
 <section class="home-hero px-sm-5" aria-label="Roliin hero section">
   {# Put your mp4 here: static/assets/video/hero.mp4 #}
   <video autoplay muted loop playsinline preload="metadata" poster="{% static 'assets/img/hero-poster.jpg' %}">
-    <source src="{% static 'assets/video/hero.mp4' %}" type="video/mp4">
+    <source src="{% static 'assets\video\roliin-hero.mp4' %}" type="video/mp4">
   </video>
 
   <div class="container hero-inner">

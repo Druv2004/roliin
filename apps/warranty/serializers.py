@@ -34,14 +34,27 @@ class WarrantyCreateSerializer(serializers.ModelSerializer):
 # ========================= READ SERIALIZER =========================
 class WarrantyReadSerializer(serializers.ModelSerializer):
     approved_by = serializers.StringRelatedField()
-    ppf_variant_display = serializers.CharField(
-        source="get_ppf_variant_display",
-        read_only=True
-    )
+    ppf_variant_display = serializers.CharField(source="get_ppf_variant_display", read_only=True)
+
+    # ✅ Add these two
+    rc_upload_url = serializers.SerializerMethodField()
+    car_with_ppf_roll_box_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Warranty
-        fields = "__all__"
+        fields = "__all__"   # keeps everything + adds the 2 new fields
+
+    def get_rc_upload_url(self, obj):
+        request = self.context.get("request")
+        if obj.rc_upload and hasattr(obj.rc_upload, "url"):
+            return request.build_absolute_uri(obj.rc_upload.url) if request else obj.rc_upload.url
+        return None
+
+    def get_car_with_ppf_roll_box_url(self, obj):
+        request = self.context.get("request")
+        if obj.car_with_ppf_roll_box and hasattr(obj.car_with_ppf_roll_box, "url"):
+            return request.build_absolute_uri(obj.car_with_ppf_roll_box.url) if request else obj.car_with_ppf_roll_box.url
+        return None
 
 
 # ========================= ADMIN ACTION SERIALIZER =========================

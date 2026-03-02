@@ -343,7 +343,6 @@
       line-height: 1.45;
     }
 
-
     /* =================== PREMIUM MODAL =================== */
     .modal-backdrop {
       position: fixed;
@@ -502,17 +501,180 @@
       background: linear-gradient(135deg, rgba(255, 90, 90, .95), rgba(255, 145, 0, .75));
       color: #10131b;
     }
-    .linkish{
-  background: transparent;
-  border: 0;
-  padding: 0;
-  color: rgba(255,187,0,.95);
-  font: inherit;
-  font-weight: 800;
-  cursor: pointer;
-  text-align: left;
+
+    .linkish {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      color: rgba(255, 187, 0, .95);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .linkish:hover {
+      text-decoration: underline;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 18, 32, .35);
+      color: rgba(255, 255, 255, .85);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s ease, border .2s ease;
+    }
+
+    .file-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 145, 0, .45);
+    }
+
+    .preview-wrap {
+      margin-top: 12px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(11, 18, 32, .35);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      cursor: zoom-in;
+      border: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .preview-cap {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.4;
+    }
+
+    /* ===== Layout with left sidebar ===== */
+    .shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 18px;
+      height: calc(100vh - 36px);
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .06);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      padding: 14px;
+      overflow: auto;
+    }
+
+    .side-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+
+    .side-title strong {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 18, 32, .35);
+      color: rgba(255, 255, 255, .88);
+      cursor: pointer;
+      font-weight: 900;
+      letter-spacing: .2px;
+      transition: transform .2s ease, border .2s ease, background .2s ease;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 145, 0, .45);
+    }
+
+    .nav-btn.active {
+      border-color: rgba(255, 145, 0, .65);
+      background: rgba(255, 145, 0, .12);
+      box-shadow: 0 18px 40px rgba(255, 145, 0, .12);
+    }
+
+    .nav-btn .tag {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(0, 0, 0, .15);
+      white-space: nowrap;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    .container-fluid {
+  width: 100%;
+  padding: 28px 32px 40px; /* top | left-right | bottom */
 }
-.linkish:hover{ text-decoration: underline; }
   </style>
 </head>
 
@@ -523,7 +685,7 @@
     if (!token) window.location.replace("/login/");
   </script>
 
-  <div class="container">
+  <div class="container-fluid">
     <header class="topbar">
       <div class="brand">
         <img src="{% static 'assets/img/RoliinLOGO.png' %}" alt="Roliin Logo">
@@ -536,110 +698,242 @@
       <div class="top-actions">
         <span class="pill"><span class="dot"></span> Session Active</span>
         <button class="btn secondary" id="refreshBtn" type="button">Refresh</button>
+        <button class="btn secondary" id="addUserBtn" type="button">Add User</button>
         <button class="btn" id="logoutBtn" type="button">Logout</button>
       </div>
     </header>
 
-    <section class="heading">
-      <div>
-        <h2>Dashboard</h2>
-        <p>Warranty requests overview + approvals. Approve/Reject will ask for confirmation.</p>
+    <div class="shell">
+      <!-- ===== LEFT SIDEBAR ===== -->
+      <aside class="sidebar" aria-label="Dashboard Navigation">
+        <div class="side-title">
+          <strong>Navigation</strong>
+          <span class="pill" style="padding:6px 10px; font-size:11px;">
+            <span class="dot"></span> Admin
+          </span>
+        </div>
+
+        <div class="nav">
+          <button class="nav-btn active" type="button" data-target="section-warranty">
+            Warranty
+            <span class="tag">Requests</span>
+          </button>
+
+          <button class="nav-btn" type="button" data-target="section-contact">
+            Contact Enquiry
+            <span class="tag">List</span>
+          </button>
+
+          <button class="nav-btn" type="button" data-target="section-users">
+            Users
+            <span class="tag">Admin</span>
+          </button>
+        </div>
+
+        <div style="margin-top:14px; border-top:1px solid rgba(255,255,255,.10); padding-top:12px;">
+          <p class="muted" style="margin:0;">
+            Select an interface from above.
+          </p>
+        </div>
+      </aside>
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <main class="main">
+        <!-- ===================== WARRANTY PAGE ===================== -->
+        <section id="section-warranty" class="page-section active">
+          <section class="heading">
+            <div>
+              <h2>Dashboard</h2>
+              <p>Warranty requests overview + approvals. Approve/Reject will ask for confirmation.</p>
+            </div>
+          </section>
+
+          <!-- WARRANTY SECTION -->
+          <section class="grid" aria-label="Warranty Section">
+            <div class="card span-12">
+              <div class="card-head">
+                <strong>Warranty Overview</strong>
+                <span>Pending • Approved • Rejected</span>
+              </div>
+              <p class="muted" style="margin:10px 0 0 0;">Track warranty requests by approval status.</p>
+            </div>
+
+            <!-- Pending -->
+            <div class="card span-4">
+              <div class="card-head">
+                <strong>Pending</strong>
+                <span>Needs review</span>
+              </div>
+              <div class="kpi">
+                <div class="num" id="pendingCount">—</div>
+                <div class="desc">New warranty submissions waiting for admin action.</div>
+              </div>
+              <div class="spark" aria-hidden="true"></div>
+            </div>
+
+            <!-- Approved -->
+            <div class="card span-4">
+              <div class="card-head">
+                <strong>Approved</strong>
+                <span>Accepted</span>
+              </div>
+              <div class="kpi">
+                <div class="num" id="approvedCount">—</div>
+                <div class="desc">Approved warranties with active start dates.</div>
+              </div>
+              <div class="spark" aria-hidden="true"></div>
+            </div>
+
+            <!-- Rejected -->
+            <div class="card span-4">
+              <div class="card-head">
+                <strong>Rejected</strong>
+                <span>Declined</span>
+              </div>
+              <div class="kpi">
+                <div class="num" id="rejectedCount">—</div>
+                <div class="desc">Rejected warranties (not started).</div>
+              </div>
+              <div class="spark" aria-hidden="true"></div>
+            </div>
+          </section>
+
+          <!-- WARRANTY TABLE -->
+          <section class="grid" style="margin-top:14px;">
+            <div class="card span-12">
+              <div class="card-head">
+                <strong>Warranty Requests</strong>
+                <span id="listMeta">Showing: Pending</span>
+              </div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <button class="btn secondary" type="button" id="filterPending">Pending</button>
+                <button class="btn secondary" type="button" id="filterApproved">Approved</button>
+                <button class="btn secondary" type="button" id="filterRejected">Rejected</button>
+              </div>
+
+              <div style="overflow:auto; margin-top:14px; border:1px solid rgba(255,255,255,.10); border-radius:16px;">
+                <table style="width:100%; border-collapse:collapse; min-width:860px;">
+                  <thead>
+                    <tr style="background: rgba(255,255,255,.04);">
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Customer</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Email</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Car</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Variant</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Status</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="warrantyRows">
+                    <tr>
+                      <td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </section>
+        </section>
+
+        <!-- ===================== CONTACT ENQUIRY PAGE (LIST ONLY) ===================== -->
+        <section id="section-contact" class="page-section">
+          <section class="heading">
+            <div>
+              <h2>Contact Enquiries</h2>
+              <p>Only list of contact form submissions. Click name to view full details.</p>
+            </div>
+          </section>
+
+          <section class="grid">
+            <div class="card span-12">
+              <div class="card-head">
+                <strong>Contact List</strong>
+                <span id="contactMeta">Showing: Latest first</span>
+              </div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <button class="btn secondary" type="button" id="contactRefreshBtn">Refresh</button>
+              </div>
+
+              <div style="overflow:auto; margin-top:14px; border:1px solid rgba(255,255,255,.10); border-radius:16px;">
+                <table style="width:100%; border-collapse:collapse; min-width:980px;">
+                  <thead>
+                    <tr style="background: rgba(255,255,255,.04);">
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Name</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Email</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Phone</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Subject</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Consent</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Attachment</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody id="contactRows">
+                    <tr>
+                      <td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </section>
+        </section>
+        <!-- ===================== USERS PAGE (ADMIN ONLY) ===================== -->
+<section id="section-users" class="page-section">
+  <section class="heading">
+    <div>
+      <h2>Users</h2>
+      <p>Admin-only: view all users and delete accounts.</p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card span-12">
+      <div class="card-head">
+        <strong>User List</strong>
+        <span id="usersMeta">Showing: Latest first</span>
       </div>
-    </section>
 
-    <!-- WARRANTY SECTION -->
-    <section class="grid" aria-label="Warranty Section">
-      <div class="card span-12">
-        <div class="card-head">
-          <strong>Warranty Overview</strong>
-          <span>Pending • Approved • Rejected</span>
-        </div>
-        <p class="muted" style="margin:10px 0 0 0;">Track warranty requests by approval status.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+        <button class="btn secondary" type="button" id="usersRefreshBtn">Refresh</button>
       </div>
 
-      <!-- Pending -->
-      <div class="card span-4">
-        <div class="card-head">
-          <strong>Pending</strong>
-          <span>Needs review</span>
-        </div>
-        <div class="kpi">
-          <div class="num" id="pendingCount">—</div>
-          <div class="desc">New warranty submissions waiting for admin action.</div>
-        </div>
-        <div class="spark" aria-hidden="true"></div>
+      <div style="overflow:auto; margin-top:14px; border:1px solid rgba(255,255,255,.10); border-radius:16px;">
+        <table style="width:100%; border-collapse:collapse; min-width:980px;">
+          <thead>
+            <tr style="background: rgba(255,255,255,.04);">
+              <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Email</th>
+              <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Username</th>
+              <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Role</th>
+              <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Active</th>
+              <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Joined</th>
+              <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersRows">
+            <tr>
+              <td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Approved -->
-      <div class="card span-4">
-        <div class="card-head">
-          <strong>Approved</strong>
-          <span>Accepted</span>
-        </div>
-        <div class="kpi">
-          <div class="num" id="approvedCount">—</div>
-          <div class="desc">Approved warranties with active start dates.</div>
-        </div>
-        <div class="spark" aria-hidden="true"></div>
-      </div>
-
-      <!-- Rejected -->
-      <div class="card span-4">
-        <div class="card-head">
-          <strong>Rejected</strong>
-          <span>Declined</span>
-        </div>
-        <div class="kpi">
-          <div class="num" id="rejectedCount">—</div>
-          <div class="desc">Rejected warranties (not started).</div>
-        </div>
-        <div class="spark" aria-hidden="true"></div>
-      </div>
-    </section>
-
-    <!-- WARRANTY TABLE -->
-    <section class="grid" style="margin-top:14px;">
-      <div class="card span-12">
-        <div class="card-head">
-          <strong>Warranty Requests</strong>
-          <span id="listMeta">Showing: Pending</span>
-        </div>
-
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-          <button class="btn secondary" type="button" id="filterPending">Pending</button>
-          <button class="btn secondary" type="button" id="filterApproved">Approved</button>
-          <button class="btn secondary" type="button" id="filterRejected">Rejected</button>
-        </div>
-
-        <div style="overflow:auto; margin-top:14px; border:1px solid rgba(255,255,255,.10); border-radius:16px;">
-          <table style="width:100%; border-collapse:collapse; min-width:860px;">
-            <thead>
-              <tr style="background: rgba(255,255,255,.04);">
-                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Customer</th>
-                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Email</th>
-                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Car</th>
-                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Variant</th>
-                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Status</th>
-                <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="warrantyRows">
-              <tr>
-                <td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </div>
-    </section>
+      <p class="muted" style="margin:12px 0 0 0;">
+        Note: You cannot delete your own account.
+      </p>
+    </div>
+  </section>
+</section>
+      </main>
+    </div>
   </div>
 
   <div class="toast" id="toast">
     <strong id="toastTitle">Notice</strong>
     <p id="toastMsg">Message</p>
   </div>
-
 
   <!-- Premium Confirmation Modal -->
   <div class="modal-backdrop" id="confirmBackdrop" aria-hidden="true">
@@ -672,15 +966,15 @@
     </div>
   </div>
 
-  <!-- Customer Details Modal -->
+  <!-- Details Modal (reused for Warranty + Contact) -->
   <div class="modal-backdrop" id="detailsBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
       <div class="modal-head">
         <div class="modal-icon" aria-hidden="true"></div>
 
         <div class="modal-title-wrap">
-          <h3 class="modal-title" id="detailsTitle">Warranty Details</h3>
-          <p class="modal-sub" id="detailsSub">Customer & Vehicle information</p>
+          <h3 class="modal-title" id="detailsTitle">Details</h3>
+          <p class="modal-sub" id="detailsSub">—</p>
         </div>
 
         <button class="modal-x" type="button" id="detailsClose" aria-label="Close">✕</button>
@@ -698,9 +992,49 @@
     </div>
   </div>
 
+
+  <!-- Add User Modal -->
+<div class="modal-backdrop" id="addUserBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-icon"></div>
+      <div class="modal-title-wrap">
+        <h3 class="modal-title">Create New User</h3>
+        <p class="modal-sub">Only admins can create users</p>
+      </div>
+      <button class="modal-x" id="addUserClose">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-message">
+        <div style="display:grid; gap:10px;">
+          <input id="newEmail" placeholder="Email"
+            style="padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:white;">
+          <input id="newUsername" placeholder="Username"
+            style="padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:white;">
+          <input id="newPassword" type="password" placeholder="Password"
+            style="padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:white;">
+          <select id="newRole"
+            style="padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:white;">
+            <option value="STAFF">Staff</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn secondary" id="cancelAddUser">Cancel</button>
+      <button class="btn" id="saveUserBtn">Create</button>
+    </div>
+  </div>
+</div>
+
+
+  
   <script>
     // ================= CONFIG =================
-    const API_BASE = "/apis"; // your backend is included at /apis/
+    const API_BASE = "/apis";
     let currentStatus = "NOT_APPROVED";
 
     // ================= UI HELPERS =================
@@ -728,7 +1062,7 @@
       if (el) el.textContent = "Showing: " + text;
     }
 
-    // ================= API CALLS =================
+    // ================= WARRANTY API CALLS =================
     async function loadWarrantyStats() {
       const access = localStorage.getItem("access_token");
       if (!access) return;
@@ -775,13 +1109,11 @@
         return `
           <tr style="border-top:1px solid rgba(255,255,255,.08);">
             <td style="padding:12px;">
-  <button
-    type="button"
-    class="linkish"
-    onclick='openDetailsModal(${JSON.stringify(w).replace(/</g, "\\u003c")})'>
-    ${w.customer_name || "-"}
-  </button>
-</td>
+              <button type="button" class="linkish"
+                onclick='openWarrantyDetails(${JSON.stringify(w).replace(/</g, "\\u003c")})'>
+                ${w.customer_name || "-"}
+              </button>
+            </td>
             <td style="padding:12px; color: rgba(255,255,255,.72);">${w.email || "-"}</td>
             <td style="padding:12px;">${w.car_make_model || "-"}</td>
             <td style="padding:12px; color: rgba(255,255,255,.72);">${w.ppf_variant || "-"}</td>
@@ -815,13 +1147,11 @@
         return;
       }
 
-      // ✅ Email status feedback (from backend response)
       if (data.email_sent === false) {
         alert("Approved, but email failed: " + (data.email_error || "Unknown error"));
       } else if (data.email_sent === true) {
         alert("Approved and email sent ✅");
       } else {
-        // if backend didn’t return email_sent
         alert("Approved ✅");
       }
 
@@ -829,6 +1159,7 @@
       await loadWarrantyStats();
       await loadWarrantyList();
     }
+
     async function rejectWarranty(id, name) {
       const ok = await confirmReject(name);
       if (!ok) return;
@@ -849,6 +1180,61 @@
       showToast("Rejected", data.message || "Warranty rejected.");
       await loadWarrantyStats();
       await loadWarrantyList();
+    }
+
+    // ================= CONTACT (ADMIN) - LIST ONLY =================
+    async function loadContactList() {
+      const tbody = document.getElementById("contactRows");
+      if (!tbody) return;
+
+      tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
+
+      const res = await fetch(`${API_BASE}/contact/`, {
+        method: "GET",
+        headers: { ...authHeaders() }
+      });
+
+      if (res.status === 401 || res.status === 403) return handleAuthFailure();
+
+      if (!res.ok) {
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Error loading enquiries.</td></tr>`;
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">No enquiries found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.map(e => {
+        const safe = (v) => (v ? String(v) : "-");
+        const created = e.created_at ? new Date(e.created_at).toLocaleString() : "-";
+        const hasAttachment = !!e.attachment;
+
+        return `
+          <tr style="border-top:1px solid rgba(255,255,255,.08);">
+            <td style="padding:12px;">
+              <button type="button" class="linkish"
+                onclick='openContactDetails(${JSON.stringify(e).replace(/</g, "\\u003c")})'>
+                ${safe(e.full_name)}
+              </button>
+            </td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${safe(e.email)}</td>
+            <td style="padding:12px;">${safe(e.phone_number)}</td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${safe(e.subject)}</td>
+            <td style="padding:12px;">${e.consent ? "✅ Yes" : "❌ No"}</td>
+            <td style="padding:12px;">
+              ${hasAttachment
+                ? `<a class="file-btn" href="${e.attachment}" target="_blank" rel="noopener">📎 Open</a>`
+                : `<span style="color: rgba(255,255,255,.55); font-size:12px;">None</span>`
+              }
+            </td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${created}</td>
+          </tr>
+        `;
+      }).join("");
     }
 
     // ================= BUTTONS =================
@@ -876,7 +1262,12 @@
       loadWarrantyList();
     });
 
-    // ✅ CONFIRM BEFORE LOGOUT
+    document.getElementById("contactRefreshBtn")?.addEventListener("click", async () => {
+      await loadContactList();
+      showToast("Refreshed", "Contact enquiries updated.");
+    });
+
+    // ================= LOGOUT =================
     document.getElementById("logoutBtn").addEventListener("click", async () => {
       const ok = await confirmLogout();
       if (!ok) return;
@@ -903,6 +1294,39 @@
     setMeta("Pending");
     loadWarrantyStats();
     loadWarrantyList();
+  </script>
+
+  <script>
+    // ===== Sidebar navigation (Warranty / Contact) =====
+    (function () {
+      const navBtns = Array.from(document.querySelectorAll(".nav-btn"));
+      const sections = Array.from(document.querySelectorAll(".page-section"));
+
+      function activate(targetId) {
+        sections.forEach(s => s.classList.toggle("active", s.id === targetId));
+        navBtns.forEach(b => b.classList.toggle("active", b.dataset.target === targetId));
+        localStorage.setItem("roliin_active_section", targetId);
+
+        // Load contact list only when contact section opens
+        if (targetId === "section-contact") loadContactList();
+        if (targetId === "section-users") loadUsersList();
+      }
+
+      navBtns.forEach(btn => btn.addEventListener("click", () => activate(btn.dataset.target)));
+
+
+
+
+      document.getElementById("usersRefreshBtn")?.addEventListener("click", async () => {
+        await loadUsersList();
+        showToast("Refreshed", "Users list updated.");
+      });
+
+      const saved = localStorage.getItem("roliin_active_section");
+      if (saved && document.getElementById(saved)) {
+        activate(saved);
+      }
+    })();
   </script>
 
   <script>
@@ -970,9 +1394,7 @@
       cancelBtn.addEventListener("click", () => close(false));
       closeBtn.addEventListener("click", () => close(false));
 
-      backdrop.addEventListener("click", (e) => {
-        if (e.target === backdrop) close(false);
-      });
+      backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(false); });
 
       document.addEventListener("keydown", (e) => {
         if (!backdrop.classList.contains("show")) return;
@@ -982,7 +1404,6 @@
       return { open };
     })();
 
-    // ====== Replace your approve/reject/logout confirms with this ======
     async function confirmApprove(customerName) {
       return ConfirmModal.open({
         title: "Approve Warranty",
@@ -1016,70 +1437,294 @@
         variant: "danger"
       });
     }
+  </script>
 
+  <script>
+    // ===== Reused Details Modal (Warranty + Contact) =====
+    (function () {
+      const backdrop = document.getElementById("detailsBackdrop");
+      const closeBtn = document.getElementById("detailsClose");
+      const okBtn = document.getElementById("detailsOk");
+      const bodyEl = document.getElementById("detailsBody");
+      const subEl = document.getElementById("detailsSub");
+      const titleEl = document.getElementById("detailsTitle");
 
-    (function(){
-  const backdrop = document.getElementById("detailsBackdrop");
-  const closeBtn = document.getElementById("detailsClose");
-  const okBtn = document.getElementById("detailsOk");
-  const bodyEl = document.getElementById("detailsBody");
-  const subEl = document.getElementById("detailsSub");
+      function close() {
+        backdrop.classList.remove("show");
+        backdrop.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
 
-  function close(){
-    backdrop.classList.remove("show");
-    backdrop.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+      closeBtn.addEventListener("click", close);
+      okBtn.addEventListener("click", close);
+      backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
+      document.addEventListener("keydown", (e) => {
+        if (!backdrop.classList.contains("show")) return;
+        if (e.key === "Escape") close();
+      });
+
+      // ===== Warranty details (your existing fields) =====
+      window.openWarrantyDetails = function (w) {
+        titleEl.textContent = "Warranty Details";
+        subEl.textContent = `Status: ${w.approval_status || "-"}`;
+
+        const rcUrl = w.rc_upload_url || w.rc_upload || null;
+        const carUrl = w.car_with_ppf_roll_box_url || w.car_with_ppf_roll_box || null;
+
+        const lines = [
+          ["Customer Name", w.customer_name],
+          ["Email", w.email],
+          ["Phone", w.phone_number],
+          ["City", w.city],
+          ["State", w.state],
+          ["Car Make/Model", w.car_make_model],
+          ["VIN/Chassis", w.vin_chassis_number],
+          ["Installation Date", w.installation_date],
+          ["PPF Variant", w.ppf_variant_display || w.ppf_variant],
+          ["Studio", w.installer_studio_name],
+          ["Status", w.approval_status],
+          ["Warranty Code", w.warranty_code],
+          ["Warranty Start", w.warranty_start_date],
+          ["Warranty End", w.warranty_end_date],
+          ["Approved At", w.approved_at],
+          ["Notes", w.special_notes],
+          ["Created At", w.created_at],
+        ];
+
+        const filesHtml = `
+          <div class="file-actions">
+            ${rcUrl ? `
+              <a class="file-btn" href="${rcUrl}" target="_blank" rel="noopener">📄 Open RC Upload</a>
+            ` : `<span style="color: rgba(255,255,255,.55); font-size:12px;">RC Upload: Not available</span>`}
+
+            ${carUrl ? `
+              <a class="file-btn" href="${carUrl}" target="_blank" rel="noopener">🖼️ Open Car Image</a>
+            ` : `<span style="color: rgba(255,255,255,.55); font-size:12px;">Car Image: Not available</span>`}
+          </div>
+
+          ${carUrl ? `
+            <div class="preview-wrap">
+              <img class="preview-img" src="${carUrl}" alt="Car With PPF Roll Box"
+                onclick="window.open('${carUrl}','_blank')" />
+              <div class="preview-cap">Car with PPF roll/box preview (click image to open full size).</div>
+            </div>
+          ` : ``}
+        `;
+
+        bodyEl.innerHTML = `
+          ${filesHtml}
+          <div style="margin-top:12px; display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:start;">
+            ${lines.map(([k, v]) => `
+              <div style="color: rgba(255,255,255,.62); font-size:12px; padding-top:2px;">${k}</div>
+              <div style="color: rgba(255,255,255,.88); font-size:13px; line-height:1.45;">
+                ${v ? String(v) : "-"}
+              </div>
+            `).join("")}
+          </div>
+        `;
+
+        backdrop.classList.add("show");
+        backdrop.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+
+      // ===== Contact details (from your ContactEnquiry model) =====
+      window.openContactDetails = function (e) {
+        titleEl.textContent = "Contact Enquiry Details";
+        subEl.textContent = e.created_at ? `Created: ${new Date(e.created_at).toLocaleString()}` : "Created: -";
+
+        const attachmentHtml = e.attachment ? `
+          <div class="file-actions" style="margin-top:0;">
+            <a class="file-btn" href="${e.attachment}" target="_blank" rel="noopener">
+              📎 Open Attachment
+            </a>
+          </div>
+        ` : `
+          <div style="color: rgba(255,255,255,.55); font-size:12px; margin-top:6px;">
+            Attachment: Not available
+          </div>
+        `;
+
+        const lines = [
+          ["Full Name", e.full_name],
+          ["Email", e.email],
+          ["Phone Number", e.phone_number],
+          ["Subject", e.subject],
+          ["Consent", e.consent ? "Yes" : "No"],
+          ["Message", e.message],
+          ["Created At", e.created_at ? new Date(e.created_at).toLocaleString() : "-"],
+          ["ID", e.id],
+        ];
+
+        bodyEl.innerHTML = `
+          ${attachmentHtml}
+          <div style="margin-top:12px; display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:start;">
+            ${lines.map(([k, v]) => `
+              <div style="color: rgba(255,255,255,.62); font-size:12px; padding-top:2px;">${k}</div>
+              <div style="color: rgba(255,255,255,.88); font-size:13px; line-height:1.45; white-space:pre-wrap;">
+                ${v ? String(v) : "-"}
+              </div>
+            `).join("")}
+          </div>
+        `;
+
+        backdrop.classList.add("show");
+        backdrop.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+    })();
+  </script>
+
+  <script>
+    // ===== ADD USER MODAL =====
+const addUserBackdrop = document.getElementById("addUserBackdrop");
+
+document.getElementById("addUserBtn").addEventListener("click", () => {
+  addUserBackdrop.classList.add("show");
+  document.body.style.overflow = "hidden";
+});
+
+document.getElementById("addUserClose").addEventListener("click", closeAddUser);
+document.getElementById("cancelAddUser").addEventListener("click", closeAddUser);
+
+function closeAddUser() {
+  addUserBackdrop.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+// ===== CREATE USER API CALL =====
+document.getElementById("saveUserBtn").addEventListener("click", async () => {
+  const email = document.getElementById("newEmail").value;
+  const username = document.getElementById("newUsername").value;
+  const password = document.getElementById("newPassword").value;
+  const role = document.getElementById("newRole").value;
+
+  if (!email || !username || !password) {
+    alert("All fields required");
+    return;
   }
 
-  window.openDetailsModal = function(w){
-    // Build a clean details view (adjust fields if your serializer differs)
-    const lines = [
-      ["Customer Name", w.customer_name],
-      ["Email", w.email],
-      ["Phone", w.phone_number],
-      ["City", w.city],
-      ["State", w.state],
-      ["Car Make/Model", w.car_make_model],
-      ["VIN/Chassis", w.vin_chassis_number],
-      ["Installation Date", w.installation_date],
-      ["PPF Variant", w.ppf_variant],
-      ["Studio", w.installer_studio_name],
-      ["Status", w.approval_status],
-      ["Warranty Code", w.warranty_code],
-      ["Warranty Start", w.warranty_start_date],
-      ["Warranty End", w.warranty_end_date],
-      ["Approved At", w.approved_at],
-      ["Notes", w.special_notes],
-      ["Created At", w.created_at],
-    ];
-
-    subEl.textContent = `Status: ${w.approval_status || "-"}`;
-
-    bodyEl.innerHTML = `
-      <div style="display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:start;">
-        ${lines.map(([k,v]) => `
-          <div style="color: rgba(255,255,255,.62); font-size:12px; padding-top:2px;">${k}</div>
-          <div style="color: rgba(255,255,255,.88); font-size:13px; line-height:1.45;">
-            ${v ? String(v) : "-"}
-          </div>
-        `).join("")}
-      </div>
-    `;
-
-    backdrop.classList.add("show");
-    backdrop.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-  };
-
-  closeBtn.addEventListener("click", close);
-  okBtn.addEventListener("click", close);
-  backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
-  document.addEventListener("keydown", (e) => {
-    if (!backdrop.classList.contains("show")) return;
-    if (e.key === "Escape") close();
+  const res = await fetch(`${API_BASE}/auth/create_user/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeaders()
+    },
+    body: JSON.stringify({ email, username, password, role })
   });
-})();
+
+  if (res.status === 401 || res.status === 403) {
+    alert("Only admin can create user.");
+    return;
+  }
+
+  if (!res.ok) {
+    const data = await res.json();
+    alert(data.detail || "Error creating user");
+    return;
+  }
+
+  showToast("Success", "User created successfully");
+  closeAddUser();
+});
+
+
+
+
+
+
+
+
+
+
+// ================= USERS (ADMIN) - LIST + DELETE =================
+async function loadUsersList() {
+  const tbody = document.getElementById("usersRows");
+  if (!tbody) return;
+
+  tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
+
+  const res = await fetch(`${API_BASE}/auth/users/`, {
+    method: "GET",
+    headers: { ...authHeaders() }
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Admin access required.</td></tr>`;
+    return;
+  }
+
+  if (!res.ok) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Error loading users.</td></tr>`;
+    return;
+  }
+
+  const data = await res.json();
+
+  if (!Array.isArray(data) || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">No users found.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(u => {
+    const joined = u.date_joined ? new Date(u.date_joined).toLocaleString() : "-";
+    const role = u.role || "-";
+    const active = u.is_active ? "✅ Yes" : "❌ No";
+
+    return `
+      <tr style="border-top:1px solid rgba(255,255,255,.08);">
+        <td style="padding:12px; color: rgba(255,255,255,.85);">${u.email || "-"}</td>
+        <td style="padding:12px; color: rgba(255,255,255,.72);">${u.username || "-"}</td>
+        <td style="padding:12px;">${role}</td>
+        <td style="padding:12px;">${active}</td>
+        <td style="padding:12px; color: rgba(255,255,255,.72);">${joined}</td>
+        <td style="padding:12px;">
+          <button class="btn secondary" type="button"
+            onclick="deleteUser('${u.id}', '${(u.email || 'user').replace(/'/g, "\\'")}')">
+            Delete
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function deleteUser(userId, email) {
+  const ok = await ConfirmModal.open({
+    title: "Delete User",
+    sub: `Delete account: ${email}?`,
+    message: "This will permanently delete the user account. This action cannot be undone.",
+    confirmText: "Delete",
+    cancelText: "Cancel",
+    variant: "danger"
+  });
+
+  if (!ok) return;
+
+  const res = await fetch(`${API_BASE}/auth/users/${userId}/`, {
+    method: "DELETE",
+    headers: { ...authHeaders() }
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    alert("Admin access required.");
+    return;
+  }
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    alert(data.error || "Delete failed.");
+    return;
+  }
+
+  showToast("Deleted", data.message || "User deleted.");
+  await loadUsersList();
+}
   </script>
+
+  
+
 </body>
 
 </html>
