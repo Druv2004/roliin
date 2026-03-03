@@ -29,6 +29,13 @@ class WarrantyCreateSerializer(serializers.ModelSerializer):
         if value > date.today():
             raise serializers.ValidationError("Installation date cannot be in the future.")
         return value
+    
+    
+    
+    def validate_ppf_roll_serial_number(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("PPF roll serial number is required.")
+        return value.strip().upper()
 
 
 # ========================= READ SERIALIZER =========================

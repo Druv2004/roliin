@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <body style="margin:0; padding:0; background:#f4f6fb; font-family:Arial, Helvetica, sans-serif;">
+    <table width="100%" cellspacing="0" cellpadding="0" style="background:#f4f6fb; padding:24px 12px;">
+      <tr>
+        <td align="center">
+          <table width="600" cellspacing="0" cellpadding="0"
+            style="width:600px; max-width:600px; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+
+            <!-- Header -->
+            <tr>
+              <td style="padding:24px 22px; background:#111827;" align="center">
+
+                <img 
+                  src="https://roliin.com/static/assets/img/RoliinLOGO.png"
+                  alt="Roliin Logo"
+                  height="55"
+                  style="display:block; margin-bottom:12px;"
+                />
+
+                <div style="font-size:18px; font-weight:800; color:#ffffff;">
+                  Warranty Request Update
+                </div>
+
+                <div style="margin-top:6px; font-size:13px; color:rgba(255,255,255,0.8);">
+                  Your warranty request could not be approved.
+                </div>
+
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding:22px;">
+                <div style="font-size:14px; color:#111827; line-height:1.6;">
+                  Hello <strong>{{ customer_name }}</strong>,<br><br>
+
+                  Thank you for submitting your warranty registration for your
+                  <strong>{{ car_make_model }}</strong>.
+
+                  <br><br>
+
+                  After reviewing your submission, we regret to inform you that your warranty request
+                  has been <strong style="color:#b91c1c;">rejected</strong>.
+
+                  <br><br>
+
+                  If you believe this was a mistake or would like further clarification,
+                  please contact our support team.
+                </div>
+
+                <!-- Reason Section (Optional) -->
+                {% if rejection_reason %}
+                <div style="margin-top:16px; padding:14px; border-radius:12px; background:#fff5f5; border:1px solid #fecaca;">
+                  <div style="font-size:13px; font-weight:700; color:#991b1b;">
+                    Reason:
+                  </div>
+                  <div style="font-size:13px; margin-top:6px; color:#7f1d1d;">
+                    {{ rejection_reason }}
+                  </div>
+                </div>
+                {% endif %}
+
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:18px 22px 22px; color:#6b7280; font-size:12px;">
+                Regards,<br>
+                <strong style="color:#111827;">Team {{ brand_name }}</strong><br>
+                <a href="https://roliin.com" style="color:#ff9100; text-decoration:none;">roliin.com</a><br>
+                Need help? <a href="mailto:{{ support_email }}" style="color:#ff9100; text-decoration:none;">{{ support_email }}</a>
+              </td>
+            </tr>
+
+          </table>
+
+          <div style="margin-top:14px; font-size:11px; color:#9ca3af;">
+            © {{ brand_name }} • This is an automated email.
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

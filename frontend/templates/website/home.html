@@ -436,42 +436,141 @@
   <div class="container py-4">
     <div class="row align-items-center g-4">
       <div class="col-lg-6">
-        <span class="badge-brand">Built for real roads</span>
-        <h2 class="fw-bold mt-3">Protection that doesn’t hide your paint.</h2>
+        <span class="badge-brand">Clarity that lasts</span>
+        <h2 class="fw-bold mt-3">Engineered to resist yellowing — year after year.</h2>
         <p class="text-muted mt-3">
-          Roliin films are engineered for impact resistance, swirl control, and long-term visual performance.
-          Keep factory paint intact while maintaining a premium finish.
+          From Zero Tint to Extreme Yellowing, not all films age the same. 
+          Roliin Premium PPF is built with advanced UV stabilizers and optical-grade top coats 
+          to maintain crystal-clear transparency and prevent discoloration over time.
         </p>
 
         <div class="row g-3 mt-2">
           <div class="col-md-6">
             <div class="home-card p-3 h-100">
-              <div class="fw-bold mb-1">Scratch & chip defense</div>
-              <div class="text-muted small">Stops daily damage before it starts.</div>
+              <div class="fw-bold mb-1">UV Shield Technology</div>
+              <div class="text-muted small">
+                Minimizes oxidation and slows down yellowing caused by sun exposure.
+              </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="home-card p-3 h-100">
-              <div class="fw-bold mb-1">UV & stain resistance</div>
-              <div class="text-muted small">Helps reduce yellowing & water spots.</div>
+              <div class="fw-bold mb-1">Optical Stability</div>
+              <div class="text-muted small">
+                Maintains factory paint clarity without haze or tint shift.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="home-card p-3 h-100">
+              <div class="fw-bold mb-1">Premium Top Coat</div>
+              <div class="text-muted small">
+                Resistant to stains, pollutants, and environmental contaminants.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="home-card p-3 h-100">
+              <div class="fw-bold mb-1">Long-Term Performance</div>
+              <div class="text-muted small">
+                Designed to stay in Stage 1 clarity — not drift into yellowing stages.
+              </div>
             </div>
           </div>
         </div>
 
         <div class="mt-4">
-          <a class="btn btn-primary" href="{% url 'about' %}">Learn More</a>
+          <a class="btn btn-primary" href="{% url 'about' %}">
+            Explore Anti-Yellowing Technology
+          </a>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="home-card p-2">
-          <img src="{% static 'assets/img/Derfender.png' %}" alt="Roliin PPF protection on car paint"
-            class="img-fluid rounded-4 p--5" loading="lazy">
+          <img src="{% static 'assets/img/Derfender.png' %}" 
+               alt="PPF yellowing comparison stages from zero tint to extreme yellowing"
+               class="img-fluid rounded-4" loading="lazy">
         </div>
-        {% comment %} <small class="text-muted d-block mt-2">
-          Tip: Add your image at <code>static/assets/img/home/about-ppf.jpg</code>
-        </small> {% endcomment %}
       </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="py-5 bg-dark text-white" id="layers">
+  <div class="container py-4">
+    <div class="row align-items-center g-5">
+
+      <!-- IMAGE LEFT -->
+      <div class="col-lg-6">
+        <div class="p-3 rounded-4"
+             style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); box-shadow: 0 20px 60px rgba(0,0,0,.45);">
+          <img src="{% static 'assets/img/PPF layers.png' %}"
+               alt="Roliin PPF multi-layer structure"
+               class="img-fluid rounded-4"
+               loading="lazy">
+        </div>
+      </div>
+
+      <!-- CONTENT RIGHT -->
+      <div class="col-lg-6">
+        <span class="badge-brand">Advanced Material Architecture</span>
+
+        <h2 class="fw-bold mt-3" style="max-width: 22ch;">
+          Built in layers. Designed to stay clear.
+        </h2>
+
+        <p class=" mt-3" style="max-width: 56ch;">
+          Each layer in Roliin Premium PPF is engineered for a specific job — surface gloss, impact absorption,
+          stable clarity, and paint-safe bonding. The result is a film that performs under heat, UV, and daily wear.
+        </p>
+
+        <!-- FEATURE GRID -->
+        <div class="row g-3 mt-4">
+          <div class="col-md-6">
+            <div class="p-3 rounded-4 h-100"
+                 style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);">
+              <div class="fw-semibold">PET Protective Layer</div>
+              <div class=" small mt-1">Smooth finish + micro-abrasion resistance.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 rounded-4 h-100"
+                 style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);">
+              <div class="fw-semibold">Hydrophobic Gloss Coat</div>
+              <div class=" small mt-1">Water repellency + deeper paint clarity.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 rounded-4 h-100"
+                 style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);">
+              <div class="fw-semibold">Aliphatic TPU Core</div>
+              <div class=" small mt-1">Impact absorption + anti-yellowing stability.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 rounded-4 h-100"
+                 style="background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);">
+              <div class="fw-semibold">Paint-Safe Adhesive</div>
+              <div class=" small mt-1 text-white">Secure bond, clean removal, no residue.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="d-flex gap-2 flex-wrap mt-4">
+          <a href="{% url 'about' %}" class="btn btn-primary">
+            Learn About The Film
+          </a>
+          
+        </div>
+      </div>
+
     </div>
   </div>
 </section>

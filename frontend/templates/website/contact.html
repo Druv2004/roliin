@@ -6,6 +6,16 @@
 
 
 {% load static %}
+<style>
+  .error-msg{
+    display:block;
+    margin-top:6px;
+    font-size:13px;
+    color:#ff4d4f;
+    font-weight:500;
+  }
+  .hidden{display:none;}
+</style>
 <section id="quote" class="quote-section roliin-form">
     <div class="container py-5">
 
@@ -73,6 +83,7 @@
                             <label for="cFile">Attach File (Optional)</label>
                             <input id="cFile" name="file" type="file" accept="image/*,application/pdf" />
                             <small class="hint">JPG, PNG, PDF (optional)</small>
+                            <small class="error-msg hidden text-danger" id="fileError"></small>
                         </div>
                     </div>
 
@@ -114,52 +125,96 @@
         </div>
     </div>
 </section>
-
 <script>
-document.getElementById("contactForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+  const MAX_FILE_MB = 25;
+  const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
 
-    const submitBtn = document.getElementById("submitBtn");
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Sending...";
+  function setError(el, msg) {
+    if (!el) return;
+    if (msg) {
+      el.textContent = msg;
+      el.classList.remove("hidden");
+    } else {
+      el.textContent = "";
+      el.classList.add("hidden");
+    }
+  }
 
-    const formData = new FormData();
-
-    // Map frontend fields to backend fields
-    formData.append("full_name", document.getElementById("cName").value);
-    formData.append("email", document.getElementById("cEmail").value);
-    formData.append("phone_number", document.getElementById("cPhone").value);
-    formData.append("subject", document.getElementById("cSubject").value);
-    formData.append("message", document.getElementById("cMsg").value);
-    formData.append("consent", true);
-
-    const fileInput = document.getElementById("cFile");
-    if (fileInput.files.length > 0) {
-        formData.append("attachment", fileInput.files[0]);
+  function validateFileSize(file, label, errorEl) {
+    if (!file) {
+      setError(errorEl, "");
+      return true;
     }
 
-    try {
+    if (file.size > MAX_FILE_BYTES) {
+      setError(errorEl, `${label} must be under ${MAX_FILE_MB}MB.`);
+      return false;
+    }
+
+    setError(errorEl, "");
+    return true;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const fileInput = document.getElementById("cFile");
+    const fileError = document.getElementById("fileError");
+
+    // ✅ Validate immediately on selection
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (!validateFileSize(file, "Attachment", fileError)) {
+        fileInput.value = "";
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const file = fileInput.files[0];
+      if (file && !validateFileSize(file, "Attachment", fileError)) return;
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+
+      const formData = new FormData();
+      formData.append("full_name", document.getElementById("cName").value.trim());
+      formData.append("email", document.getElementById("cEmail").value.trim());
+      formData.append("phone_number", document.getElementById("cPhone").value.trim());
+      formData.append("subject", document.getElementById("cSubject").value.trim());
+      formData.append("message", document.getElementById("cMsg").value.trim());
+      formData.append("consent", true);
+
+      if (file) formData.append("attachment", file);
+
+      try {
         const response = await fetch("/apis/contact/", {
-            method: "POST",
-            body: formData
+          method: "POST",
+          body: formData
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if (response.ok) {
-            document.getElementById("contactForm").classList.add("hidden");
-            document.getElementById("successMessage").classList.remove("hidden");
+          form.classList.add("hidden");
+          document.getElementById("successMessage").classList.remove("hidden");
         } else {
-            alert(data.detail || "Something went wrong.");
+          alert(data.detail || "Something went wrong.");
         }
-
-    } catch (error) {
+      } catch (error) {
         alert("Server error. Please try again.");
-    }
-
-    submitBtn.disabled = false;
-    submitBtn.innerText = "Send Enquiry";
-});
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Send Enquiry";
+      }
+    });
+  });
 </script>
 
 

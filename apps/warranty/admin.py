@@ -12,6 +12,7 @@ class WarrantyAdmin(admin.ModelAdmin):
         "car_make_model",
         "vin_chassis_number",
         "ppf_variant",
+        "ppf_roll_serial_number",   # ✅ NEW
         "approval_status",
         "warranty_code",
         "warranty_end_date",
@@ -24,6 +25,7 @@ class WarrantyAdmin(admin.ModelAdmin):
         "ppf_variant",
         "installation_date",
         "created_at",
+        # "ppf_roll_serial_number",  # ⚠️ Optional: enable only if you want (can be too many unique values)
     )
 
     # ================= SEARCH =================
@@ -34,6 +36,7 @@ class WarrantyAdmin(admin.ModelAdmin):
         "car_make_model",
         "vin_chassis_number",
         "warranty_code",
+        "ppf_roll_serial_number",   # ✅ NEW
     )
 
     # ================= READONLY FIELDS =================
@@ -65,6 +68,7 @@ class WarrantyAdmin(admin.ModelAdmin):
                 "vin_chassis_number",
                 "installation_date",
                 "ppf_variant",
+                "ppf_roll_serial_number",   # ✅ NEW
                 "installer_studio_name",
             )
         }),

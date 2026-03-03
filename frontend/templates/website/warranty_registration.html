@@ -1,9 +1,49 @@
 {% extends 'website/base.html' %}
+{% load static %}
 
 {% block title %}Warranty Registration{% endblock title %}
 
-
 {% block body %}
+
+<style>
+  .hidden { display:none; }
+
+  /* Top banner */
+  .form-error-banner{
+    border:1px solid #ffb4b4;
+    background:#fff1f1;
+    color:#b42318;
+    padding:14px 16px;
+    border-radius:12px;
+    margin:0 0 16px 0;
+    font-size:14px;
+    font-weight:700;
+  }
+  .form-error-banner p{
+    margin:6px 0 0 0;
+    font-size:13px;
+    font-weight:500;
+    color:#b42318;
+    opacity:.9;
+  }
+
+  /* Field error text */
+  .error-msg{
+    margin-top:6px;
+    font-size:12px;
+    color:#d92d20;
+    font-weight:600;
+    display:none;
+  }
+  .error-msg.show{ display:block; }
+
+  /* Field highlight */
+  .is-invalid{
+    border-color:#ff4d4f !important;
+    box-shadow: 0 0 0 3px rgba(255,77,79,.12);
+    background: #fffafa;
+  }
+</style>
 
 <section id="quote" class="quote-section roliin-form">
   <div class="container py-5">
@@ -11,15 +51,19 @@
     <!-- Page Header -->
     <header class="text-center mb-5 wow fadeInUp">
       <div class="title">
-        <h1 id="products-heading" class=" fw-bold">
-          Roliin PPF Warranty Registration
-        </h1>
-        <p class="lead mt-3 text-muted">
-          Protect your investment — activate your warranty in 60 seconds.
-        </p>
+        <h1 id="products-heading" class="fw-bold">Roliin PPF Warranty Registration</h1>
+        <p class="lead mt-3 text-muted">Protect your investment — activate your warranty in 60 seconds.</p>
       </div>
     </header>
+
     <div class="form-container">
+
+      <!-- ✅ Professional error banner -->
+      <div id="formErrorBanner" class="form-error-banner hidden">
+        Fix the highlighted fields
+        <p id="formErrorBannerMsg">Please correct the errors and submit again.</p>
+      </div>
+
       <form id="ppfForm" class="ppf-form" novalidate>
         <div class="form-grid">
 
@@ -31,17 +75,20 @@
               <label for="fullName">Full Name <span class="req">*</span></label>
               <input id="fullName" name="fullName" type="text" placeholder="Write your name" required />
               <small class="hint">As per invoice / bill</small>
+              <small class="error-msg" id="fullNameError"></small>
             </div>
 
             <div class="form-row">
               <div class="form-group">
                 <label for="email">Email Address <span class="req">*</span></label>
                 <input id="email" name="email" type="email" placeholder="name@example.com" required />
+                <small class="error-msg" id="emailError"></small>
               </div>
 
               <div class="form-group">
                 <label for="phone">Phone Number <span class="req">*</span></label>
                 <input id="phone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" required />
+                <small class="error-msg" id="phoneError"></small>
               </div>
             </div>
 
@@ -49,11 +96,13 @@
               <div class="form-group">
                 <label for="city">City <span class="req">*</span></label>
                 <input id="city" name="city" type="text" placeholder="Hyderabad" required />
+                <small class="error-msg" id="cityError"></small>
               </div>
 
               <div class="form-group">
                 <label for="state">State</label>
                 <input id="state" name="state" type="text" placeholder="Telangana" />
+                <small class="error-msg" id="stateError"></small>
               </div>
             </div>
           </div>
@@ -66,21 +115,29 @@
               <label for="carMakeModel">Car Make & Model <span class="req">*</span></label>
               <input id="carMakeModel" name="carMakeModel" type="text" placeholder="Mahindra XUV700" required />
               <small class="hint">Example: Mahindra XUV700</small>
+              <small class="error-msg" id="carMakeModelError"></small>
             </div>
-
 
             <div class="form-row">
               <div class="form-group">
                 <label for="vin">VIN / Chassis No. <span class="req">*</span></label>
-                <input id="vin" name="vin" type="text" placeholder="17 characters (A-Z, 0-9)" minlength="17"
-                  maxlength="17" required />
+                <input id="vin" name="vin" type="text"
+                       placeholder="17 characters (A-Z, 0-9)"
+                       minlength="17" maxlength="17" required />
                 <small class="hint">Example: MA1XXXXXXXXXXXXXX</small>
+                <small class="error-msg" id="vinError"></small>
               </div>
 
               <div class="form-group">
                 <label for="installDate">Installation Date <span class="req">*</span></label>
-                <input id="installDate" name="installDate" type="text" placeholder="DD-MM-YYYY" required />
+                <input id="installDate" name="installDate" type="text"
+                       placeholder="DDMMYYYY"
+                       inputmode="numeric"
+                       maxlength="10"
+                       autocomplete="off"
+                       required />
                 <small class="hint">Format: DD-MM-YYYY</small>
+                <small class="error-msg" id="installDateError"></small>
               </div>
             </div>
 
@@ -89,40 +146,41 @@
                 <label for="ppfVariant">PPF Variant <span class="req">*</span></label>
                 <select id="ppfVariant" name="ppfVariant" required>
                   <option value="" selected disabled>Select variant</option>
-
                   <option value="PREMIUM_MATTE_SERIES">PREMIUM MATTE SERIES (5 Years)</option>
-
                   <option value="PREMIUM_GLOSS_SERIES">PREMIUM GLOSS SERIES (5 Years)</option>
-
                   <option value="TITANIUM_GLOSS_SERIES">TITANIUM GLOSS SERIES (10 Years)</option>
-
-                  <option value="PIANO_BLACK_COLOR_PPF_SERIES">
-                    PIANO BLACK COLOR PPF SERIES (5 Years)
-                  </option>
-
-                  <option value="CHARCOAL_BLACK_COLOR_PPF_SERIES">
-                    CHARCOAL BLACK COLOR PPF SERIES (5 Years)
-                  </option>
+                  <option value="PIANO_BLACK_COLOR_PPF_SERIES">PIANO BLACK COLOR PPF SERIES (5 Years)</option>
+                  <option value="CHARCOAL_BLACK_COLOR_PPF_SERIES">CHARCOAL BLACK COLOR PPF SERIES (5 Years)</option>
                 </select>
+                <small class="error-msg" id="ppfVariantError"></small>
               </div>
 
               <div class="form-group">
                 <label for="installer">Installer / Studio Name</label>
                 <input id="installer" name="installer" type="text" placeholder="Detailing Studio Name" />
+                <small class="error-msg" id="installerError"></small>
               </div>
+            </div>
+
+            <div class="form-group">
+              <label for="ppfRollSerial">PPF Roll Serial Number <span class="req">*</span></label>
+              <input id="ppfRollSerial" name="ppfRollSerial" type="text" placeholder="Enter roll serial number" required />
+              <small class="hint">Printed on the PPF roll box</small>
+              <small class="error-msg" id="ppfRollSerialError"></small>
             </div>
 
             <div class="form-group">
               <label for="rcUpload">Upload RC <span class="req">*</span></label>
               <input id="rcUpload" name="rcUpload" type="file" accept="image/*,application/pdf" required />
               <small class="hint">Accepted: JPG, PNG, PDF</small>
+              <small class="error-msg" id="rcUploadError"></small>
             </div>
 
-            <!-- NEW FIELD: CAR WITH PPF ROLL BOX -->
             <div class="form-group">
               <label for="carWithRollBox">Car with PPF Roll Box <span class="req">*</span></label>
               <input id="carWithRollBox" name="carWithRollBox" type="file" accept="image/*" required />
               <small class="hint">Upload a clear photo of the car along with the PPF roll box.</small>
+              <small class="error-msg" id="carWithRollBoxError"></small>
             </div>
           </div>
 
@@ -133,15 +191,15 @@
             <div class="form-group">
               <label for="notes">Special Requirements / Notes</label>
               <textarea id="notes" name="notes" rows="4" placeholder="Mention any additional requests..."></textarea>
+              <small class="error-msg" id="notesError"></small>
             </div>
 
             <div class="consent">
               <label class="check">
-                <input type="checkbox" required />
-                <span>
-                  I confirm the details are correct and agree to be contacted for warranty verification.
-                </span>
+                <input id="consent" type="checkbox" required />
+                <span>I confirm the details are correct and agree to be contacted for warranty verification.</span>
               </label>
+              <small class="error-msg" id="consentError"></small>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
@@ -149,49 +207,46 @@
               <span class="btn-glow" aria-hidden="true"></span>
             </button>
 
-            <p class="micro">
-              By submitting, you agree to our warranty terms and privacy policy.
-            </p>
+            <p class="micro">By submitting, you agree to our warranty terms and privacy policy.</p>
           </div>
+
         </div>
       </form>
 
       <div id="successMessage" class="success-box hidden">
-        <div class="success-icon">
-          <i class="fas fa-check"></i>
-        </div>
+        <div class="success-icon"><i class="fas fa-check"></i></div>
         <h3>Registration Received!</h3>
         <p>Your warranty request has been submitted. Our team will verify and contact you shortly.</p>
-
-        <a href="#" class="reset-link" onclick="location.reload(); return false;">
-          Send another request
-        </a>
+        <a href="#" class="reset-link" onclick="location.reload(); return false;">Send another request</a>
       </div>
+
     </div>
   </div>
 </section>
 
-
 <script>
-  // ✅ Put your actual DRF create endpoint here
-  // Examples:
-  // const WARRANTY_CREATE_API = "/api/warranty/";
-  // const WARRANTY_CREATE_API = "https://yourdomain.com/api/warranty/";
   const WARRANTY_CREATE_API = "/apis/warranty/";
+  const MAX_FILE_MB = 25;
+  const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
 
-  function ddmmyyyyToYyyymmdd(ddmmyyyy) {
-    const parts = (ddmmyyyy || "").trim().split("-");
-    if (parts.length !== 3) return null;
+  // DRF field -> frontend input id mapping
+  const FIELD_MAP = {
+    customer_name: "fullName",
+    email: "email",
+    phone_number: "phone",
+    city: "city",
+    state: "state",
+    car_make_model: "carMakeModel",
+    vin_chassis_number: "vin",
+    installation_date: "installDate",
+    ppf_variant: "ppfVariant",
+    installer_studio_name: "installer",
+    ppf_roll_serial_number: "ppfRollSerial",
+    rc_upload: "rcUpload",
+    car_with_ppf_roll_box: "carWithRollBox",
+    consent: "consent"
+  };
 
-    const [dd, mm, yyyy] = parts;
-    if (!dd || !mm || !yyyy) return null;
-    if (dd.length !== 2 || mm.length !== 2 || yyyy.length !== 4) return null;
-
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  // ✅ If your Django site requires CSRF for POST
-  // this reads csrftoken from cookie (works if CSRF cookie is set)
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -199,110 +254,235 @@
     return null;
   }
 
-  function showErrors(data) {
-    // DRF errors: {field: ["msg"]} OR {detail: "..."}
-    if (data?.detail) return alert(data.detail);
+  const el = (id) => document.getElementById(id);
 
-    const msgs = [];
-    for (const key in data) {
-      if (Array.isArray(data[key])) msgs.push(`${key}: ${data[key].join(", ")}`);
-      else msgs.push(`${key}: ${data[key]}`);
+  function showBanner(message){
+    el("formErrorBanner").classList.remove("hidden");
+    el("formErrorBannerMsg").textContent = message || "Please correct the errors and submit again.";
+  }
+
+  function hideBanner(){
+    el("formErrorBanner").classList.add("hidden");
+    el("formErrorBannerMsg").textContent = "";
+  }
+
+  function setFieldError(inputId, msg){
+    const input = el(inputId);
+    const err = el(inputId + "Error");
+    if (input) input.classList.toggle("is-invalid", !!msg);
+    if (err) {
+      err.textContent = msg || "";
+      err.classList.toggle("show", !!msg);
     }
-    alert(msgs.join("\n"));
+  }
+
+  function clearAllErrors(){
+    hideBanner();
+    Object.values(FIELD_MAP).forEach(id => setFieldError(id, ""));
+  }
+
+  function validateFileSize(file, inputId, label){
+    if (!file) return true;
+    if (file.size > MAX_FILE_BYTES) {
+      setFieldError(inputId, `${label} must be under ${MAX_FILE_MB}MB.`);
+      return false;
+    }
+    setFieldError(inputId, "");
+    return true;
+  }
+
+  // Auto-format: 01032026 -> 01-03-2026
+  function formatDateInput(value) {
+    const digits = (value || "").replace(/\D/g, "").slice(0, 8);
+    const dd = digits.slice(0, 2);
+    const mm = digits.slice(2, 4);
+    const yyyy = digits.slice(4, 8);
+
+    let out = dd;
+    if (digits.length > 2) out += "-" + mm;
+    if (digits.length > 4) out += "-" + yyyy;
+    return out;
+  }
+
+  // Convert DD-MM-YYYY -> YYYY-MM-DD
+  function ddmmyyyyToYyyymmdd(input) {
+    const digits = String(input || "").replace(/\D/g, "");
+    if (digits.length !== 8) return null;
+
+    const dd = digits.slice(0, 2);
+    const mm = digits.slice(2, 4);
+    const yyyy = digits.slice(4, 8);
+
+    const d = Number(dd), m = Number(mm), y = Number(yyyy);
+    if (y < 1900 || y > 2100 || m < 1 || m > 12 || d < 1 || d > 31) return null;
+
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function showBrowserValidationErrors(form){
+    const invalidEls = Array.from(form.querySelectorAll(":invalid"));
+    if (!invalidEls.length) return false;
+
+    showBanner("Please fill all required fields correctly.");
+
+    invalidEls.forEach(node => {
+      if (!node.id) return;
+      setFieldError(node.id, node.validationMessage || "This field is invalid.");
+    });
+
+    invalidEls[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    invalidEls[0].focus();
+    return true;
+  }
+
+  function showDRFErrors(data){
+    clearAllErrors();
+
+    if (data?.detail) {
+      showBanner(data.detail);
+      return;
+    }
+
+    let anyFieldError = false;
+
+    for (const key in data) {
+      const messages = Array.isArray(data[key]) ? data[key].join(" ") : String(data[key]);
+
+      if (key === "non_field_errors") {
+        showBanner(messages);
+        continue;
+      }
+
+      const inputId = FIELD_MAP[key];
+      if (inputId) {
+        setFieldError(inputId, messages);
+        anyFieldError = true;
+      }
+    }
+
+    if (anyFieldError) {
+      showBanner("Fix the highlighted fields and submit again.");
+      const first = document.querySelector(".is-invalid");
+      if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      showBanner("Something went wrong. Please review your details and try again.");
+    }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("ppfForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const successBox = document.getElementById("successMessage");
+    const form = el("ppfForm");
+    const submitBtn = el("submitBtn");
+    const successBox = el("successMessage");
+
+    // Clear error when user edits
+    Object.values(FIELD_MAP).forEach(id => {
+      const node = el(id);
+      if (!node) return;
+      node.addEventListener("input", () => setFieldError(id, ""));
+      node.addEventListener("change", () => setFieldError(id, ""));
+    });
+
+    // Date formatter
+    const installDateEl = el("installDate");
+    installDateEl.addEventListener("input", (e) => {
+      e.target.value = formatDateInput(e.target.value);
+      setFieldError("installDate", "");
+    });
+
+    // File validations
+    const rcEl = el("rcUpload");
+    const rollBoxEl = el("carWithRollBox");
+
+    rcEl.addEventListener("change", () => {
+      setFieldError("rcUpload", "");
+      validateFileSize(rcEl.files[0], "rcUpload", "RC Upload");
+    });
+
+    rollBoxEl.addEventListener("change", () => {
+      setFieldError("carWithRollBox", "");
+      validateFileSize(rollBoxEl.files[0], "carWithRollBox", "Car with PPF Roll Box image");
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      clearAllErrors();
 
-      // Browser validation
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
+      // 1) Browser required validation (no popup)
+      if (showBrowserValidationErrors(form)) return;
 
-      // ✅ Read values from your form
-      const fullName = document.getElementById("fullName").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const state = document.getElementById("state").value.trim();
-
-      const carMakeModel = document.getElementById("carMakeModel").value.trim();
-      const vin = document.getElementById("vin").value.trim();
-      const installDateRaw = document.getElementById("installDate").value.trim();
-      const installDate = ddmmyyyyToYyyymmdd(installDateRaw);
-
-      const ppfVariant = document.getElementById("ppfVariant").value;
-      const installer = document.getElementById("installer").value.trim();
-
-      const rcUpload = document.getElementById("rcUpload").files[0];
-      const carWithRollBox = document.getElementById("carWithRollBox").files[0];
-
-      const notes = document.getElementById("notes").value.trim();
-
+      // 2) Date validation
+      const installDate = ddmmyyyyToYyyymmdd(installDateEl.value.trim());
       if (!installDate) {
-        alert("Installation Date must be in DD-MM-YYYY format.");
+        setFieldError("installDate", "Enter Installation Date in DD-MM-YYYY.");
+        showBanner("Fix the highlighted fields and submit again.");
+        installDateEl.focus();
         return;
       }
 
-      // ✅ Build multipart/form-data for DRF (files included)
+      // 3) File size validation
+      const rcUpload = rcEl.files[0];
+      const carWithRollBox = rollBoxEl.files[0];
+
+      if (!validateFileSize(rcUpload, "rcUpload", "RC Upload")) {
+        showBanner("Fix the highlighted fields and submit again.");
+        return;
+      }
+      if (!validateFileSize(carWithRollBox, "carWithRollBox", "Car with PPF Roll Box image")) {
+        showBanner("Fix the highlighted fields and submit again.");
+        return;
+      }
+
+      // Build FormData
       const fd = new FormData();
-
-      // Map → backend serializer field names
-      fd.append("customer_name", fullName);
-      fd.append("email", email);
-      fd.append("phone_number", phone);
-      fd.append("city", city);
-      fd.append("state", state);
-
-      fd.append("car_make_model", carMakeModel);
-      fd.append("vin_chassis_number", vin);
+      fd.append("customer_name", el("fullName").value.trim());
+      fd.append("email", el("email").value.trim());
+      fd.append("phone_number", el("phone").value.trim());
+      fd.append("city", el("city").value.trim());
+      fd.append("state", el("state").value.trim());
+      fd.append("car_make_model", el("carMakeModel").value.trim());
+      fd.append("vin_chassis_number", el("vin").value.trim());
       fd.append("installation_date", installDate);
+      fd.append("ppf_variant", el("ppfVariant").value);
+      fd.append("ppf_roll_serial_number", el("ppfRollSerial").value.trim());
 
-      fd.append("ppf_variant", ppfVariant);
-
+      const installer = el("installer").value.trim();
+      const notes = el("notes").value.trim();
       if (installer) fd.append("installer_studio_name", installer);
       if (notes) fd.append("special_notes", notes);
 
-      // Required uploads
       fd.append("rc_upload", rcUpload);
       fd.append("car_with_ppf_roll_box", carWithRollBox);
 
-      // UI loading state
+      // Consent (optional backend field; if you store it)
+      fd.append("consent", el("consent").checked ? "true" : "false");
+
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
 
       try {
-        const csrftoken = getCookie("csrftoken"); // may be null if not set
+        const csrftoken = getCookie("csrftoken");
 
         const res = await fetch(WARRANTY_CREATE_API, {
           method: "POST",
           body: fd,
           headers: csrftoken ? { "X-CSRFToken": csrftoken } : {},
-          credentials: "same-origin", // important if CSRF/session-based
+          credentials: "same-origin",
         });
 
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
-          showErrors(data);
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Activate Warranty";
+          showDRFErrors(data);
           return;
         }
 
-        // ✅ Success UI
+        hideBanner();
         form.classList.add("hidden");
         successBox.classList.remove("hidden");
 
       } catch (err) {
-        console.error(err);
-        alert("Network error. Please try again.");
+        showBanner("Network error. Please try again.");
+      } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = "Activate Warranty";
       }

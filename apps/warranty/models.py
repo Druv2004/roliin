@@ -59,6 +59,13 @@ class Warranty(models.Model):
         null=True,
         default=''
     )
+    
+    ppf_roll_serial_number = models.CharField(
+        max_length=100,
+        unique=True,
+        null=True,
+        blank=True,
+    )
 
     # ===================== FILE UPLOADS =====================
     rc_upload = models.FileField(upload_to='warranty/rc/', default='')

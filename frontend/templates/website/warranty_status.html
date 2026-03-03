@@ -1,10 +1,132 @@
 {% extends 'website/base.html' %}
+{% load static %}
 
-{% block title %}Warranty Status{% endblock title %}
+{% block title %}Check Warranty{% endblock title %}
 
 {% block body %}
-<h1>working on it</h1>
-    
+
+<section style="padding:80px 0; background:#f5f7fb; min-height:80vh;">
+  <div class="container">
+
+    <div style="max-width:700px; margin:0 auto;">
+
+      <!-- Title -->
+      <div style="text-align:center; margin-bottom:40px;">
+        <img src="{% static 'assets/img/RoliinLOGO.png' %}" height="60" style="margin-bottom:20px;">
+        <h2 style="font-weight:800;">Check Your Warranty</h2>
+        <p style="color:#6b7280;">Enter your warranty code to verify status</p>
+      </div>
+
+      <!-- Card -->
+      <div style="background:#fff; padding:30px; border-radius:18px; box-shadow:0 10px 40px rgba(0,0,0,0.05);">
+
+        <!-- Input -->
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+          <input 
+            type="text" 
+            id="warrantyCode" 
+            placeholder="Enter Warranty Code (e.g. WR-2026-03-0004-C3E4)"
+            style="flex:1; padding:12px 15px; border-radius:10px; border:1px solid #ddd; font-size:14px;"
+          />
+          <button 
+            onclick="checkWarranty()" 
+            style="padding:12px 20px; border:none; border-radius:10px; background:#ff9100; color:white; font-weight:700; cursor:pointer;"
+          >
+            Check
+          </button>
+        </div>
+
+        <!-- Error -->
+        <div id="errorBox" style="display:none; padding:12px; background:#ffe5e5; color:#b00020; border-radius:10px; margin-bottom:15px;"></div>
+
+        <!-- Result -->
+        <div id="resultBox" style="display:none; margin-top:20px;">
+          
+          <div style="border:1px solid #eee; border-radius:15px; padding:20px;">
+
+            <div style="font-size:18px; font-weight:800; margin-bottom:10px;">
+              Warranty Details
+            </div>
+
+            <table style="width:100%; font-size:14px;">
+              <tr>
+                <td style="padding:8px 0; color:#6b7280;">Customer</td>
+                <td id="r_customer" style="font-weight:600;"></td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0; color:#6b7280;">Car</td>
+                <td id="r_car" style="font-weight:600;"></td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0; color:#6b7280;">PPF Variant</td>
+                <td id="r_variant" style="font-weight:600;"></td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0; color:#6b7280;">Start Date</td>
+                <td id="r_start" style="font-weight:600;"></td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0; color:#6b7280;">End Date</td>
+                <td id="r_end" style="font-weight:600;"></td>
+              </tr>
+              <tr>
+                <td style="padding:8px 0; color:#6b7280;">Status</td>
+                <td style="color:#16a34a; font-weight:700;">ACTIVE</td>
+              </tr>
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+async function checkWarranty() {
+
+  const code = document.getElementById("warrantyCode").value.trim();
+  const errorBox = document.getElementById("errorBox");
+  const resultBox = document.getElementById("resultBox");
+
+  errorBox.style.display = "none";
+  resultBox.style.display = "none";
+
+  if (!code) {
+    errorBox.innerText = "Please enter a warranty code.";
+    errorBox.style.display = "block";
+    return;
+  }
+
+  try {
+    const response = await fetch(`/apis/warranty/check/?warranty_code=${code}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      errorBox.innerText = data.message || data.error || "Invalid warranty code.";
+      errorBox.style.display = "block";
+      return;
+    }
+
+    // Fill data
+    document.getElementById("r_customer").innerText = data.customer_name;
+    document.getElementById("r_car").innerText = data.car_make_model;
+    document.getElementById("r_variant").innerText = data.ppf_variant_display;
+    document.getElementById("r_start").innerText = data.warranty_start_date;
+    document.getElementById("r_end").innerText = data.warranty_end_date;
+
+    resultBox.style.display = "block";
+
+  } catch (err) {
+    errorBox.innerText = "Server error. Please try again.";
+    errorBox.style.display = "block";
+  }
+}
+</script>
+
 {% endblock body %}
-    
-    

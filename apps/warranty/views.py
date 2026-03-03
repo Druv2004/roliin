@@ -16,6 +16,11 @@ from apps.warranty.serializers import (
     ContactCreateSerializer,
     ContactReadSerializer
 )
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
+from django.template import TemplateDoesNotExist
 
 
 @extend_schema_view(
@@ -115,29 +120,33 @@ class WarrantyViewSet(viewsets.ModelViewSet):
         warranty.save()
 
         subject = "Roliin Warranty Activated"
-        message = (
-            f"Hello {warranty.customer_name},\n\n"
-            f"Your Roliin warranty has been activated successfully.\n\n"
-            f"Warranty Code: {warranty.warranty_code}\n"
-            f"Car: {warranty.car_make_model}\n"
-            f"PPF Variant: {warranty.get_ppf_variant_display()}\n"
-            f"Start Date: {warranty.warranty_start_date}\n"
-            f"End Date: {warranty.warranty_end_date}\n\n"
-            f"Thank you,\n"
-            f"Team Roliin"
-        )
+
+        context = {
+            "customer_name": warranty.customer_name,
+            "warranty_code": warranty.warranty_code,
+            "car_make_model": warranty.car_make_model,
+            "ppf_variant": warranty.get_ppf_variant_display(),
+            "start_date": warranty.warranty_start_date,
+            "end_date": warranty.warranty_end_date,
+            "support_email": settings.DEFAULT_FROM_EMAIL,
+            "brand_name": "Roliin",
+        }
+
+        html_content = render_to_string("email/warranty_activated.html", context)
+        text_content = strip_tags(html_content)  # fallback
 
         email_sent = False
         email_error = None
 
         try:
-            send_mail(
+            msg = EmailMultiAlternatives(
                 subject=subject,
-                message=message,
+                body=text_content,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[warranty.email],
-                fail_silently=False,
+                to=[warranty.email],
             )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send(fail_silently=False)
             email_sent = True
         except Exception as e:
             email_error = str(e)
@@ -172,8 +181,46 @@ class WarrantyViewSet(viewsets.ModelViewSet):
         warranty.approved_at = now().date()
         warranty.save()
 
+        subject = "Roliin Warranty Request Update"
+
+        context = {
+            "customer_name": warranty.customer_name,
+            "car_make_model": warranty.car_make_model,
+            "ppf_variant": warranty.get_ppf_variant_display(),
+            "brand_name": "Roliin",
+            "support_email": settings.DEFAULT_FROM_EMAIL,
+            "rejection_reason": request.data.get("reason", None),
+        }
+
+        email_sent = False
+        email_error = None
+
+        try:
+            html_content = render_to_string("email/warranty_rejected.html", context)
+            text_content = strip_tags(html_content)
+
+            msg = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[warranty.email],
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send(fail_silently=False)
+
+            email_sent = True
+
+        except TemplateDoesNotExist:
+            email_error = "Template not found: emails/warranty_rejected.html"
+        except Exception as e:
+            email_error = str(e)
+
         return Response(
-            {"message": "Warranty rejected successfully"},
+            {
+                "message": "Warranty rejected successfully.",
+                "email_sent": email_sent,
+                "email_error": email_error,
+            },
             status=status.HTTP_200_OK,
         )
 
@@ -181,9 +228,18 @@ class WarrantyViewSet(viewsets.ModelViewSet):
     @extend_schema(
         tags=["Warranty"],
         summary="Check warranty by code",
+        parameters=[
+            OpenApiParameter(
+                name="warranty_code",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=True,
+                description="Warranty code (example: WR-2026-03-0004-C3E4)",
+            )
+        ],
         responses=WarrantyReadSerializer,
     )
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=["get"], url_path="check")
     def check(self, request):
         warranty_code = request.query_params.get("warranty_code")
 
@@ -204,7 +260,7 @@ class WarrantyViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        return Response(WarrantyReadSerializer(warranty).data)
+        return Response(WarrantyReadSerializer(warranty, context={"request": request}).data)
     
     @action(detail=False, methods=["get"], permission_classes=[IsAdminUser])
     def stats(self, request):

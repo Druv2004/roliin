@@ -820,13 +820,14 @@
                       <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Email</th>
                       <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Car</th>
                       <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Variant</th>
+                      <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Roll Serial</th>
                       <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Status</th>
                       <th style="text-align:left; padding:12px; font-size:12px; color: rgba(255,255,255,.72);">Actions</th>
                     </tr>
                   </thead>
                   <tbody id="warrantyRows">
                     <tr>
-                      <td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
+                      <td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
                     </tr>
                   </tbody>
                 </table>
@@ -914,7 +915,7 @@
           </thead>
           <tbody id="usersRows">
             <tr>
-              <td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
+              <td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td>
             </tr>
           </tbody>
         </table>
@@ -1083,7 +1084,7 @@
 
     async function loadWarrantyList() {
       const tbody = document.getElementById("warrantyRows");
-      tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
 
       const res = await fetch(`${API_BASE}/warranty/?status=${currentStatus}`, {
         method: "GET",
@@ -1092,14 +1093,14 @@
 
       if (res.status === 401 || res.status === 403) return handleAuthFailure();
       if (!res.ok) {
-        tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Error loading data.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Error loading data.</td></tr>`;
         return;
       }
 
       const data = await res.json();
 
       if (!Array.isArray(data) || data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">No records found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">No records found.</td></tr>`;
         return;
       }
 
@@ -1116,7 +1117,8 @@
             </td>
             <td style="padding:12px; color: rgba(255,255,255,.72);">${w.email || "-"}</td>
             <td style="padding:12px;">${w.car_make_model || "-"}</td>
-            <td style="padding:12px; color: rgba(255,255,255,.72);">${w.ppf_variant || "-"}</td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${w.ppf_variant_display || w.ppf_variant || "-"}</td>
+            <td style="padding:12px; color: rgba(255,255,255,.72);">${w.ppf_roll_serial_number || "-"}</td>
             <td style="padding:12px;">${status}</td>
             <td style="padding:12px;">
               <button class="btn secondary" type="button" ${canAct ? "" : "disabled"}
@@ -1479,6 +1481,7 @@
           ["State", w.state],
           ["Car Make/Model", w.car_make_model],
           ["VIN/Chassis", w.vin_chassis_number],
+          ["PPF Roll Serial Number", w.ppf_roll_serial_number],
           ["Installation Date", w.installation_date],
           ["PPF Variant", w.ppf_variant_display || w.ppf_variant],
           ["Studio", w.installer_studio_name],
@@ -1517,7 +1520,11 @@
             ${lines.map(([k, v]) => `
               <div style="color: rgba(255,255,255,.62); font-size:12px; padding-top:2px;">${k}</div>
               <div style="color: rgba(255,255,255,.88); font-size:13px; line-height:1.45;">
-                ${v ? String(v) : "-"}
+                ${
+                  k === "PPF Roll Serial Number" && v
+                    ? `<button class="file-btn" type="button" onclick="navigator.clipboard.writeText('${String(v).replace(/'/g,"\\'")}'); showToast('Copied','Roll serial copied');">📋 ${String(v)}</button>`
+                    : (v ? String(v) : "-")
+                }
               </div>
             `).join("")}
           </div>
@@ -1642,7 +1649,7 @@ async function loadUsersList() {
   const tbody = document.getElementById("usersRows");
   if (!tbody) return;
 
-  tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Loading...</td></tr>`;
 
   const res = await fetch(`${API_BASE}/auth/users/`, {
     method: "GET",
@@ -1650,19 +1657,19 @@ async function loadUsersList() {
   });
 
   if (res.status === 401 || res.status === 403) {
-    tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Admin access required.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Admin access required.</td></tr>`;
     return;
   }
 
   if (!res.ok) {
-    tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">Error loading users.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">Error loading users.</td></tr>`;
     return;
   }
 
   const data = await res.json();
 
   if (!Array.isArray(data) || data.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="padding:14px; color: rgba(255,255,255,.65);">No users found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:14px; color: rgba(255,255,255,.65);">No users found.</td></tr>`;
     return;
   }
 
