@@ -405,3 +405,61 @@ body{
   text-decoration: none;
   color: black;
 }
+
+/* Right fixed social bar */
+
+.social-fixed {
+    position: fixed;
+    right: 12px;
+    top: 30%;   /* move higher */
+    transform: translateY(0);
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.social-icon {
+    width: 45px;
+    height: 45px;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Colors */
+
+.whatsapp {
+    background: #25D366;
+}
+
+.facebook {
+    background: #1877F2;
+}
+.instagram {
+    background: linear-gradient(
+        45deg,
+        #f09433,
+        #e6683c,
+        #dc2743,
+        #cc2366,
+        #bc1888
+    );
+}
+
+.linkedin {
+    background: #0077B5;
+}
+
+.youtube {
+    background: #FF0000;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}

@@ -369,9 +369,10 @@
       backdrop-filter: blur(16px);
       position: relative;
       overflow: hidden;
-      transform: translateY(10px) scale(.98);
-      opacity: 0;
-      transition: transform .2s ease, opacity .2s ease;
+
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .modal-backdrop.show .modal {
@@ -466,6 +467,24 @@
     .modal-body {
       padding: 6px 16px 14px;
       position: relative;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .modal-backdrop {
+      overflow-y: auto;
+    }
+
+    .modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background: rgb(255,145,0);
+      border-radius: 10px;
     }
 
     .modal-message {
