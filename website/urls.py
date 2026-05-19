@@ -11,7 +11,7 @@ urlpatterns = [
     path('status', views.status, name='status'),
     path('contact', views.contact, name='contact'),
     path('terms-and-conditions', views.terms_and_conditions, name='terms_and_conditions'),
-    path('perivacy-policy', views.perivacy_policy, name='perivacy_policy'),
+    path('privacy-policy', views.privacy_policy, name='privacy_policy'),
     
     
     

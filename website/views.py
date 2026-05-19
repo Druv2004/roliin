@@ -21,7 +21,7 @@ def contact(request):
 def terms_and_conditions(request):
     return render(request, 'website/terms_and_conditions.html')
 
-def perivacy_policy(request):
+def privacy_policy(request):
     return render(request, 'website/privacy_policy.html')
 
 
