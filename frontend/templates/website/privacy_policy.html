@@ -1,10 +1,328 @@
 {% extends 'website/base.html' %}
 
-{% block title %}privacy policy{% endblock title %}
+{% block title %}Privacy Policy{% endblock title %}
 
+{% block extra_css %}
+<style>
+    .privacy-hero {
+        background:
+            radial-gradient(900px 360px at 20% 10%, rgba(255, 145, 0, .16), transparent 60%),
+            linear-gradient(180deg, #0b1220, #060b16);
+        padding: 120px 0 80px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .privacy-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(700px 300px at 80% 20%, rgba(255, 187, 0, .12), transparent 60%);
+    }
+
+    .privacy-hero .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .privacy-hero h1 {
+        color: #fff;
+        font-weight: 800;
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        letter-spacing: -0.03em;
+    }
+
+    .privacy-hero p {
+        color: rgba(255,255,255,.72);
+        font-size: 1.05rem;
+    }
+
+    .privacy-wrapper {
+        background:
+            radial-gradient(900px 360px at 20% 10%, rgba(255, 145, 0, .08), transparent 60%),
+            linear-gradient(180deg, #f8fafc, #ffffff);
+        padding: 80px 0;
+    }
+
+    .privacy-card {
+        background: rgba(255,255,255,.94);
+        border: 1px solid rgba(0,0,0,.06);
+        border-radius: 28px;
+        padding: 45px;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, .08);
+    }
+
+    .privacy-card h2 {
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: #0b1220;
+        margin-bottom: 18px;
+        margin-top: 40px;
+        position: relative;
+    }
+
+    .privacy-card h2:first-child {
+        margin-top: 0;
+    }
+
+    .privacy-card h2::after {
+        content: "";
+        width: 70px;
+        height: 4px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ff9100, #ffbb00);
+        display: block;
+        margin-top: 10px;
+    }
+
+    .privacy-card h5 {
+        font-weight: 700;
+        margin-top: 28px;
+        color: #111827;
+    }
+
+    .privacy-card p,
+    .privacy-card li {
+        color: #475569;
+        line-height: 1.9;
+        font-size: 1rem;
+    }
+
+    .privacy-card ul {
+        padding-left: 20px;
+    }
+
+    .privacy-card li {
+        margin-bottom: 10px;
+    }
+
+    .privacy-contact {
+        background:
+            radial-gradient(500px 180px at 20% 10%, rgba(255, 145, 0, .18), transparent 60%),
+            linear-gradient(180deg, #0b1220, #060b16);
+        border-radius: 24px;
+        padding: 35px;
+        margin-top: 50px;
+        color: #fff;
+    }
+
+    .privacy-contact h4 {
+        font-weight: 800;
+        margin-bottom: 18px;
+    }
+
+    .privacy-contact p {
+        color: rgba(255,255,255,.78);
+        margin-bottom: 8px;
+    }
+
+    .privacy-highlight {
+        color: #ff9100;
+        font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+
+        .privacy-hero {
+            padding: 100px 0 60px;
+        }
+
+        .privacy-card {
+            padding: 28px;
+            border-radius: 22px;
+        }
+
+        .privacy-card h2 {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block body %}
-    
+
+<section class="privacy-hero">
+    <div class="container text-center">
+        <span class="badge-brand">ROLIIN FILMS PRIVATE LIMITED</span>
+
+        <h1 class="mt-3">Privacy Policy</h1>
+
+        <p class="mt-3 mb-0">
+            Effective Date: 19 May 2026 &nbsp; | &nbsp; Last Updated: 19 May 2026
+        </p>
+    </div>
+</section>
+
+<section class="privacy-wrapper">
+    <div class="container">
+
+        <div class="privacy-card">
+
+            <h2>1. Introduction</h2>
+
+            <p>
+                Welcome to <span class="privacy-highlight">Roliin Films Private Limited</span>
+                ("Roliin", "we", "our", or "us").
+                We operate <strong>www.roliin.com</strong> and provide premium
+                Paint Protection Film (PPF) installation services.
+            </p>
+
+            <p>
+                This Privacy Policy explains how we collect, use, disclose,
+                and safeguard your personal information when you visit our website,
+                register an e-warranty, or contact us.
+            </p>
+
+            <h2>2. Information We Collect</h2>
+
+            <h5>2.1 Information You Provide Directly</h5>
+
+            <ul>
+                <li>Full name</li>
+                <li>Phone number</li>
+                <li>Email address</li>
+                <li>Vehicle and registration details</li>
+                <li>Appointment preferences</li>
+                <li>Messages and enquiries</li>
+            </ul>
+
+            <h5>2.2 Automatically Collected Information</h5>
+
+            <ul>
+                <li>IP address and browser information</li>
+                <li>Device and operating system data</li>
+                <li>Website usage and navigation behaviour</li>
+                <li>Cookies and analytics technologies</li>
+            </ul>
+
+            <h5>2.3 Third-Party Sources</h5>
+
+            <ul>
+                <li>Meta (Facebook / Instagram) lead forms</li>
+                <li>Google Analytics data</li>
+                <li>WhatsApp Business interactions</li>
+            </ul>
+
+            <h2>3. How We Use Your Information</h2>
+
+            <ul>
+                <li>Respond to enquiries and appointments</li>
+                <li>Manage PPF bookings and e-warranty registrations</li>
+                <li>Send updates via SMS, WhatsApp, or email</li>
+                <li>Improve website performance and customer experience</li>
+                <li>Run Meta and Google advertising campaigns</li>
+                <li>Prevent fraud and misuse</li>
+                <li>Comply with legal obligations</li>
+            </ul>
+
+            <h2>4. Sharing of Information</h2>
+
+            <p>
+                We do not sell your personal information.
+                Information may only be shared with trusted service providers,
+                advertising platforms, or authorities when legally required.
+            </p>
+
+            <h5>4.1 Service Providers</h5>
+
+            <ul>
+                <li>CRM platforms</li>
+                <li>Hosting and analytics providers</li>
+                <li>Email and SMS providers</li>
+                <li>WhatsApp communication tools</li>
+            </ul>
+
+            <h5>4.2 Advertising Platforms</h5>
+
+            <p>
+                We may share hashed or anonymised data with Meta and Google
+                to improve ad targeting and campaign performance.
+            </p>
+
+            <h2>5. Cookies & Tracking Technologies</h2>
+
+            <ul>
+                <li><strong>Essential Cookies</strong> – Required for website functionality</li>
+                <li><strong>Analytics Cookies</strong> – Understand visitor behaviour</li>
+                <li><strong>Marketing Cookies</strong> – Improve advertising relevance</li>
+            </ul>
+
+            <h2>6. Meta Pixel & Lead Ads</h2>
+
+            <p>
+                We use Meta Pixel and Meta Lead Ads to analyse campaign effectiveness,
+                track visitor behaviour, and improve marketing performance.
+            </p>
+
+            <h2>7. Data Retention</h2>
+
+            <ul>
+                <li>Lead data: Up to 2 years</li>
+                <li>E-warranty data: Warranty duration + 1 year</li>
+                <li>Support records: Up to 3 years</li>
+                <li>Analytics data: Based on platform retention policies</li>
+            </ul>
+
+            <h2>8. Data Security</h2>
+
+            <p>
+                We implement industry-standard security measures including HTTPS encryption,
+                access restrictions, and internal data protection practices.
+            </p>
+
+            <h2>9. Your Rights</h2>
+
+            <ul>
+                <li>Request access to your personal data</li>
+                <li>Correct inaccurate information</li>
+                <li>Request deletion of your information</li>
+                <li>Opt-out of marketing communication</li>
+                <li>Withdraw consent where applicable</li>
+            </ul>
+
+            <h2>10. Children's Privacy</h2>
+
+            <p>
+                Our services are not intended for individuals under the age of 18.
+                We do not knowingly collect information from minors.
+            </p>
+
+            <h2>11. Third-Party Links</h2>
+
+            <p>
+                Our website may contain links to third-party websites including
+                Facebook, Instagram, and YouTube.
+                We are not responsible for their privacy practices.
+            </p>
+
+            <h2>12. Changes to This Privacy Policy</h2>
+
+            <p>
+                We may update this policy periodically.
+                Continued use of our services after changes means you accept the updated policy.
+            </p>
+
+            <div class="privacy-contact">
+                <h4>Contact Us</h4>
+
+                <p><strong>Roliin Films Private Limited</strong></p>
+
+                <p>
+                    RR-17 Mianwali Nagar, Rohtak Road,<br>
+                    Paschim Vihar, Delhi - 110087
+                </p>
+
+                <p>Email: roliinfilmsprivatelimited@gmail.com</p>
+
+                <p>Phone / WhatsApp: +91 96676 71355</p>
+
+                <p>Website: www.roliin.com</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 {% endblock body %}
-    
-    
